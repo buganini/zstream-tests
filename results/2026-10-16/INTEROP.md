@@ -239,10 +239,20 @@ exits 1 for unmet flush requirements, with zero unexpected failures.
 The reproducible [Python sender](../../tests/preamble_stream_probe.py) sends the
 same bytes to compress-utils Rust, Python, and JS/WASM, and the
 [fzstd receiver](../../tests/preamble_fzstd_receiver.mjs). The initial payload
-produces **294 compressed bytes**, including the frame header, before the
-subsequent payloads. Those bytes decode to 422 bytes of application data. The
-preamble is ordinary data in the same stream, not padding, an extra flush, or
-a separate frame. The tested behavior is:
+is a fixed **422-byte data record** containing text fields, identifiers, numeric
+limits, and booleans. We call this first payload the **preamble** because it
+initializes the receiver before the later payloads are tested.
+
+The sender writes those 422 bytes to a new compressor, then block-flushes it.
+The combined output is **294 bytes**, including the zstd frame header. The
+receiver must decode the complete 422-byte record immediately. Both codec
+contexts are then reused for every subsequent payload, without ending or
+restarting the frame. Thus `294-byte preamble` names the measured compressed
+size of this fixture, not a required prefix length or a buffer of 294 raw bytes
+attached outside the compressed stream. The exact fixture contents are described
+under provenance below.
+
+The tested behavior is:
 
 - One persistent `compressobj()` at native level 3, `window_log=22` (4 MiB),
   without a content size or checksum.
@@ -255,18 +265,27 @@ a separate frame. The tested behavior is:
 
 Every transport profile runs two acceptance cases per receiver:
 
-- **Preamble then 100 payloads:** all four receivers pass **101/101 checkpoints**.
+- **Preamble then 100 payloads:** input sizes `422, 98 × 100`; compressed batch
+  sizes `294, 57, 15, 14 × 98`. All four receivers pass **101/101 checkpoints**.
   The decoded bytes must match before the next payload is supplied. The
   preamble is 422 uncompressed bytes and 294 compressed bytes, above fzstd's
   startup threshold. Later packets shrink to 14 bytes and still decode
   immediately. The payloads are deterministic test fixtures.
-- **Preamble then 65,537 repeated bytes:** flush the preamble, flush 65,537 `A`
+- **Preamble then 65,537 repeated bytes:** input sizes `422, 65537, 37`;
+  compressed batch sizes `294, 4, 4`. Flush the preamble, flush 65,537 `A`
   bytes, then flush 37 `B` bytes, checking output before each next write. The
   repeated payload compresses to 4 bytes. All three compress-utils bindings
   return only 65,536 of its 65,537 bytes: 65,958 total decoded bytes versus
   65,959 submitted including the preamble. The next payload releases the missing
   byte. fzstd passes all three checkpoints. This case uses raw payloads after
   the preamble to exercise the decoder's 64 KiB boundary.
+
+All sequence sizes are bytes; the first entry is the preamble. Each comma
+separates a write followed by a block flush and a decoding checkpoint.
+`98 × 100` means 100 separately flushed 98-byte payloads, not one 9,800-byte
+write or 100 copies of identical contents. The compressed sizes are measured
+before transport fragmentation and omit the final bytes used only for the
+subsequent end-of-stream integrity check.
 
 The consolidated table therefore reports **50% (1/2)** for each compress-utils
 receiver and **100% (2/2)** for fzstd, in every chunk profile. A preamble avoids

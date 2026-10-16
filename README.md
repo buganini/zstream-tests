@@ -173,17 +173,32 @@ cases each with mixed receivers (including an initially empty prefix). Untested
 configurations are not listed. The receiver always decodes the algorithm
 specified in the sender cell.
 
-Each **294-byte preamble** row covers two connection cases: the preamble followed
-by 100 payloads, and the preamble followed by 65,537 repeated bytes
-and a 37-byte follow-up. Here, **294 bytes is the compressed preamble size**,
-including the frame header; it decodes to 422 bytes of application data. Each
-payload is block-flushed through the same compressor and must decode before the
-next payload arrives. All receivers pass the 101-checkpoint payload sequence,
-including packets down to 14 compressed bytes. Compress-utils Rust/Python/JS
-each withhold one byte at the 65,537-byte boundary; fzstd passes both cases.
-The preamble is ordinary data, not padding or an extra flush. `whole` delivers
-one complete batch at a time; the other rows split each batch before decoding.
-These rows keep Python `zstandard` as sender and test the receiver's behavior.
+**What is the preamble?** It is the first payload in the stream: a fixed
+**422-byte data record** containing text fields, identifiers, numeric limits,
+and booleans. The sender writes that record to a new compressor and block-flushes
+it. This produces **294 compressed bytes, including the zstd frame header**.
+The receiver consumes those bytes and must recover the complete 422-byte record
+before the next write. Both codec contexts remain open for the later payloads.
+The preamble is compressed data in that same frame, not raw bytes prepended to
+a compressed stream. Its purpose here is to initialize the receiver before
+testing later flushes; 294 bytes exceeds fzstd's 18-byte startup wait.
+
+Each **294-byte preamble** row combines these two cases. All sizes below are
+bytes. A comma means **write, block-flush, deliver, and check decoding before the
+next write**. `98 × 100` means 100 separate 98-byte writes, each flushed; their
+contents vary slightly. Compressed sizes describe complete batches before
+transport fragmentation and exclude finalization bytes.
+
+- **Small payloads:** input `422, 98 × 100` → compressed batches
+  `294, 57, 15, 14 × 98`. The first entry is the preamble. All receivers pass
+  all 101 checkpoints.
+- **64 KiB boundary:** input `422, 65537, 37` → compressed batches `294, 4, 4`.
+  After the preamble, write 65,537 `A` bytes, then 37 `B` bytes. Compress-utils
+  Rust/Python/JS each return only 65,536 `A` bytes at the middle checkpoint;
+  fzstd returns all 65,537.
+
+These rows keep Python `zstandard` as sender. `whole` delivers each complete
+compressed batch at once; the other chunk profiles split it before decoding.
 See the
 [preamble test and controls](results/2026-10-16/INTEROP.md#294-byte-preamble-stream).
 
