@@ -11,9 +11,24 @@ import sys
 
 ROOT = Path(__file__).resolve().parents[1]
 REVISION = "11ea489add2435d2eb8360aad0a104a63e714fb3"
+DEFAULT_TRANSPORT_CHUNKS = [1, 3, 7, 97, 4093]
 
 
-def fixtures(directory):
+def transport_chunk_size(value):
+    if value == "irregular":
+        return DEFAULT_TRANSPORT_CHUNKS.copy()
+    if value == "whole":
+        return []
+    try:
+        size = int(value)
+        if 1 <= size <= 2147483647:
+            return [size]
+    except ValueError:
+        pass
+    raise argparse.ArgumentTypeError("expected irregular, whole, or a byte count from 1 to 2147483647")
+
+
+def fixtures(directory, transport_chunks):
     directory.mkdir(parents=True, exist_ok=True)
     size, state = 1024 * 1024 + 17, 0x12345678
     random_data = bytearray()
@@ -32,7 +47,7 @@ def fixtures(directory):
         (directory / filename).write_bytes(value)
         cases.append({"name": name, "file": filename, "bytes": len(value),
                       "sha256": hashlib.sha256(value).hexdigest()})
-    manifest = {"roundtrip": cases, "midpoint_sizes":
+    manifest = {"roundtrip": cases, "transport_chunks": transport_chunks, "midpoint_sizes":
                 [1, 17, 4096, 65535, 65536, 65537, 131071, 131072, 131073, 262145, size],
                 "random_generator": "xorshift32(13,17,5), seed 0x12345678, low byte per step"}
     (directory / "manifest.json").write_text(json.dumps(manifest, indent=2) + "\n")
@@ -48,6 +63,10 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--output", type=Path, default=ROOT / "results/latest")
     parser.add_argument("--require-midstream-flush", action="store_true")
+    parser.add_argument("--transport-chunk-size", type=transport_chunk_size, default="irregular",
+                        metavar="BYTES|whole|irregular",
+                        help="compressed transport delivery: fixed maximum bytes, unsplit batches, "
+                             "or the default repeating 1,3,7,97,4093 pattern")
     args = parser.parse_args()
     upstream = (ROOT / ".work/upstream").resolve()
     revision = output(["git", "-C", str(upstream), "rev-parse", "HEAD"])
@@ -57,7 +76,7 @@ def main():
     if dirty:
         raise SystemExit(f"Upstream tracked files changed; refuse mislabeled results:\n{dirty}")
     fixture_dir = ROOT / ".work/fixtures"
-    manifest = fixtures(fixture_dir)
+    manifest = fixtures(fixture_dir, args.transport_chunk_size)
     from interop_fixtures import generate
     interop_dir = ROOT / ".work/interop"
     interop_manifest = generate(fixture_dir, interop_dir)
@@ -122,6 +141,7 @@ def main():
                "zig": output(["zig", "version"]),
                "codec_versions": json.loads((upstream / "codec-versions.json").read_text()),
                "level": 5, "fixtures": manifest, "exit_codes": exits,
+               "transport_chunks": args.transport_chunk_size,
                "midstream_acceptance_passed": midstream_ok and not any(exits.values()),
                "require_midstream_flush": args.require_midstream_flush, "runner_exit_code": int(bad),
                "counts": dict(collections.Counter(r["status"] for r in rows)),

@@ -2,6 +2,10 @@
 
 Test date: 2026-10-16 (Asia/Taipei).
 
+Unless stated otherwise, counts and stage measurements below use the default
+irregular transport chunks. The [transport comparison](#transport-chunk-size-comparison)
+also tests fixed 1-byte, fixed 4,096-byte, and whole-batch delivery.
+
 **All 256 mixed-receiver streams round-trip exactly after finalization: 72 without
 mid-stream flush and 184 with it. Neither
 compress-utils nor fzstd passes every required mid-stream flush checkpoint.**
@@ -166,12 +170,65 @@ receiver, but fzstd waits for more compressed input. Consequently, even a 4 KiB
 application message can stall when highly compressible. The 18-byte threshold
 describes startup buffering; it is not a general output-latency guarantee.
 
+This is an implementation buffering limit, not a Zstandard format requirement.
+The [Zstandard format specification](https://github.com/facebook/zstd/blob/v1.5.7/doc/zstd_compression_format.md#frame_header)
+defines a 2–14-byte frame header after the 4-byte magic number, so 18 bytes is
+the maximum combined header length, not a required minimum before producing
+output. The descriptor identifies the actual header length, and blocks can be
+decoded without waiting for their successors. Our 17-byte prefix consists of
+6 header bytes including the magic, a 3-byte block header, and 8 bytes of
+compressed block content. Python `zstandard` decodes all 4,096 bytes from it;
+fzstd's unconditional `ncs < 18` check postpones parsing that complete block.
+
 For a request/response stream, these bytes can remain unavailable if the sender
 waits for the response before writing more. Setting `final=true` at a midpoint
 would signal completion of an unfinished stream and does not meet the required
 same-stream contract. A possible fix is incremental header parsing based on the
 actual available header/block lengths; no fzstd changes or workarounds were
 implemented or validated here.
+
+### Transport chunk size comparison
+
+The [single consolidated result table](../../README.md#current-status) shows
+pass percentages for all bindings, algorithms, flush modes, and four transport
+profiles. All four runs use identical application input, sender parameters, and
+flush boundaries. Changing delivery chunks does not change the saved compressed
+bytes or coalesce separate stages. `whole` sends each stage without harness
+splitting; Rust still reads through the binding's 64 KiB compressed-input buffer.
+
+Every profile passes all 18 no-flush mixed cases per receiver. Mid-stream results
+depend on receiver and delivery pattern:
+
+- Default irregular delivery: compress-utils Rust/Python/JS each pass 34/46
+  (73.91%); fzstd passes 38/46 (82.61%).
+- Fixed 1-byte delivery: compress-utils Rust/Python/JS each pass 40/46 (86.96%);
+  fzstd remains at 38/46 (82.61%).
+- Fixed 4,096-byte delivery: compress-utils Rust/Python/JS each pass 34/46
+  (73.91%); fzstd remains at 38/46 (82.61%).
+- Whole-batch delivery: compress-utils Python/JS each pass 22/46 (47.83%), Rust
+  passes 34/46 (73.91%), and fzstd remains at 38/46 (82.61%).
+
+All complete round trips still pass. Whole-batch Python/JS decoding additionally
+withholds output for random prefixes of 65,537, 131,071, 131,072, 131,073,
+262,145, and 1,048,593 bytes, through both sender APIs. Rust's internal input
+buffer subdivides larger batches, so its `whole` mode does not deliver the same
+codec-call sizes as the Python/JS push APIs. With 1-byte delivery, only repeated
+prefixes of 65,537, 131,071, and 131,072 bytes fail in each compress-utils binding.
+These observations reinforce the output-drain issue; none of the transport
+profiles makes compress-utils satisfy every flush checkpoint.
+
+fzstd fails the same eight cases in all profiles. In particular, a 17-byte first
+stage stays 17 bytes regardless of the delivery chunk size. PUI's larger initial
+`ready` message changes the initial compressed batch, which is a different
+variable from splitting that batch for transport.
+
+Raw observations and summaries are in [chunks-1](chunks-1/summary.json),
+[chunks-4096](chunks-4096/summary.json), and [chunks-whole](chunks-whole/summary.json).
+The complete runner counts are respectively 376 PASS / 160 LIMITATION,
+358 PASS / 178 LIMITATION, and 334 PASS / 202 LIMITATION. The default remains
+358 PASS / 178 LIMITATION. These are separate runs; native controls are counted
+separately. Every strict run exits 1 for unmet flush requirements, with zero
+unexpected failures.
 
 ## Evidence and reproduction
 

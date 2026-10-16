@@ -10,6 +10,7 @@ from python_zstandard_probe import ObjectEncoder, WriterEncoder, chunks, decoder
 def generate(fixture_dir, directory):
     directory.mkdir(parents=True, exist_ok=True)
     fixtures = json.loads((fixture_dir / "manifest.json").read_text())
+    transport_chunks = fixtures.get("transport_chunks", [1, 3, 7, 97, 4093])
     inputs = [("empty", b"")]
     for kind in ("random", "repeat"):
         data = (fixture_dir / f"{kind}.bin").read_bytes()
@@ -31,14 +32,14 @@ def generate(fixture_dir, directory):
                 write_output = encoder.compress(part)
                 flush_output = encoder.flush_block()
                 wire = write_output + flush_output
-                decoded += receive(reference, wire)
+                decoded += receive(reference, wire, transport_chunks)
                 assert decoded == expected and not reference.eof
                 stages.append({**save(f"{case_id}-{i}.zst", wire),
                                "submitted": len(expected), "write_output": len(write_output),
                                "flush_output": len(flush_output), "reference_decoded": len(decoded),
                                "reference_eof": reference.eof})
             tail = encoder.finish()
-            decoded += receive(reference, tail)
+            decoded += receive(reference, tail, transport_chunks)
             complete(reference)
             assert decoded == expected
             cases.append({"name": case_id, "payload": name, "sender_api": api, "stages": stages,
@@ -62,7 +63,7 @@ def generate(fixture_dir, directory):
                 for i, part in enumerate(chunks(data, input_chunks)):
                     submitted += len(part)
                     wire = encoder.compress(part)
-                    decoded += receive(reference, wire)
+                    decoded += receive(reference, wire, transport_chunks)
                     assert len(decoded) <= submitted and decoded == data[:len(decoded)]
                     assert not reference.eof
                     stages.append({**save(f"{case_id}-{i}.zst", wire),
@@ -70,7 +71,7 @@ def generate(fixture_dir, directory):
                                    "flush_output": 0, "reference_decoded": len(decoded),
                                    "reference_eof": reference.eof})
                 tail = encoder.finish()
-            decoded += receive(reference, tail)
+            decoded += receive(reference, tail, transport_chunks)
             complete(reference)
             assert decoded == data
             cases.append({"name": case_id, "payload": fixture["name"], "sender_api": api,
@@ -80,7 +81,7 @@ def generate(fixture_dir, directory):
                           "expected": save(f"{case_id}.bin", data), "reference_final_eof": True})
     manifest = {"sender": "python_zstandard", "package_version": zstd.__version__,
                 "zstd_version": list(zstd.ZSTD_VERSION), "backend": zstd.backend,
-                "native_level": NATIVE_LEVEL, "transport_chunks": [1, 3, 7, 97, 4093],
+                "native_level": NATIVE_LEVEL, "transport_chunks": transport_chunks,
                 "no_flush_input_chunks": list(input_chunks), "cases": cases}
     (directory / "manifest.json").write_text(json.dumps(manifest, indent=2) + "\n")
     return manifest

@@ -2,6 +2,14 @@
 
 Test date: 2026-10-16 (Asia/Taipei).
 
+This report's counts and byte measurements use the default repeating transport
+chunks of 1, 3, 7, 97, and 4,093 bytes. Additional fixed 1-byte, fixed 4,096-byte,
+and whole-batch runs are recorded in [chunks-1](chunks-1/summary.json),
+[chunks-4096](chunks-4096/summary.json), and [chunks-whole](chunks-whole/summary.json).
+The [root result table](../../README.md#current-status) lists every tested profile;
+the [mixed-receiver report](INTEROP.md#transport-chunk-size-comparison) explains
+where outcomes change.
+
 **Completed round trips pass for Rust, Python, and JavaScript with both zstd and
 LZ4. None of these compress-utils bindings meets the requirement to flush
 arbitrary pending input while keeping the compressed stream open.** In addition

@@ -8,19 +8,22 @@ import zstandard as zstd
 
 NATIVE_LEVEL = 11  # compress-utils level 5 maps to (5 * 22) // 10.
 DECODE_CHUNK = 65536
+TRANSPORT_CHUNKS = [1, 3, 7, 97, 4093]
 
 
-def chunks(data, sizes=(1, 3, 7, 97, 4093)):
+def chunks(data, sizes=None):
+    if sizes is None:
+        sizes = TRANSPORT_CHUNKS
     offset = index = 0
     while offset < len(data):
-        size = sizes[index % len(sizes)]
+        size = sizes[index % len(sizes)] if sizes else len(data)
         yield data[offset:offset + size]
         offset += size
         index += 1
 
 
-def receive(decoder, wire):
-    return b"".join(decoder.decompress(part) for part in chunks(wire))
+def receive(decoder, wire, sizes=None):
+    return b"".join(decoder.decompress(part) for part in chunks(wire, sizes))
 
 
 def decoder():
@@ -180,6 +183,7 @@ def run(test, case, api, operation):
            "api": api, "level": NATIVE_LEVEL, "compress_utils_equivalent_level": 5,
            "package_version": zstd.__version__, "zstd_version": list(zstd.ZSTD_VERSION),
            "backend": zstd.backend,
+           "transport_chunks": TRANSPORT_CHUNKS,
            "decoder_write_size": None if api == "oneshot" else DECODE_CHUNK}
     if api == "stream_writer":
         row["encoder_write_size"] = 113
@@ -192,8 +196,10 @@ def run(test, case, api, operation):
 
 
 def main():
+    global TRANSPORT_CHUNKS
     root = Path(sys.argv[1])
     manifest = json.loads((root / "manifest.json").read_text())
+    TRANSPORT_CHUNKS = manifest.get("transport_chunks", TRANSPORT_CHUNKS)
     failed = False
     for case in manifest["roundtrip"]:
         data = (root / case["file"]).read_bytes()

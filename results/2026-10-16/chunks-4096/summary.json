@@ -1,0 +1,238 @@
+{
+  "upstream_revision": "11ea489add2435d2eb8360aad0a104a63e714fb3",
+  "upstream_tracked_clean": true,
+  "platform": "Linux-7.0.0-38-generic-x86_64-with-glibc2.43",
+  "machine": "x86_64",
+  "python": "3.14.4 (main, Aug 20 2026, 10:41:58) [GCC 15.2.0]",
+  "node": "v22.22.1",
+  "rustc": "rustc 1.90.0 (1159e78c4 2025-09-14)",
+  "cargo": "cargo 1.90.0 (840b83a10 2025-07-30)",
+  "cmake": "cmake version 4.2.3",
+  "cc": "cc (Ubuntu 16-20260322-1ubuntu1) 16.0.1 20260322 (experimental) [trunk r16-8246-g569ace1fa50]",
+  "zig": "0.14.1",
+  "codec_versions": {
+    "_comment": "Single source of truth for upstream codec sources. Read by CMake (cmake/CodecVersions.cmake) and by tools/sync-codecs.py. snappy is the pure-C andikleen port (no C++ runtime); third_party/snappy/compat.h is a hand-authored portable shim, not upstream. google/snappy (C++) is snapshotted at third_party/snappy-oracle (from tag 1.2.2) as a TEST-ONLY differential oracle \u2014 it never ships, so it is intentionally not a codec entry here. NOTE: tools/vendor-codecs.py still has a google-snappy-specific special-case; update it (preserve compat.h, no config.h) before re-vendoring snappy.",
+    "zstd": {
+      "url": "https://github.com/facebook/zstd.git",
+      "tag": "v1.5.7"
+    },
+    "brotli": {
+      "url": "https://github.com/google/brotli.git",
+      "tag": "v1.2.0"
+    },
+    "zlib": {
+      "url": "https://github.com/madler/zlib.git",
+      "tag": "v1.3.2"
+    },
+    "bz2": {
+      "url": "https://gitlab.com/bzip2/bzip2.git",
+      "tag": "bzip2-1.0.8"
+    },
+    "lz4": {
+      "url": "https://github.com/lz4/lz4.git",
+      "tag": "v1.10.0"
+    },
+    "xz": {
+      "url": "https://github.com/tukaani-project/xz.git",
+      "tag": "v5.8.3"
+    },
+    "snappy": {
+      "url": "https://github.com/andikleen/snappy-c.git",
+      "tag": "fef67ac6effb40c83fb5e37eaf243381fa056f9b"
+    }
+  },
+  "level": 5,
+  "fixtures": {
+    "roundtrip": [
+      {
+        "name": "empty",
+        "file": "empty.bin",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "byte",
+        "file": "byte.bin",
+        "bytes": 1,
+        "sha256": "559aead08264d5795d3909718cdd05abd49572e84fe55590eef31a88a08fdffd"
+      },
+      {
+        "name": "text",
+        "file": "text.bin",
+        "bytes": 4096,
+        "sha256": "8e8eaee967ed6de694e7e389a58be586d25b7a14962af3c69ab428b3d44a3c49"
+      },
+      {
+        "name": "binary",
+        "file": "binary.bin",
+        "bytes": 65537,
+        "sha256": "2deb0bd2129a9d3aed91e3cff58b3993752be549642890a3e853ec1065f9b617"
+      },
+      {
+        "name": "repeat",
+        "file": "repeat.bin",
+        "bytes": 1048593,
+        "sha256": "4db2809fe2bc5709ac72ffdb78447b7d41d027d044a1b91fa0ea8225779a9055"
+      },
+      {
+        "name": "random",
+        "file": "random.bin",
+        "bytes": 1048593,
+        "sha256": "c6a2e06fcc443fd891a306bc540ea51eb3baa28e8a9db9ede8cb51ab4b17d367"
+      }
+    ],
+    "transport_chunks": [
+      4096
+    ],
+    "midpoint_sizes": [
+      1,
+      17,
+      4096,
+      65535,
+      65536,
+      65537,
+      131071,
+      131072,
+      131073,
+      262145,
+      1048593
+    ],
+    "random_generator": "xorshift32(13,17,5), seed 0x12345678, low byte per step"
+  },
+  "exit_codes": {
+    "python": 0,
+    "python_zstandard": 0,
+    "js": 0,
+    "rust": 0,
+    "interop_python": 0,
+    "interop_js": 0,
+    "interop_fzstd": 0,
+    "interop_rust": 0,
+    "native_control": 0
+  },
+  "transport_chunks": [
+    4096
+  ],
+  "midstream_acceptance_passed": false,
+  "require_midstream_flush": true,
+  "runner_exit_code": 1,
+  "counts": {
+    "PASS": 358,
+    "LIMITATION": 178
+  },
+  "counts_by_binding": {
+    "python": {
+      "PASS": 28,
+      "LIMITATION": 44
+    },
+    "python_zstandard": {
+      "PASS": 62
+    },
+    "js": {
+      "PASS": 28,
+      "LIMITATION": 46
+    },
+    "rust": {
+      "PASS": 28,
+      "LIMITATION": 44
+    },
+    "interop_python": {
+      "PASS": 52,
+      "LIMITATION": 12
+    },
+    "interop_js": {
+      "PASS": 52,
+      "LIMITATION": 12
+    },
+    "interop_fzstd": {
+      "LIMITATION": 8,
+      "PASS": 56
+    },
+    "interop_rust": {
+      "PASS": 52,
+      "LIMITATION": 12
+    }
+  },
+  "midstream_acceptance_by_binding": {
+    "python": false,
+    "python_zstandard": true,
+    "js": false,
+    "rust": false,
+    "interop_python": false,
+    "interop_js": false,
+    "interop_fzstd": false,
+    "interop_rust": false
+  },
+  "python_zstandard": {
+    "package_version": "0.25.0",
+    "zstd_version": [
+      1,
+      5,
+      7
+    ],
+    "backend": "cext",
+    "native_level": 11,
+    "compress_utils_equivalent_level": 5
+  },
+  "fzstd": "0.1.1",
+  "commands": {
+    "python": [
+      "/home/buganini/repo/compress-utils/.work/venv/bin/python",
+      "/home/buganini/repo/compress-utils/tests/python_probe.py",
+      "/home/buganini/repo/compress-utils/.work/fixtures"
+    ],
+    "python_zstandard": [
+      "/home/buganini/repo/compress-utils/.work/venv/bin/python",
+      "/home/buganini/repo/compress-utils/tests/python_zstandard_probe.py",
+      "/home/buganini/repo/compress-utils/.work/fixtures"
+    ],
+    "js": [
+      "node",
+      "/home/buganini/repo/compress-utils/tests/js_probe.mjs",
+      "/home/buganini/repo/compress-utils/.work/fixtures",
+      "/tmp/compress-utils-upstream"
+    ],
+    "rust": [
+      "cargo",
+      "run",
+      "--locked",
+      "--quiet",
+      "--release",
+      "--manifest-path",
+      "/home/buganini/repo/compress-utils/tests/rust/Cargo.toml",
+      "--",
+      "/home/buganini/repo/compress-utils/.work/fixtures"
+    ],
+    "interop_python": [
+      "/home/buganini/repo/compress-utils/.work/venv/bin/python",
+      "/home/buganini/repo/compress-utils/tests/interop_python.py",
+      "/home/buganini/repo/compress-utils/.work/interop"
+    ],
+    "interop_js": [
+      "node",
+      "/home/buganini/repo/compress-utils/tests/interop_js.mjs",
+      "/home/buganini/repo/compress-utils/.work/interop",
+      "/tmp/compress-utils-upstream",
+      "compress_utils_js"
+    ],
+    "interop_fzstd": [
+      "node",
+      "/home/buganini/repo/compress-utils/tests/interop_js.mjs",
+      "/home/buganini/repo/compress-utils/.work/interop",
+      "/tmp/compress-utils-upstream",
+      "fzstd"
+    ],
+    "interop_rust": [
+      "cargo",
+      "run",
+      "--locked",
+      "--quiet",
+      "--release",
+      "--manifest-path",
+      "/home/buganini/repo/compress-utils/tests/rust/Cargo.toml",
+      "--",
+      "/home/buganini/repo/compress-utils/.work/interop",
+      "--interop"
+    ]
+  }
+}

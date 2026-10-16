@@ -5,10 +5,25 @@ use std::collections::VecDeque;
 use std::io::{self, Read, Write};
 use std::path::Path;
 use std::rc::Rc;
+use std::sync::OnceLock;
 
 type Result<T> = std::result::Result<T, Box<dyn std::error::Error>>;
 const LEVEL: i32 = 5;
 mod interop;
+static TRANSPORT_CHUNKS: OnceLock<Vec<usize>> = OnceLock::new();
+
+fn transport_chunks() -> &'static [usize] {
+    TRANSPORT_CHUNKS.get().map(Vec::as_slice).unwrap_or(&[1, 3, 7, 97, 4093])
+}
+
+fn configure_transport(manifest: &Value) -> Result<()> {
+    if let Some(value) = manifest.get("transport_chunks") {
+        let sizes: Vec<usize> = serde_json::from_value(value.clone())?;
+        check(sizes.iter().all(|&size| size > 0), "transport chunk sizes must be positive")?;
+        TRANSPORT_CHUNKS.set(sizes).map_err(|_| io::Error::other("transport already configured"))?;
+    }
+    Ok(())
+}
 
 fn check(ok: bool, message: &str) -> Result<()> {
     if ok { Ok(()) } else { Err(io::Error::other(message).into()) }
@@ -48,8 +63,9 @@ impl Read for Pipe {
             return if state.closed { Ok(0) }
                 else { Err(io::ErrorKind::WouldBlock.into()) };
         }
-        let sizes = [1, 3, 7, 97, 4093];
-        let n = out.len().min(state.wire.len()).min(sizes[state.reads % sizes.len()]);
+        let sizes = transport_chunks();
+        let limit = if sizes.is_empty() { state.wire.len() } else { sizes[state.reads % sizes.len()] };
+        let n = out.len().min(state.wire.len()).min(limit);
         state.reads += 1;
         for byte in &mut out[..n] { *byte = state.wire.pop_front().unwrap(); }
         Ok(n)
@@ -157,7 +173,8 @@ fn truncated(algo: Algorithm) -> Result<Value> {
 }
 
 fn emit(algo: Algorithm, test: &str, case: &str, result: Result<Value>) -> bool {
-    let mut row = json!({"binding": "rust", "codec": algo.name(), "test": test, "case": case, "level": LEVEL});
+    let mut row = json!({"binding": "rust", "codec": algo.name(), "test": test, "case": case, "level": LEVEL,
+                         "transport_chunks": transport_chunks()});
     match result {
         Ok(value) => row.as_object_mut().unwrap().extend(value.as_object().unwrap().clone()),
         Err(error) => { row["status"] = json!("FAIL"); row["error"] = json!(error.to_string()); }
@@ -173,6 +190,7 @@ fn main() -> Result<()> {
         return interop::run(root);
     }
     let manifest: Value = serde_json::from_slice(&std::fs::read(root.join("manifest.json"))?)?;
+    configure_transport(&manifest)?;
     let mut failed = false;
     for algo in [Algorithm::Zstd, Algorithm::Lz4] {
         for case in manifest["roundtrip"].as_array().unwrap() {

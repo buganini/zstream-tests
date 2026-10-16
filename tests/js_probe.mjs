@@ -9,15 +9,15 @@ const upstream = process.argv[3];
 const manifest = JSON.parse(fs.readFileSync(path.join(root, 'manifest.json')));
 const level = 5;
 const cat = (...parts) => Buffer.concat(parts.map(p => Buffer.from(p)));
-function* chunks(data, sizes = [1, 3, 7, 97, 4093]) {
+function* chunks(data, sizes = manifest.transport_chunks ?? [1, 3, 7, 97, 4093]) {
   for (let offset = 0, i = 0; offset < data.length; i++) {
-    const size = sizes[i % sizes.length];
+    const size = sizes.length ? sizes[i % sizes.length] : data.length;
     yield data.subarray(offset, offset + size);
     offset += size;
   }
 }
 function receive(decoder, wire) {
-  return cat(...Array.from(chunks(wire), part => decoder.write(part)));
+  return Buffer.concat(Array.from(chunks(wire), part => Buffer.from(decoder.write(part))));
 }
 async function roundtrip(api, data, streaming) {
   let packed, restored;
@@ -114,7 +114,8 @@ async function webStream(api) {
 }
 let failed = false;
 async function run(codec, test, name, operation) {
-  const row = {binding: 'js', codec, test, case: name, level};
+  const row = {binding: 'js', codec, test, case: name, level,
+               transport_chunks: manifest.transport_chunks ?? [1, 3, 7, 97, 4093]};
   try { Object.assign(row, await operation()); }
   catch (error) { Object.assign(row, {status: 'FAIL', error: String(error)}); failed = true; }
   console.log(JSON.stringify(row));

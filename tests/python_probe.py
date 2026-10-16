@@ -10,10 +10,12 @@ MANIFEST = json.loads((ROOT / "manifest.json").read_text())
 LEVEL = 5
 
 
-def chunks(data, sizes=(1, 3, 7, 97, 4093)):
+def chunks(data, sizes=None):
+    if sizes is None:
+        sizes = MANIFEST.get("transport_chunks", [1, 3, 7, 97, 4093])
     offset = index = 0
     while offset < len(data):
-        size = sizes[index % len(sizes)]
+        size = sizes[index % len(sizes)] if sizes else len(data)
         yield data[offset:offset + size]
         offset += size
         index += 1
@@ -96,7 +98,8 @@ def truncated(codec):
 
 
 def run(codec, name, case, operation):
-    row = {"binding": "python", "codec": codec, "test": name, "case": case, "level": LEVEL}
+    row = {"binding": "python", "codec": codec, "test": name, "case": case, "level": LEVEL,
+           "transport_chunks": MANIFEST.get("transport_chunks", [1, 3, 7, 97, 4093])}
     try:
         row.update(operation())
     except Exception as error:

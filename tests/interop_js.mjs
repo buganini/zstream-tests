@@ -27,7 +27,8 @@ async function probe(testCase) {
   };
   const feed = wire => {
     for (let offset = 0, i = 0; offset < wire.length; i++) {
-      const size = manifest.transport_chunks[i % manifest.transport_chunks.length];
+      const size = manifest.transport_chunks.length
+        ? manifest.transport_chunks[i % manifest.transport_chunks.length] : wire.length;
       push(wire.subarray(offset, offset + size));
       offset += size;
     }
@@ -63,6 +64,7 @@ for (const testCase of manifest.cases) {
   const row = {binding: receiver === 'fzstd' ? 'interop_fzstd' : 'interop_js',
                test: testCase.test, codec: 'zstd', sender: 'python_zstandard', receiver,
                midstream_flush: testCase.midstream_flush,
+               transport_chunks: manifest.transport_chunks,
                case: testCase.name, sender_api: testCase.sender_api, native_level: manifest.native_level};
   if (receiver === 'fzstd') row.receiver_version = fzstdVersion;
   try { Object.assign(row, await probe(testCase)); }

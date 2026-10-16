@@ -1,5 +1,5 @@
 //! Replay Python zstandard sender checkpoints through the Rust receiver.
-use super::{check, receive, Algorithm, Decompressor, Pipe, Result};
+use super::{check, configure_transport, receive, Algorithm, Decompressor, Pipe, Result};
 use serde_json::{json, Value};
 use std::path::Path;
 
@@ -39,12 +39,14 @@ fn probe(root: &Path, case: &Value) -> Result<Value> {
 
 pub fn run(root: &Path) -> Result<()> {
     let manifest: Value = serde_json::from_slice(&std::fs::read(root.join("manifest.json"))?)?;
+    configure_transport(&manifest)?;
     let mut failed = false;
     for case in manifest["cases"].as_array().unwrap() {
         let mut row = json!({"binding": "interop_rust", "test": case["test"], "codec": "zstd",
                              "sender": "python_zstandard", "receiver": "compress_utils_rust",
                              "case": case["name"], "sender_api": case["sender_api"],
                              "midstream_flush": case["midstream_flush"],
+                             "transport_chunks": manifest["transport_chunks"],
                              "native_level": manifest["native_level"]});
         match probe(root, case) {
             Ok(value) => row.as_object_mut().unwrap().extend(value.as_object().unwrap().clone()),

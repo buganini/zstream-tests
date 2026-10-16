@@ -41,33 +41,107 @@ Tested on 2026-10-16 against upstream commit
 Each row is one sender/receiver configuration. **No** checks a completed round
 trip without requesting a mid-stream flush. **Yes** requires every flushed prefix
 to be fully decoded before the next write, continued use of the same open frame,
-and an exact final round trip. Counts show passing cases out of tested cases;
-**NG** means the configuration does not satisfy that row's requirement.
+and an exact final round trip. The pass percentage is the share of tested cases
+meeting all requirements; anything below 100% leaves the requested behavior
+unmet. These percentages describe the fixtures, not estimated success rates for
+arbitrary traffic.
 
-| Sender | Receiver (package/binding) | Mid-stream flush | OK / NG |
-| --- | --- | --- | --- |
-| compress-utils / Rust · zstd | compress-utils / Rust | No | OK (12/12) |
-| compress-utils / Rust · zstd | compress-utils / Rust | Yes (attempted) | NG (0/22) |
-| compress-utils / Rust · LZ4 | compress-utils / Rust | No | OK (12/12) |
-| compress-utils / Rust · LZ4 | compress-utils / Rust | Yes (attempted) | NG (0/22) |
-| compress-utils / Python · zstd | compress-utils / Python | No | OK (12/12) |
-| compress-utils / Python · zstd | compress-utils / Python | Yes (attempted) | NG (0/22) |
-| compress-utils / Python · LZ4 | compress-utils / Python | No | OK (12/12) |
-| compress-utils / Python · LZ4 | compress-utils / Python | Yes (attempted) | NG (0/22) |
-| compress-utils / JS/WASM · zstd | compress-utils / JS/WASM | No | OK (12/12) |
-| compress-utils / JS/WASM · zstd | compress-utils / JS/WASM | Yes (attempted) | NG (0/22) |
-| compress-utils / JS/WASM · LZ4 | compress-utils / JS/WASM | No | OK (12/12) |
-| compress-utils / JS/WASM · LZ4 | compress-utils / JS/WASM | Yes (attempted) | NG (0/22) |
-| zstandard / Python | zstandard / Python | No | OK (12/12) |
-| zstandard / Python | zstandard / Python | Yes | OK (44/44) |
-| zstandard / Python | compress-utils / Rust | No | OK (18/18) |
-| zstandard / Python | compress-utils / Rust | Yes | NG (34/46) |
-| zstandard / Python | compress-utils / Python | No | OK (18/18) |
-| zstandard / Python | compress-utils / Python | Yes | NG (34/46) |
-| zstandard / Python | compress-utils / JS/WASM | No | OK (18/18) |
-| zstandard / Python | compress-utils / JS/WASM | Yes | NG (34/46) |
-| zstandard / Python | fzstd / JavaScript | No | OK (18/18) |
-| zstandard / Python | fzstd / JavaScript | Yes | NG (38/46) |
+Transport chunk size controls compressed bytes delivered to the receiver, not
+the application payload size before a flush. A fixed size is a maximum: the last
+chunk can be shorter. The irregular pattern repeats; `whole` delivers each
+write/flush batch without harness fragmentation. Rust still limits source reads
+to its internal read buffer. No profile combines data across flush checkpoints.
+
+| Sender | Receiver (package/binding) | Mid-stream flush | Transport chunk (bytes) | Pass percentage |
+| --- | --- | --- | --- | --- |
+| compress-utils / Rust · zstd | compress-utils / Rust | No | 1, 3, 7, 97, 4093 | 100% |
+| compress-utils / Rust · zstd | compress-utils / Rust | No | 1 | 100% |
+| compress-utils / Rust · zstd | compress-utils / Rust | No | 4096 | 100% |
+| compress-utils / Rust · zstd | compress-utils / Rust | No | whole | 100% |
+| compress-utils / Rust · zstd | compress-utils / Rust | Yes (attempted) | 1, 3, 7, 97, 4093 | 0% |
+| compress-utils / Rust · zstd | compress-utils / Rust | Yes (attempted) | 1 | 0% |
+| compress-utils / Rust · zstd | compress-utils / Rust | Yes (attempted) | 4096 | 0% |
+| compress-utils / Rust · zstd | compress-utils / Rust | Yes (attempted) | whole | 0% |
+| compress-utils / Rust · LZ4 | compress-utils / Rust | No | 1, 3, 7, 97, 4093 | 100% |
+| compress-utils / Rust · LZ4 | compress-utils / Rust | No | 1 | 100% |
+| compress-utils / Rust · LZ4 | compress-utils / Rust | No | 4096 | 100% |
+| compress-utils / Rust · LZ4 | compress-utils / Rust | No | whole | 100% |
+| compress-utils / Rust · LZ4 | compress-utils / Rust | Yes (attempted) | 1, 3, 7, 97, 4093 | 0% |
+| compress-utils / Rust · LZ4 | compress-utils / Rust | Yes (attempted) | 1 | 0% |
+| compress-utils / Rust · LZ4 | compress-utils / Rust | Yes (attempted) | 4096 | 0% |
+| compress-utils / Rust · LZ4 | compress-utils / Rust | Yes (attempted) | whole | 0% |
+| compress-utils / Python · zstd | compress-utils / Python | No | 1, 3, 7, 97, 4093 | 100% |
+| compress-utils / Python · zstd | compress-utils / Python | No | 1 | 100% |
+| compress-utils / Python · zstd | compress-utils / Python | No | 4096 | 100% |
+| compress-utils / Python · zstd | compress-utils / Python | No | whole | 100% |
+| compress-utils / Python · zstd | compress-utils / Python | Yes (attempted) | 1, 3, 7, 97, 4093 | 0% |
+| compress-utils / Python · zstd | compress-utils / Python | Yes (attempted) | 1 | 0% |
+| compress-utils / Python · zstd | compress-utils / Python | Yes (attempted) | 4096 | 0% |
+| compress-utils / Python · zstd | compress-utils / Python | Yes (attempted) | whole | 0% |
+| compress-utils / Python · LZ4 | compress-utils / Python | No | 1, 3, 7, 97, 4093 | 100% |
+| compress-utils / Python · LZ4 | compress-utils / Python | No | 1 | 100% |
+| compress-utils / Python · LZ4 | compress-utils / Python | No | 4096 | 100% |
+| compress-utils / Python · LZ4 | compress-utils / Python | No | whole | 100% |
+| compress-utils / Python · LZ4 | compress-utils / Python | Yes (attempted) | 1, 3, 7, 97, 4093 | 0% |
+| compress-utils / Python · LZ4 | compress-utils / Python | Yes (attempted) | 1 | 0% |
+| compress-utils / Python · LZ4 | compress-utils / Python | Yes (attempted) | 4096 | 0% |
+| compress-utils / Python · LZ4 | compress-utils / Python | Yes (attempted) | whole | 0% |
+| compress-utils / JS/WASM · zstd | compress-utils / JS/WASM | No | 1, 3, 7, 97, 4093 | 100% |
+| compress-utils / JS/WASM · zstd | compress-utils / JS/WASM | No | 1 | 100% |
+| compress-utils / JS/WASM · zstd | compress-utils / JS/WASM | No | 4096 | 100% |
+| compress-utils / JS/WASM · zstd | compress-utils / JS/WASM | No | whole | 100% |
+| compress-utils / JS/WASM · zstd | compress-utils / JS/WASM | Yes (attempted) | 1, 3, 7, 97, 4093 | 0% |
+| compress-utils / JS/WASM · zstd | compress-utils / JS/WASM | Yes (attempted) | 1 | 0% |
+| compress-utils / JS/WASM · zstd | compress-utils / JS/WASM | Yes (attempted) | 4096 | 0% |
+| compress-utils / JS/WASM · zstd | compress-utils / JS/WASM | Yes (attempted) | whole | 0% |
+| compress-utils / JS/WASM · LZ4 | compress-utils / JS/WASM | No | 1, 3, 7, 97, 4093 | 100% |
+| compress-utils / JS/WASM · LZ4 | compress-utils / JS/WASM | No | 1 | 100% |
+| compress-utils / JS/WASM · LZ4 | compress-utils / JS/WASM | No | 4096 | 100% |
+| compress-utils / JS/WASM · LZ4 | compress-utils / JS/WASM | No | whole | 100% |
+| compress-utils / JS/WASM · LZ4 | compress-utils / JS/WASM | Yes (attempted) | 1, 3, 7, 97, 4093 | 0% |
+| compress-utils / JS/WASM · LZ4 | compress-utils / JS/WASM | Yes (attempted) | 1 | 0% |
+| compress-utils / JS/WASM · LZ4 | compress-utils / JS/WASM | Yes (attempted) | 4096 | 0% |
+| compress-utils / JS/WASM · LZ4 | compress-utils / JS/WASM | Yes (attempted) | whole | 0% |
+| zstandard / Python | zstandard / Python | No | 1, 3, 7, 97, 4093 | 100% |
+| zstandard / Python | zstandard / Python | No | 1 | 100% |
+| zstandard / Python | zstandard / Python | No | 4096 | 100% |
+| zstandard / Python | zstandard / Python | No | whole | 100% |
+| zstandard / Python | zstandard / Python | Yes | 1, 3, 7, 97, 4093 | 100% |
+| zstandard / Python | zstandard / Python | Yes | 1 | 100% |
+| zstandard / Python | zstandard / Python | Yes | 4096 | 100% |
+| zstandard / Python | zstandard / Python | Yes | whole | 100% |
+| zstandard / Python | compress-utils / Rust | No | 1, 3, 7, 97, 4093 | 100% |
+| zstandard / Python | compress-utils / Rust | No | 1 | 100% |
+| zstandard / Python | compress-utils / Rust | No | 4096 | 100% |
+| zstandard / Python | compress-utils / Rust | No | whole | 100% |
+| zstandard / Python | compress-utils / Rust | Yes | 1, 3, 7, 97, 4093 | 73.91% |
+| zstandard / Python | compress-utils / Rust | Yes | 1 | 86.96% |
+| zstandard / Python | compress-utils / Rust | Yes | 4096 | 73.91% |
+| zstandard / Python | compress-utils / Rust | Yes | whole | 73.91% |
+| zstandard / Python | compress-utils / Python | No | 1, 3, 7, 97, 4093 | 100% |
+| zstandard / Python | compress-utils / Python | No | 1 | 100% |
+| zstandard / Python | compress-utils / Python | No | 4096 | 100% |
+| zstandard / Python | compress-utils / Python | No | whole | 100% |
+| zstandard / Python | compress-utils / Python | Yes | 1, 3, 7, 97, 4093 | 73.91% |
+| zstandard / Python | compress-utils / Python | Yes | 1 | 86.96% |
+| zstandard / Python | compress-utils / Python | Yes | 4096 | 73.91% |
+| zstandard / Python | compress-utils / Python | Yes | whole | 47.83% |
+| zstandard / Python | compress-utils / JS/WASM | No | 1, 3, 7, 97, 4093 | 100% |
+| zstandard / Python | compress-utils / JS/WASM | No | 1 | 100% |
+| zstandard / Python | compress-utils / JS/WASM | No | 4096 | 100% |
+| zstandard / Python | compress-utils / JS/WASM | No | whole | 100% |
+| zstandard / Python | compress-utils / JS/WASM | Yes | 1, 3, 7, 97, 4093 | 73.91% |
+| zstandard / Python | compress-utils / JS/WASM | Yes | 1 | 86.96% |
+| zstandard / Python | compress-utils / JS/WASM | Yes | 4096 | 73.91% |
+| zstandard / Python | compress-utils / JS/WASM | Yes | whole | 47.83% |
+| zstandard / Python | fzstd / JavaScript | No | 1, 3, 7, 97, 4093 | 100% |
+| zstandard / Python | fzstd / JavaScript | No | 1 | 100% |
+| zstandard / Python | fzstd / JavaScript | No | 4096 | 100% |
+| zstandard / Python | fzstd / JavaScript | No | whole | 100% |
+| zstandard / Python | fzstd / JavaScript | Yes | 1, 3, 7, 97, 4093 | 82.61% |
+| zstandard / Python | fzstd / JavaScript | Yes | 1 | 82.61% |
+| zstandard / Python | fzstd / JavaScript | Yes | 4096 | 82.61% |
+| zstandard / Python | fzstd / JavaScript | Yes | whole | 82.61% |
 
 The **No** rows with the same package at both ends cover six one-shot and six
 incremental round trips. The mixed-receiver **No** rows cover six payloads through
@@ -84,21 +158,27 @@ specified in the sender cell.
 
 For compress-utils, **Yes (attempted)** records the required behavior being
 probed: Rust's `flush()` only flushes the sink; Python and JS expose no flush
-method. Empty writes also fail to flush pending codec data. All 132 midpoint
-cases still recover the complete input after finalization, but none passes every
-mid-stream checkpoint.
+method. Empty writes also fail to flush pending codec data. In each transport
+profile, all 132 midpoint cases still recover the complete input after
+finalization, but none passes every mid-stream checkpoint.
 
 Python `zstandard` 0.25.0 uses zstd 1.5.7 at native level 11, matching
 compress-utils level 5. With Python `zstandard` at both ends, all 44 explicit
 block-flush cases pass. See the [comparison details](results/2026-10-16/README.md#python-zstandard-comparison).
 
-With mixed receivers, all 256 cases (72 without mid-stream flush and 184 with it)
-recover the full input after finalization, but some flushed prefixes stay
-buffered. Compress-utils returns only 65,536 of 131,072 repeated bytes at a
-checkpoint. fzstd 0.1.1 waits for at least 18 initial
+In each transport profile, all 256 mixed-receiver cases (72 without mid-stream
+flush and 184 with it) recover the full input after finalization, but some
+flushed prefixes stay buffered. Compress-utils returns only 65,536 of 131,072
+repeated bytes at a checkpoint. fzstd 0.1.1 waits for at least 18 initial
 compressed bytes, so a flushed 4,096-byte repeated payload compressed to 17 bytes
 yields zero decoded bytes. Neither receiver meets the arbitrary mid-stream flush
 requirement. See the [mixed-receiver results](results/2026-10-16/INTEROP.md).
+
+The 18-byte startup wait is an **fzstd implementation limitation**. Zstandard
+uses a variable-length frame header and permits decoding a block without the
+following block. The 17-byte test prefix already contains a complete header and
+block, and Python `zstandard` decodes it immediately. See the
+[format and implementation explanation](results/2026-10-16/INTEROP.md#fzstd-receiver).
 
 The [detailed report](results/2026-10-16/README.md) contains buffering measurements,
 source references, additional diagnostic checks, and raw observations.
@@ -113,6 +193,28 @@ Node 22.22.1, npm 10.9.4, Rust 1.90.0, CMake 4.2.3, and Zig 0.14.1.
 bash tests/setup.sh
 .work/venv/bin/python tests/run.py --require-midstream-flush
 ```
+
+Choose compressed transport fragmentation with `--transport-chunk-size`:
+
+```sh
+.work/venv/bin/python tests/run.py --transport-chunk-size 1 --require-midstream-flush --output results/latest/byte
+.work/venv/bin/python tests/run.py --transport-chunk-size 4096 --require-midstream-flush --output results/latest/4k
+.work/venv/bin/python tests/run.py --transport-chunk-size whole --require-midstream-flush --output results/latest/whole
+```
+
+Omitting the option, or using `irregular`, cycles through 1, 3, 7, 97, and 4,093
+bytes. The setting applies to streaming receivers in every language, including
+the Python reference decoder; one-shot decoder calls and native diagnostic
+controls keep their existing behavior. It is recorded in the fixture manifests,
+JSONL observations, and summary (`[]` means whole batches). Standalone probes use
+the most recently generated manifest's setting.
+
+Application writes in ordinary streaming tests still cycle through 1, 7, 63,
+1,024, and 65,521 bytes. Flush tests retain their 11 initial payload sizes from
+1 to 1,048,593 bytes, followed by 37 bytes, 4,096 bytes, and an empty flush.
+Changing transport chunk size therefore tests fragmentation independently of
+message size, content, and flush boundaries; it does not reproduce PUI's larger
+initial `ready` envelope by itself.
 
 Setup downloads the pinned upstream source and build dependencies, builds its
 unmodified bindings, and compiles the probes. It installs pybind11 3.0.1 and
