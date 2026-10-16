@@ -236,6 +236,14 @@ exits 1 for unmet flush requirements, with zero unexpected failures.
 
 ### 294-byte preamble stream
 
+The small-payload case reproduces a **real traffic pattern from PUI**: a larger
+initial `ready` message followed by smaller payloads, each block-flushed through
+the same open stream. This pattern happens to pass all 101 checkpoints with
+fzstd and the three compress-utils receivers. Fixed test values reproduce the
+pattern, with byte-for-byte verification against the actual PUI codec; this is
+not a recorded network capture. The 65,537-byte payload case is an added boundary
+test and still exposes compress-utils' output-drain defect.
+
 The reproducible [Python sender](../../tests/preamble_stream_probe.py) sends the
 same bytes to compress-utils Rust, Python, and JS/WASM, and the
 [fzstd receiver](../../tests/preamble_fzstd_receiver.mjs). The initial payload
@@ -265,13 +273,13 @@ The tested behavior is:
 
 Every transport profile runs two acceptance cases per receiver:
 
-- **Preamble then 100 payloads:** input sizes `422, 98 × 100`; compressed batch
+- **PUI traffic pattern:** input sizes `422, 98 × 100`; compressed batch
   sizes `294, 57, 15, 14 × 98`. All four receivers pass **101/101 checkpoints**.
   The decoded bytes must match before the next payload is supplied. The
   preamble is 422 uncompressed bytes and 294 compressed bytes, above fzstd's
   startup threshold. Later packets shrink to 14 bytes and still decode
   immediately. The payloads are deterministic test fixtures.
-- **Preamble then 65,537 repeated bytes:** input sizes `422, 65537, 37`;
+- **Added boundary test:** input sizes `422, 65537, 37`;
   compressed batch sizes `294, 4, 4`. Flush the preamble, flush 65,537 `A`
   bytes, then flush 37 `B` bytes, checking output before each next write. The
   repeated payload compresses to 4 bytes. All three compress-utils bindings

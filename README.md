@@ -173,34 +173,9 @@ cases each with mixed receivers (including an initially empty prefix). Untested
 configurations are not listed. The receiver always decodes the algorithm
 specified in the sender cell.
 
-**What is the preamble?** It is the first payload in the stream: a fixed
-**422-byte data record** containing text fields, identifiers, numeric limits,
-and booleans. The sender writes that record to a new compressor and block-flushes
-it. This produces **294 compressed bytes, including the zstd frame header**.
-The receiver consumes those bytes and must recover the complete 422-byte record
-before the next write. Both codec contexts remain open for the later payloads.
-The preamble is compressed data in that same frame, not raw bytes prepended to
-a compressed stream. Its purpose here is to initialize the receiver before
-testing later flushes; 294 bytes exceeds fzstd's 18-byte startup wait.
-
-Each **294-byte preamble** row combines these two cases. All sizes below are
-bytes. A comma means **write, block-flush, deliver, and check decoding before the
-next write**. `98 × 100` means 100 separate 98-byte writes, each flushed; their
-contents vary slightly. Compressed sizes describe complete batches before
-transport fragmentation and exclude finalization bytes.
-
-- **Small payloads:** input `422, 98 × 100` → compressed batches
-  `294, 57, 15, 14 × 98`. The first entry is the preamble. All receivers pass
-  all 101 checkpoints.
-- **64 KiB boundary:** input `422, 65537, 37` → compressed batches `294, 4, 4`.
-  After the preamble, write 65,537 `A` bytes, then 37 `B` bytes. Compress-utils
-  Rust/Python/JS each return only 65,536 `A` bytes at the middle checkpoint;
-  fzstd returns all 65,537.
-
-These rows keep Python `zstandard` as sender. `whole` delivers each complete
-compressed batch at once; the other chunk profiles split it before decoding.
-See the
-[preamble test and controls](results/2026-10-16/INTEROP.md#294-byte-preamble-stream).
+The **294-byte preamble** rows combine a passing PUI traffic-pattern case and
+an added boundary test. See [Preamble: PUI traffic pattern](#preamble-pui-traffic-pattern)
+for the first payload, exact write sequences, and why their results differ.
 
 For compress-utils, **Yes (attempted)** records the required behavior being
 probed: Rust's `flush()` only flushes the sink; Python and JS expose no flush
@@ -229,6 +204,45 @@ block, and Python `zstandard` decodes it immediately. See the
 
 The [detailed report](results/2026-10-16/README.md) contains buffering measurements,
 source references, additional diagnostic checks, and raw observations.
+
+## Preamble: PUI traffic pattern
+
+This case reproduces a **real traffic pattern from PUI**: a larger initial
+`ready` message, followed by small payloads flushed through the same open stream.
+**This pattern happens to pass the mid-stream flush test** with fzstd and all
+three compress-utils receivers. The fixture uses fixed IDs and payloads; its
+101 packets were verified against PUI's actual sender and packaged JavaScript
+receiver. It reproduces the application's behavior rather than replaying a
+recorded network capture.
+
+The **preamble** is that first `ready` payload: a fixed **422-byte data record**
+containing text fields, identifiers, numeric limits, and booleans. Writing it
+to a new compressor and block-flushing produces **294 compressed bytes,
+including the zstd frame header**. The receiver must recover the complete
+422-byte record before the next write, then reuse the same decoder context.
+This normal startup message happens to exceed fzstd's 18-byte startup wait;
+no padding, extra empty flush, or separate frame is added to make it pass.
+
+Each **294-byte preamble** row in the table combines these two cases. All sizes
+below are bytes. A comma means **write, block-flush, deliver, and check decoding
+before the next write**. `98 × 100` means 100 separate 98-byte writes, each
+flushed; their contents vary slightly. Compressed sizes describe complete
+batches before transport fragmentation and exclude finalization bytes.
+
+- **PUI traffic pattern:** input `422, 98 × 100` → compressed batches
+  `294, 57, 15, 14 × 98`. The first entry is the preamble. All receivers pass
+  all 101 checkpoints.
+- **Added 64 KiB boundary test:** input `422, 65537, 37` → compressed batches
+  `294, 4, 4`. After the same preamble, write 65,537 `A` bytes, then 37 `B` bytes.
+  Compress-utils Rust/Python/JS each return only 65,536 `A` bytes at the middle
+  checkpoint; fzstd returns all 65,537.
+
+The passing PUI pattern therefore does not establish support for arbitrary
+mid-stream flushes. Including the added boundary test gives compress-utils
+**50% (1/2)** and fzstd **100% (2/2)** for these two cases. Both keep Python
+`zstandard` as sender. `whole` delivers each complete compressed batch at once;
+the other chunk profiles split it before decoding. See the
+[preamble test and controls](results/2026-10-16/INTEROP.md#294-byte-preamble-stream).
 
 ## Run the tests
 
