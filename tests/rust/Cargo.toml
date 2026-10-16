@@ -1,0 +1,9 @@
+[package]
+name = "stream-bearer-probe"
+version = "0.1.0"
+edition = "2021"
+publish = false
+
+[dependencies]
+compress-utils = { path = "../../.work/upstream" }
+serde_json = "1"
