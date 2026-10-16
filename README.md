@@ -44,26 +44,26 @@ to be fully decoded before the next write, continued use of the same open frame,
 and an exact final round trip. Counts show passing cases out of tested cases;
 **NG** means the configuration does not satisfy that row's requirement.
 
-| Sender (package/binding · algorithm · mid-stream flush) | Receiver (package/binding) | OK / NG |
-| --- | --- | --- |
-| compress-utils / Rust · zstd · No | compress-utils / Rust | OK (12/12) |
-| compress-utils / Rust · zstd · Yes (attempted) | compress-utils / Rust | NG (0/22) |
-| compress-utils / Rust · LZ4 · No | compress-utils / Rust | OK (12/12) |
-| compress-utils / Rust · LZ4 · Yes (attempted) | compress-utils / Rust | NG (0/22) |
-| compress-utils / Python · zstd · No | compress-utils / Python | OK (12/12) |
-| compress-utils / Python · zstd · Yes (attempted) | compress-utils / Python | NG (0/22) |
-| compress-utils / Python · LZ4 · No | compress-utils / Python | OK (12/12) |
-| compress-utils / Python · LZ4 · Yes (attempted) | compress-utils / Python | NG (0/22) |
-| compress-utils / JS/WASM · zstd · No | compress-utils / JS/WASM | OK (12/12) |
-| compress-utils / JS/WASM · zstd · Yes (attempted) | compress-utils / JS/WASM | NG (0/22) |
-| compress-utils / JS/WASM · LZ4 · No | compress-utils / JS/WASM | OK (12/12) |
-| compress-utils / JS/WASM · LZ4 · Yes (attempted) | compress-utils / JS/WASM | NG (0/22) |
-| zstandard / Python · zstd · No | zstandard / Python | OK (12/12) |
-| zstandard / Python · zstd · Yes | zstandard / Python | OK (44/44) |
-| zstandard / Python · zstd · Yes | compress-utils / Rust | NG (34/46) |
-| zstandard / Python · zstd · Yes | compress-utils / Python | NG (34/46) |
-| zstandard / Python · zstd · Yes | compress-utils / JS/WASM | NG (34/46) |
-| zstandard / Python · zstd · Yes | fzstd / JavaScript | NG (38/46) |
+| Sender (package/binding · algorithm) | Receiver (package/binding) | Mid-stream flush | OK / NG |
+| --- | --- | --- | --- |
+| compress-utils / Rust · zstd | compress-utils / Rust | No | OK (12/12) |
+| compress-utils / Rust · zstd | compress-utils / Rust | Yes (attempted) | NG (0/22) |
+| compress-utils / Rust · LZ4 | compress-utils / Rust | No | OK (12/12) |
+| compress-utils / Rust · LZ4 | compress-utils / Rust | Yes (attempted) | NG (0/22) |
+| compress-utils / Python · zstd | compress-utils / Python | No | OK (12/12) |
+| compress-utils / Python · zstd | compress-utils / Python | Yes (attempted) | NG (0/22) |
+| compress-utils / Python · LZ4 | compress-utils / Python | No | OK (12/12) |
+| compress-utils / Python · LZ4 | compress-utils / Python | Yes (attempted) | NG (0/22) |
+| compress-utils / JS/WASM · zstd | compress-utils / JS/WASM | No | OK (12/12) |
+| compress-utils / JS/WASM · zstd | compress-utils / JS/WASM | Yes (attempted) | NG (0/22) |
+| compress-utils / JS/WASM · LZ4 | compress-utils / JS/WASM | No | OK (12/12) |
+| compress-utils / JS/WASM · LZ4 | compress-utils / JS/WASM | Yes (attempted) | NG (0/22) |
+| zstandard / Python · zstd | zstandard / Python | No | OK (12/12) |
+| zstandard / Python · zstd | zstandard / Python | Yes | OK (44/44) |
+| zstandard / Python · zstd | compress-utils / Rust | Yes | NG (34/46) |
+| zstandard / Python · zstd | compress-utils / Python | Yes | NG (34/46) |
+| zstandard / Python · zstd | compress-utils / JS/WASM | Yes | NG (34/46) |
+| zstandard / Python · zstd | fzstd / JavaScript | Yes | NG (38/46) |
 
 Each **No** row covers six one-shot and six incremental round trips. The Python
 `zstandard` **Yes** rows combine its `compressobj()` and `stream_writer()` block
