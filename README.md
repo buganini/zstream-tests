@@ -14,7 +14,9 @@ for that use case.
 
 Jump to [results](#current-status), [PUI traffic pattern](#pui-traffic-pattern),
 [test design](#test-design), [Python zstandard comparison](#python-zstandard-comparison),
-[issues](#issues-and-measured-behavior), [running the tests](#run-the-tests), or
+[issues](#issues-and-measured-behavior),
+[empty decoder calls](#empty-decoder-calls-decoderdecompressb),
+[running the tests](#run-the-tests), or
 [recorded evidence](#recorded-evidence).
 
 ## Required streaming behavior
@@ -391,7 +393,18 @@ the wrappers now recover that output in the tested cases.
 All six binding/algorithm pairs also pass terminal-finalization and truncated
 frame detection. No upstream source changes were applied locally.
 
-### Repeated empty decoder calls can trigger a no-progress error
+### Empty decoder calls: `decoder.decompress(b"")`
+
+`decoder.decompress(b"")` asks the compress-utils Python decoder to return any
+pending output **without supplying new compressed bytes**. The equivalent
+low-level JavaScript call is `decoder.write(new Uint8Array())`. A sender's
+nonterminal `.flush()` is a separate operation: it makes the compressor emit
+bytes, which are then delivered to the decoder.
+
+We added empty calls to diagnose the v0.9.0 output-drain defect: could the
+receiver recover withheld bytes without waiting for more network data?
+In v0.10.1, the binding drains available output internally. Repeated empty calls
+after that output is exhausted can trigger zstd's no-progress guard.
 
 The original mixed-receiver harness attempts three empty decoder calls after
 **every application write**, including writes whose compressor emits no bytes.
@@ -415,6 +428,31 @@ and JS; the binding's internal drain already used one no-progress call.
 The [recorded recheck](results/2026-10-17-v0.10.1/empty-decode-recheck.json)
 also identifies the failing stage in an original no-flush case.
 
+This reproduction uses compress-utils v0.10.1 and Python zstandard 0.25.0:
+
+```python
+import compress_utils as cu
+import zstandard as zstd
+
+sender = zstd.ZstdCompressor(level=11).compressobj()
+wire = sender.compress(b"A" * 131072)
+wire += sender.flush(zstd.COMPRESSOBJ_FLUSH_BLOCK)
+
+decoder = cu.DecompressStream("zstd")
+assert decoder.decompress(wire) == b"A" * 131072  # All bytes already delivered.
+
+for attempt in range(1, 17):
+    try:
+        decoder.decompress(b"")  # Diagnostic polling; no new compressed data.
+    except cu.CompressError as error:
+        print(f"empty call {attempt}: {error}")
+        break
+```
+
+The recorded result is an exception on empty call **15**, after successful
+payload decoding. That number depends on the codec/binding state and is not a
+safe polling allowance.
+
 The [control](tests/no_empty_decode_control.py) replays all 18 no-flush cases
 through Python and JS with **zero extra empty decoder calls**. It verifies
 fixture hashes and changes only that call policy. Both receivers pass
@@ -426,6 +464,15 @@ For these push APIs, feed available compressed bytes and use `finish()` once at
 transport closure; repeatedly polling with empty input after output is drained
 is not needed for successful delivery. The main suite deliberately retains its
 original empty-call policy to make this behavior visible.
+
+**PUI impact:** the inspected [PUI browser decoder](https://github.com/buganini/PUI/blob/f0c1cf5bed55542b0f0f0b3f6b82ec4cc2a34255/browser-client/web/protocol.js#L156-L174)
+uses JavaScript fzstd, feeds each received batch once, and rejects empty packets.
+It does not perform this repeated empty-call polling, so this specific error
+does not affect that path. No PUI change is needed for this case. Our PUI traffic
+pattern also passes all **101 checkpoints**, plus the added 65,537-byte boundary
+case, when replayed through compress-utils v0.10.1 receivers in every transport
+profile without extra empty calls. fzstd's separate 18-byte startup wait is
+described below.
 
 ### fzstd startup waits for 18 compressed bytes
 
