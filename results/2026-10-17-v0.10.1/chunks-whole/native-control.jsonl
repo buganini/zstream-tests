@@ -1,0 +1,2 @@
+{"test":"native_encoder_empty_drain","status":"PASS","codec_version":"1.5.7","input_consumed":131072,"first_output":65536,"empty_input_output":65545}
+{"test":"native_decoder_empty_drain","status":"PASS","codec_version":"1.5.7","compressed_input":18,"first_decoded":65536,"empty_input_decoded":65536}

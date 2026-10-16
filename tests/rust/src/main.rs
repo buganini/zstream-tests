@@ -126,6 +126,7 @@ fn midpoint(algo: Algorithm, data: &[u8]) -> Result<Value> {
         encoder.write_all(part)?;
         let write_output = pipe.0.borrow().total - before;
         receive(&mut decoder, &mut decoded, false)?;
+        let decoded_before_flush = decoded.len();
         let before = pipe.0.borrow().total;
         encoder.flush()?;
         let flush_output = pipe.0.borrow().total - before;
@@ -135,6 +136,7 @@ fn midpoint(algo: Algorithm, data: &[u8]) -> Result<Value> {
         receive(&mut decoder, &mut decoded, false)?;
         check(expected.starts_with(&decoded), "midpoint data is not an exact prefix")?;
         stages.push(json!({"submitted": expected.len(), "decoded": decoded.len(),
+                           "decoded_before_flush": decoded_before_flush,
                            "write_output": write_output, "flush_output": flush_output,
                            "empty_write_output": empty_output}));
     }
@@ -174,6 +176,7 @@ fn truncated(algo: Algorithm) -> Result<Value> {
 
 fn emit(algo: Algorithm, test: &str, case: &str, result: Result<Value>) -> bool {
     let mut row = json!({"binding": "rust", "codec": algo.name(), "test": test, "case": case, "level": LEVEL,
+                         "library_version": compress_utils::version(),
                          "transport_chunks": transport_chunks()});
     match result {
         Ok(value) => row.as_object_mut().unwrap().extend(value.as_object().unwrap().clone()),

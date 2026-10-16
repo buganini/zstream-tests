@@ -1,0 +1,32 @@
+{
+  "harness_case": {
+    "binding": "python",
+    "version": "0.10.1",
+    "case": "no-flush-compressobj-repeat",
+    "stage_index": 13,
+    "submitted": 134327,
+    "compressed_bytes_received": 18,
+    "empty_decode_calls": 42,
+    "error": "decompression failed: zstd: Operation made no progress over multiple calls, due to input being empty"
+  },
+  "python_minimal": {
+    "binding": "python",
+    "version": "0.10.1",
+    "payload_bytes": 131072,
+    "wire_hex": "28b52ffd00604c000008410100fcffe44e08",
+    "compressed_bytes": 18,
+    "decoded_before_empty_calls": 131072,
+    "consecutive_empty_calls_until_error": 15,
+    "error": "decompression failed: zstd: Operation made no progress over multiple calls, due to input being empty"
+  },
+  "js_minimal": {
+    "binding": "js",
+    "version": "0.10.1",
+    "decoded_before_empty_calls": 131072,
+    "consecutive_empty_calls_until_error": 15,
+    "error": "CompressError: zstd: Operation made no progress over multiple calls, due to input being empty"
+  },
+  "upstream_revision": "e70d4e319c707636467e1cb7c29a7283f6738609",
+  "transport_chunks": [],
+  "scope": "Focused replay with whole compressed batches; independent of the main irregular run"
+}

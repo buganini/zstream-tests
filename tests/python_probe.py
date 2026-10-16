@@ -55,6 +55,7 @@ def midpoint(codec, data):
         expected += part
         wire = encoder.compress(part)
         decoded += receive(decoder, wire)
+        decoded_before_flush = len(decoded)
         extra = encoder.flush() if has_flush else b""
         extra = extra or b""
         # An empty write is a drain attempt, not a substitute flush operation.
@@ -64,6 +65,7 @@ def midpoint(codec, data):
         decoded += empty_decoded
         assert decoded == expected[:len(decoded)]
         stages.append({"submitted": len(expected), "decoded": len(decoded),
+                       "decoded_before_flush": decoded_before_flush,
                        "write_output": len(wire), "flush_output": len(extra),
                        "empty_write_output": len(empty_output), "empty_decode_output": len(empty_decoded)})
     decoded += receive(decoder, encoder.finish()) + decoder.finish()
@@ -99,6 +101,7 @@ def truncated(codec):
 
 def run(codec, name, case, operation):
     row = {"binding": "python", "codec": codec, "test": name, "case": case, "level": LEVEL,
+           "library_version": cu.version(),
            "transport_chunks": MANIFEST.get("transport_chunks", [1, 3, 7, 97, 4093])}
     try:
         row.update(operation())

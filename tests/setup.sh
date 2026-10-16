@@ -3,7 +3,8 @@
 set -euo pipefail
 repo_dir=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd)
 cd "$repo_dir"
-revision=11ea489add2435d2eb8360aad0a104a63e714fb3
+# compress-utils v0.10.1
+revision=e70d4e319c707636467e1cb7c29a7283f6738609
 for tool in git cmake ninja node npm cargo rustc zig; do
     command -v "$tool" >/dev/null || { echo "Missing required tool: $tool" >&2; exit 1; }
 done

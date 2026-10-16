@@ -39,30 +39,41 @@ establish that the wrapper exposes the required behavior.
 
 ## Current status
 
-Tested on 2026-10-16 (Asia/Taipei) against unmodified compress-utils commit
-[`11ea489`](https://github.com/dupontcyborg/compress-utils/commit/11ea489add2435d2eb8360aad0a104a63e714fb3),
-source version 0.9.0. Ordinary tests use compress-utils level 5 or equivalent
-native zstd level 11; the PUI traffic pattern tests use native level 3 and a
-4 MiB window.
+Tested on **2026-10-17 (Asia/Taipei)** against unmodified compress-utils
+**v0.10.1**, commit
+[`e70d4e3`](https://github.com/dupontcyborg/compress-utils/commit/e70d4e319c707636467e1cb7c29a7283f6738609).
+All three runtime bindings report `0.10.1`. Ordinary tests use compress-utils
+level 5, equivalent to native zstd level 11. The PUI traffic pattern uses native
+level 3 and a 4 MiB window.
 
-**All completed round trips pass. Compress-utils cannot satisfy arbitrary
-mid-stream flushes; fzstd can also delay the first decoded payload.** Python
-`zstandard` at both ends passes all required flush checkpoints. PUI's normal
-startup pattern happens to pass with every tested receiver, but the added
-65,537-byte payload still exposes compress-utils' decoder limit.
+**All required compress-utils mid-stream flush cases now pass for zstd and LZ4
+in Rust, Python, and JavaScript, across all four transport profiles.** The
+Python `zstandard` sender also passes all 46 flush cases with each compress-utils
+receiver. The previous encoder/decoder drain failures and the PUI boundary
+failure are resolved in these tests. JavaScript Web Streams also pass with
+`flushEachChunk: true`.
 
-Each row is one sender/receiver configuration. **No** checks a completed round
-trip without requesting a mid-stream flush. **Yes** requires every flushed prefix
-to be fully decoded before the next write, continued use of the same open frame,
-and an exact final round trip. The pass percentage is the share of tested cases
-meeting all requirements, followed by passing/total case counts. These are
-fixture results, not estimated success rates for arbitrary traffic.
+Two qualifications remain:
+
+- The original no-flush interoperability probes make three extra empty decoder
+  calls after every sender write. Python and JS/WASM now throw a zstd no-progress
+  error in four of those 18 cases. Replaying the identical compressed bytes with
+  **zero extra empty calls passes 18/18** in both bindings and every profile.
+  Both policies appear in the table; the original failures remain recorded.
+- The independent JavaScript npm package **fzstd@0.1.1** still delays small
+  initial flushed batches. Its ordinary flush result remains **82.61% (38/46)**.
+
+Each row is one encoder/decoder/flush/transport configuration. **No** checks an
+exact completed round trip without requesting a nonterminal flush. **Yes**
+requires complete decoding after every flush, continued use of the same open
+frame, and an exact final round trip. Percentages describe these test cases,
+not estimated success rates for arbitrary traffic. All `zstandard` rows use zstd.
 
 Transport chunk size is the maximum compressed bytes delivered per receiver
 call, independently of application writes and flushes. The last chunk may be
 shorter. The irregular pattern repeats; `whole` delivers each write/flush batch
 without harness fragmentation. Rust still limits reads to its internal 64 KiB
-compressed-input buffer. No profile combines data across flush checkpoints.
+compressed-input buffer. No profile combines bytes across flush checkpoints.
 
 | Encoder | Decoder | Mid-stream flush | Transport chunk (bytes) | Pass percentage (pass/all) |
 | --- | --- | --- | --- | --- |
@@ -70,50 +81,50 @@ compressed-input buffer. No profile combines data across flush checkpoints.
 | compress-utils / Rust · zstd | compress-utils / Rust | No | 1 | 100% (12/12) |
 | compress-utils / Rust · zstd | compress-utils / Rust | No | 4096 | 100% (12/12) |
 | compress-utils / Rust · zstd | compress-utils / Rust | No | whole | 100% (12/12) |
-| compress-utils / Rust · zstd | compress-utils / Rust | Yes (attempted) | 1, 3, 7, 97, 4093 | 0% (0/22) |
-| compress-utils / Rust · zstd | compress-utils / Rust | Yes (attempted) | 1 | 0% (0/22) |
-| compress-utils / Rust · zstd | compress-utils / Rust | Yes (attempted) | 4096 | 0% (0/22) |
-| compress-utils / Rust · zstd | compress-utils / Rust | Yes (attempted) | whole | 0% (0/22) |
+| compress-utils / Rust · zstd | compress-utils / Rust | Yes | 1, 3, 7, 97, 4093 | 100% (22/22) |
+| compress-utils / Rust · zstd | compress-utils / Rust | Yes | 1 | 100% (22/22) |
+| compress-utils / Rust · zstd | compress-utils / Rust | Yes | 4096 | 100% (22/22) |
+| compress-utils / Rust · zstd | compress-utils / Rust | Yes | whole | 100% (22/22) |
 | compress-utils / Rust · LZ4 | compress-utils / Rust | No | 1, 3, 7, 97, 4093 | 100% (12/12) |
 | compress-utils / Rust · LZ4 | compress-utils / Rust | No | 1 | 100% (12/12) |
 | compress-utils / Rust · LZ4 | compress-utils / Rust | No | 4096 | 100% (12/12) |
 | compress-utils / Rust · LZ4 | compress-utils / Rust | No | whole | 100% (12/12) |
-| compress-utils / Rust · LZ4 | compress-utils / Rust | Yes (attempted) | 1, 3, 7, 97, 4093 | 0% (0/22) |
-| compress-utils / Rust · LZ4 | compress-utils / Rust | Yes (attempted) | 1 | 0% (0/22) |
-| compress-utils / Rust · LZ4 | compress-utils / Rust | Yes (attempted) | 4096 | 0% (0/22) |
-| compress-utils / Rust · LZ4 | compress-utils / Rust | Yes (attempted) | whole | 0% (0/22) |
+| compress-utils / Rust · LZ4 | compress-utils / Rust | Yes | 1, 3, 7, 97, 4093 | 100% (22/22) |
+| compress-utils / Rust · LZ4 | compress-utils / Rust | Yes | 1 | 100% (22/22) |
+| compress-utils / Rust · LZ4 | compress-utils / Rust | Yes | 4096 | 100% (22/22) |
+| compress-utils / Rust · LZ4 | compress-utils / Rust | Yes | whole | 100% (22/22) |
 | compress-utils / Python · zstd | compress-utils / Python | No | 1, 3, 7, 97, 4093 | 100% (12/12) |
 | compress-utils / Python · zstd | compress-utils / Python | No | 1 | 100% (12/12) |
 | compress-utils / Python · zstd | compress-utils / Python | No | 4096 | 100% (12/12) |
 | compress-utils / Python · zstd | compress-utils / Python | No | whole | 100% (12/12) |
-| compress-utils / Python · zstd | compress-utils / Python | Yes (attempted) | 1, 3, 7, 97, 4093 | 0% (0/22) |
-| compress-utils / Python · zstd | compress-utils / Python | Yes (attempted) | 1 | 0% (0/22) |
-| compress-utils / Python · zstd | compress-utils / Python | Yes (attempted) | 4096 | 0% (0/22) |
-| compress-utils / Python · zstd | compress-utils / Python | Yes (attempted) | whole | 0% (0/22) |
+| compress-utils / Python · zstd | compress-utils / Python | Yes | 1, 3, 7, 97, 4093 | 100% (22/22) |
+| compress-utils / Python · zstd | compress-utils / Python | Yes | 1 | 100% (22/22) |
+| compress-utils / Python · zstd | compress-utils / Python | Yes | 4096 | 100% (22/22) |
+| compress-utils / Python · zstd | compress-utils / Python | Yes | whole | 100% (22/22) |
 | compress-utils / Python · LZ4 | compress-utils / Python | No | 1, 3, 7, 97, 4093 | 100% (12/12) |
 | compress-utils / Python · LZ4 | compress-utils / Python | No | 1 | 100% (12/12) |
 | compress-utils / Python · LZ4 | compress-utils / Python | No | 4096 | 100% (12/12) |
 | compress-utils / Python · LZ4 | compress-utils / Python | No | whole | 100% (12/12) |
-| compress-utils / Python · LZ4 | compress-utils / Python | Yes (attempted) | 1, 3, 7, 97, 4093 | 0% (0/22) |
-| compress-utils / Python · LZ4 | compress-utils / Python | Yes (attempted) | 1 | 0% (0/22) |
-| compress-utils / Python · LZ4 | compress-utils / Python | Yes (attempted) | 4096 | 0% (0/22) |
-| compress-utils / Python · LZ4 | compress-utils / Python | Yes (attempted) | whole | 0% (0/22) |
+| compress-utils / Python · LZ4 | compress-utils / Python | Yes | 1, 3, 7, 97, 4093 | 100% (22/22) |
+| compress-utils / Python · LZ4 | compress-utils / Python | Yes | 1 | 100% (22/22) |
+| compress-utils / Python · LZ4 | compress-utils / Python | Yes | 4096 | 100% (22/22) |
+| compress-utils / Python · LZ4 | compress-utils / Python | Yes | whole | 100% (22/22) |
 | compress-utils / JS/WASM · zstd | compress-utils / JS/WASM | No | 1, 3, 7, 97, 4093 | 100% (12/12) |
 | compress-utils / JS/WASM · zstd | compress-utils / JS/WASM | No | 1 | 100% (12/12) |
 | compress-utils / JS/WASM · zstd | compress-utils / JS/WASM | No | 4096 | 100% (12/12) |
 | compress-utils / JS/WASM · zstd | compress-utils / JS/WASM | No | whole | 100% (12/12) |
-| compress-utils / JS/WASM · zstd | compress-utils / JS/WASM | Yes (attempted) | 1, 3, 7, 97, 4093 | 0% (0/22) |
-| compress-utils / JS/WASM · zstd | compress-utils / JS/WASM | Yes (attempted) | 1 | 0% (0/22) |
-| compress-utils / JS/WASM · zstd | compress-utils / JS/WASM | Yes (attempted) | 4096 | 0% (0/22) |
-| compress-utils / JS/WASM · zstd | compress-utils / JS/WASM | Yes (attempted) | whole | 0% (0/22) |
+| compress-utils / JS/WASM · zstd | compress-utils / JS/WASM | Yes | 1, 3, 7, 97, 4093 | 100% (22/22) |
+| compress-utils / JS/WASM · zstd | compress-utils / JS/WASM | Yes | 1 | 100% (22/22) |
+| compress-utils / JS/WASM · zstd | compress-utils / JS/WASM | Yes | 4096 | 100% (22/22) |
+| compress-utils / JS/WASM · zstd | compress-utils / JS/WASM | Yes | whole | 100% (22/22) |
 | compress-utils / JS/WASM · LZ4 | compress-utils / JS/WASM | No | 1, 3, 7, 97, 4093 | 100% (12/12) |
 | compress-utils / JS/WASM · LZ4 | compress-utils / JS/WASM | No | 1 | 100% (12/12) |
 | compress-utils / JS/WASM · LZ4 | compress-utils / JS/WASM | No | 4096 | 100% (12/12) |
 | compress-utils / JS/WASM · LZ4 | compress-utils / JS/WASM | No | whole | 100% (12/12) |
-| compress-utils / JS/WASM · LZ4 | compress-utils / JS/WASM | Yes (attempted) | 1, 3, 7, 97, 4093 | 0% (0/22) |
-| compress-utils / JS/WASM · LZ4 | compress-utils / JS/WASM | Yes (attempted) | 1 | 0% (0/22) |
-| compress-utils / JS/WASM · LZ4 | compress-utils / JS/WASM | Yes (attempted) | 4096 | 0% (0/22) |
-| compress-utils / JS/WASM · LZ4 | compress-utils / JS/WASM | Yes (attempted) | whole | 0% (0/22) |
+| compress-utils / JS/WASM · LZ4 | compress-utils / JS/WASM | Yes | 1, 3, 7, 97, 4093 | 100% (22/22) |
+| compress-utils / JS/WASM · LZ4 | compress-utils / JS/WASM | Yes | 1 | 100% (22/22) |
+| compress-utils / JS/WASM · LZ4 | compress-utils / JS/WASM | Yes | 4096 | 100% (22/22) |
+| compress-utils / JS/WASM · LZ4 | compress-utils / JS/WASM | Yes | whole | 100% (22/22) |
 | zstandard / Python | zstandard / Python | No | 1, 3, 7, 97, 4093 | 100% (12/12) |
 | zstandard / Python | zstandard / Python | No | 1 | 100% (12/12) |
 | zstandard / Python | zstandard / Python | No | 4096 | 100% (12/12) |
@@ -126,26 +137,34 @@ compressed-input buffer. No profile combines data across flush checkpoints.
 | zstandard / Python | compress-utils / Rust | No | 1 | 100% (18/18) |
 | zstandard / Python | compress-utils / Rust | No | 4096 | 100% (18/18) |
 | zstandard / Python | compress-utils / Rust | No | whole | 100% (18/18) |
-| zstandard / Python | compress-utils / Rust | Yes | 1, 3, 7, 97, 4093 | 73.91% (34/46) |
-| zstandard / Python | compress-utils / Rust | Yes | 1 | 86.96% (40/46) |
-| zstandard / Python | compress-utils / Rust | Yes | 4096 | 73.91% (34/46) |
-| zstandard / Python | compress-utils / Rust | Yes | whole | 73.91% (34/46) |
-| zstandard / Python | compress-utils / Python | No | 1, 3, 7, 97, 4093 | 100% (18/18) |
-| zstandard / Python | compress-utils / Python | No | 1 | 100% (18/18) |
-| zstandard / Python | compress-utils / Python | No | 4096 | 100% (18/18) |
-| zstandard / Python | compress-utils / Python | No | whole | 100% (18/18) |
-| zstandard / Python | compress-utils / Python | Yes | 1, 3, 7, 97, 4093 | 73.91% (34/46) |
-| zstandard / Python | compress-utils / Python | Yes | 1 | 86.96% (40/46) |
-| zstandard / Python | compress-utils / Python | Yes | 4096 | 73.91% (34/46) |
-| zstandard / Python | compress-utils / Python | Yes | whole | 47.83% (22/46) |
-| zstandard / Python | compress-utils / JS/WASM | No | 1, 3, 7, 97, 4093 | 100% (18/18) |
-| zstandard / Python | compress-utils / JS/WASM | No | 1 | 100% (18/18) |
-| zstandard / Python | compress-utils / JS/WASM | No | 4096 | 100% (18/18) |
-| zstandard / Python | compress-utils / JS/WASM | No | whole | 100% (18/18) |
-| zstandard / Python | compress-utils / JS/WASM | Yes | 1, 3, 7, 97, 4093 | 73.91% (34/46) |
-| zstandard / Python | compress-utils / JS/WASM | Yes | 1 | 86.96% (40/46) |
-| zstandard / Python | compress-utils / JS/WASM | Yes | 4096 | 73.91% (34/46) |
-| zstandard / Python | compress-utils / JS/WASM | Yes | whole | 47.83% (22/46) |
+| zstandard / Python | compress-utils / Rust | Yes | 1, 3, 7, 97, 4093 | 100% (46/46) |
+| zstandard / Python | compress-utils / Rust | Yes | 1 | 100% (46/46) |
+| zstandard / Python | compress-utils / Rust | Yes | 4096 | 100% (46/46) |
+| zstandard / Python | compress-utils / Rust | Yes | whole | 100% (46/46) |
+| zstandard / Python | compress-utils / Python | No | 1, 3, 7, 97, 4093 | 77.78% (14/18) |
+| zstandard / Python | compress-utils / Python | No | 1 | 77.78% (14/18) |
+| zstandard / Python | compress-utils / Python | No | 4096 | 77.78% (14/18) |
+| zstandard / Python | compress-utils / Python | No | whole | 77.78% (14/18) |
+| zstandard / Python | compress-utils / Python | Yes | 1, 3, 7, 97, 4093 | 100% (46/46) |
+| zstandard / Python | compress-utils / Python | Yes | 1 | 100% (46/46) |
+| zstandard / Python | compress-utils / Python | Yes | 4096 | 100% (46/46) |
+| zstandard / Python | compress-utils / Python | Yes | whole | 100% (46/46) |
+| zstandard / Python | compress-utils / Python (0 extra empty calls) | No | 1, 3, 7, 97, 4093 | 100% (18/18) |
+| zstandard / Python | compress-utils / Python (0 extra empty calls) | No | 1 | 100% (18/18) |
+| zstandard / Python | compress-utils / Python (0 extra empty calls) | No | 4096 | 100% (18/18) |
+| zstandard / Python | compress-utils / Python (0 extra empty calls) | No | whole | 100% (18/18) |
+| zstandard / Python | compress-utils / JS/WASM | No | 1, 3, 7, 97, 4093 | 77.78% (14/18) |
+| zstandard / Python | compress-utils / JS/WASM | No | 1 | 77.78% (14/18) |
+| zstandard / Python | compress-utils / JS/WASM | No | 4096 | 77.78% (14/18) |
+| zstandard / Python | compress-utils / JS/WASM | No | whole | 77.78% (14/18) |
+| zstandard / Python | compress-utils / JS/WASM | Yes | 1, 3, 7, 97, 4093 | 100% (46/46) |
+| zstandard / Python | compress-utils / JS/WASM | Yes | 1 | 100% (46/46) |
+| zstandard / Python | compress-utils / JS/WASM | Yes | 4096 | 100% (46/46) |
+| zstandard / Python | compress-utils / JS/WASM | Yes | whole | 100% (46/46) |
+| zstandard / Python | compress-utils / JS/WASM (0 extra empty calls) | No | 1, 3, 7, 97, 4093 | 100% (18/18) |
+| zstandard / Python | compress-utils / JS/WASM (0 extra empty calls) | No | 1 | 100% (18/18) |
+| zstandard / Python | compress-utils / JS/WASM (0 extra empty calls) | No | 4096 | 100% (18/18) |
+| zstandard / Python | compress-utils / JS/WASM (0 extra empty calls) | No | whole | 100% (18/18) |
 | zstandard / Python | fzstd / JavaScript | No | 1, 3, 7, 97, 4093 | 100% (18/18) |
 | zstandard / Python | fzstd / JavaScript | No | 1 | 100% (18/18) |
 | zstandard / Python | fzstd / JavaScript | No | 4096 | 100% (18/18) |
@@ -154,53 +173,50 @@ compressed-input buffer. No profile combines data across flush checkpoints.
 | zstandard / Python | fzstd / JavaScript | Yes | 1 | 82.61% (38/46) |
 | zstandard / Python | fzstd / JavaScript | Yes | 4096 | 82.61% (38/46) |
 | zstandard / Python | fzstd / JavaScript | Yes | whole | 82.61% (38/46) |
-| zstandard / Python (PUI traffic pattern) | compress-utils / Rust | Yes | 1, 3, 7, 97, 4093 | 50% (1/2) |
-| zstandard / Python (PUI traffic pattern) | compress-utils / Rust | Yes | 1 | 50% (1/2) |
-| zstandard / Python (PUI traffic pattern) | compress-utils / Rust | Yes | 4096 | 50% (1/2) |
-| zstandard / Python (PUI traffic pattern) | compress-utils / Rust | Yes | whole | 50% (1/2) |
-| zstandard / Python (PUI traffic pattern) | compress-utils / Python | Yes | 1, 3, 7, 97, 4093 | 50% (1/2) |
-| zstandard / Python (PUI traffic pattern) | compress-utils / Python | Yes | 1 | 50% (1/2) |
-| zstandard / Python (PUI traffic pattern) | compress-utils / Python | Yes | 4096 | 50% (1/2) |
-| zstandard / Python (PUI traffic pattern) | compress-utils / Python | Yes | whole | 50% (1/2) |
-| zstandard / Python (PUI traffic pattern) | compress-utils / JS/WASM | Yes | 1, 3, 7, 97, 4093 | 50% (1/2) |
-| zstandard / Python (PUI traffic pattern) | compress-utils / JS/WASM | Yes | 1 | 50% (1/2) |
-| zstandard / Python (PUI traffic pattern) | compress-utils / JS/WASM | Yes | 4096 | 50% (1/2) |
-| zstandard / Python (PUI traffic pattern) | compress-utils / JS/WASM | Yes | whole | 50% (1/2) |
+| zstandard / Python (PUI traffic pattern) | compress-utils / Rust | Yes | 1, 3, 7, 97, 4093 | 100% (2/2) |
+| zstandard / Python (PUI traffic pattern) | compress-utils / Rust | Yes | 1 | 100% (2/2) |
+| zstandard / Python (PUI traffic pattern) | compress-utils / Rust | Yes | 4096 | 100% (2/2) |
+| zstandard / Python (PUI traffic pattern) | compress-utils / Rust | Yes | whole | 100% (2/2) |
+| zstandard / Python (PUI traffic pattern) | compress-utils / Python | Yes | 1, 3, 7, 97, 4093 | 100% (2/2) |
+| zstandard / Python (PUI traffic pattern) | compress-utils / Python | Yes | 1 | 100% (2/2) |
+| zstandard / Python (PUI traffic pattern) | compress-utils / Python | Yes | 4096 | 100% (2/2) |
+| zstandard / Python (PUI traffic pattern) | compress-utils / Python | Yes | whole | 100% (2/2) |
+| zstandard / Python (PUI traffic pattern) | compress-utils / JS/WASM | Yes | 1, 3, 7, 97, 4093 | 100% (2/2) |
+| zstandard / Python (PUI traffic pattern) | compress-utils / JS/WASM | Yes | 1 | 100% (2/2) |
+| zstandard / Python (PUI traffic pattern) | compress-utils / JS/WASM | Yes | 4096 | 100% (2/2) |
+| zstandard / Python (PUI traffic pattern) | compress-utils / JS/WASM | Yes | whole | 100% (2/2) |
 | zstandard / Python (PUI traffic pattern) | fzstd / JavaScript | Yes | 1, 3, 7, 97, 4093 | 100% (2/2) |
 | zstandard / Python (PUI traffic pattern) | fzstd / JavaScript | Yes | 1 | 100% (2/2) |
 | zstandard / Python (PUI traffic pattern) | fzstd / JavaScript | Yes | 4096 | 100% (2/2) |
 | zstandard / Python (PUI traffic pattern) | fzstd / JavaScript | Yes | whole | 100% (2/2) |
 
-The **No** rows with the same package at both ends cover six one-shot and six
-incremental round trips. Mixed-receiver **No** rows cover six payloads through
-three sender APIs: one-shot compression, `compressobj()`, and `stream_writer()`
-(18 cases per receiver). Incremental senders finalize only after all input has
-been written; partial decoded prefixes before finalization are allowed.
+Same-package **No** rows cover six one-shot and six incremental cases (12).
+Mixed-receiver **No** rows cover six payloads through one-shot compression,
+`compressobj()`, and `stream_writer()` (18). Partial output before finalization
+is allowed when no block flush is requested.
 
-Ordinary Python `zstandard` **Yes** rows combine its two block-flush APIs: 22
-cases each with its own receiver, or 23 each with mixed receivers, including an
-initially empty prefix. The receiver decodes the algorithm in the sender cell.
-Untested configurations are not listed.
+Python `zstandard` **Yes** rows combine its two block-flush APIs: 22 cases each
+with its own receiver (44), or 23 each with mixed receivers (46), including an
+initially empty prefix. Compress-utils **Yes** rows contain 22 cases per
+binding/algorithm and now call actual nonterminal flush APIs.
 
-For compress-utils, **Yes (attempted)** records the required behavior being
-probed: Rust's `flush()` only flushes the sink; Python and JS expose no flush
-method. Empty writes also fail to flush codec data. In each profile, all 132
-midpoint cases recover the complete input after finalization, but none passes
-every mid-stream checkpoint.
+Ordinary Python/JS/fzstd mixed-receiver rows retain three extra empty decoder
+calls per sender stage, as in the v0.9.0 baseline. Rows marked **0 extra empty
+calls** replay all 18 no-flush cases using the same data, finalization bytes,
+and fragmentation, while feeding only nonempty compressed chunks. Rust waits
+for data using `WouldBlock` and does not make these speculative calls.
 
-The **PUI traffic pattern** rows combine its passing 101-checkpoint sequence
-with an added boundary test. Their 50% and 100% figures cover those two cases;
-the separate startup controls are excluded. The next section explains both.
-
-In every profile, all 256 ordinary mixed-receiver streams round-trip exactly:
-72 without mid-stream flush and 184 with it. Every one of the 16 traffic-pattern
-and startup-control streams also round-trips exactly. A failed checkpoint means
-output was withheld while the stream was open, not that the final bytes changed.
+The **PUI traffic pattern** rows combine the 101-message application sequence
+and an added 64 KiB boundary test. Both now pass, giving **100% (2/2)** for every
+receiver. Two separate startup controls are excluded from these percentages.
+Web Streams, finalization, truncation, and native diagnostic checks are also
+reported separately from the table.
 
 ## PUI traffic pattern
 
-This case reproduces a **real traffic pattern from PUI**: a larger initial
-`ready` message, followed by small payloads flushed through the same open stream.
+This case reproduces a **real traffic pattern from
+[PUI](https://github.com/buganini/PUI)**: a larger initial `ready` message,
+followed by small payloads flushed through the same open stream.
 **This pattern happens to pass the mid-stream flush test** with fzstd and all
 three compress-utils receivers. The fixture uses fixed IDs and payloads; its
 101 packets were verified against PUI's actual sender and packaged JavaScript
@@ -229,14 +245,15 @@ transport fragmentation and exclude finalization bytes.
   `294, 57, 15, 14 × 98`. All receivers pass all 101 checkpoints.
 - **Added 64 KiB boundary test:** input `422, 65537, 37` → compressed batches
   `294, 4, 4`. After the same initial payload, write 65,537 `A` bytes, then 37 `B`
-  bytes. Compress-utils Rust/Python/JS each return only 65,536 `A` bytes at the
-  middle checkpoint: 65,958 total bytes decoded versus 65,959 submitted. The next
-  payload releases the missing byte. fzstd passes all three checkpoints.
+  bytes. All receivers now recover all 65,537 `A` bytes at the middle
+  checkpoint: 65,959 total bytes decoded, matching the submitted input.
+  Compress-utils v0.9.0 withheld one byte here; v0.10.1 passes all three
+  checkpoints, as does fzstd. This is an added stress case, not observed PUI traffic.
 
-This gives compress-utils **50% (1/2)** and fzstd **100% (2/2)** in every transport
-profile. Passing PUI's pattern does not establish support for arbitrary
-mid-stream flushes. All final round trips pass, and Python's reference receiver
-recovers every prefix while reporting `eof=false`.
+This gives every receiver **100% (2/2)** in every transport profile. Passing
+PUI's pattern does not establish support for arbitrary mid-stream flushes.
+All final round trips pass, and Python's reference receiver recovers every
+prefix while reporting `eof=false`.
 
 Two additional controls use the same level-3 encoder:
 
@@ -285,9 +302,10 @@ cycling through 0–255, and an empty-input checkpoint. Every decoded result mus
 be an exact prefix of submitted input, even when incomplete. All input must be
 recovered exactly after finalization.
 
-Compress-utils probes attempt Rust's sink `flush()` and three empty compressor
-writes; Python/JS also attempt three empty decoder writes. No `finish()` is
-allowed at a midpoint. Rust's source returns `WouldBlock` when temporarily empty
+Compress-utils probes call Rust's `Write::flush()`, Python's `.flush()`, or
+JavaScript's low-level `.flush()`. All now perform a codec flush. Three empty
+compressor writes and Python/JS empty decoder writes remain diagnostic checks.
+No `finish()` is allowed at a midpoint. Rust's source returns `WouldBlock` when temporarily empty
 and EOF only after encoder finalization. Its sink accepts at most 257 bytes per
 write, and decoded reads use 113-byte buffers. Python/JS use incremental push APIs.
 
@@ -315,145 +333,104 @@ complete a nonterminal flush; deliver all its bytes; require A immediately;
 write B and repeat; finalize only after every checkpoint. Draining small buffers,
 continued use of the same frame, and complete final integrity are all required.
 
+The two JavaScript Web Streams probes use `compressionStream({level: 5,
+flushEachChunk: true})`. They write a small text payload, 65,537 repeated bytes,
+and 131,072 pseudorandom bytes, and require full decoding before the next write
+or close. The standard writer still has no `.flush()` method; automatic flushing
+is requested through the stream option. This replaces the old close-only API
+inspection probe, which could not test the new option.
+
 ## Python zstandard comparison
 
-Python `zstandard==0.25.0` uses its `cext` backend with zstd 1.5.7 at native level
-11, matching compress-utils level 5. These tests call that package directly,
-with Python `zstandard` as both sender and receiver; they do not use
-compress-utils or Python's standard-library `compression.zstd`.
+Python `zstandard==0.25.0` uses the `cext` backend with zstd 1.5.7 at native level
+11, matching compress-utils level 5. The reference runs that package directly
+at both ends, independently of compress-utils and the standard-library
+`compression.zstd` module.
 
-All 62 checks pass: six one-shot and six incremental round trips, 22 midpoint
-cases through each of `compressobj()` and `stream_writer()`, four pre-flush
-boundary checks, one terminal-flush check, and one truncation check. The 44
-midpoint cases verify all four flush checkpoints, continued writes, and final
-EOF. The decoder and writer buffer settings are described in [test design](#test-design).
-
-With default irregular transport, the first-checkpoint comparisons are:
-
-- **4,096 random bytes:** compress-utils decodes zero before and after its
-  attempted flush. Both reference sender APIs go from zero to all 4,096 bytes
-  after block flush, which emits 4,105 compressed bytes.
-- **131,072 random bytes:** compress-utils decodes 65,527 before and after the
-  attempt. Reference `compressobj()` already exposes all 131,072. The writer
-  exposes 104 decoded bytes before block flush and all 131,072 afterward.
-- **131,072 repeated bytes:** compress-utils exposes 65,536 before and after the
-  attempt; both reference APIs expose all 131,072 before and after block flush.
-
-Ordinary writes can still buffer data in `zstandard`. For the random 131,072-byte
-writer case, the write emits 113 compressed bytes, and `FLUSH_BLOCK` emits the
-remaining 130,968 without ending the frame. The requirement applies after a
-completed flush, not after every ordinary write. Partial sink writes and real
-socket backpressure are not exercised by this reference writer.
+All 62 checks pass in every profile: six one-shot and six incremental round
+trips, 22 midpoint cases through each of `compressobj()` and `stream_writer()`,
+four pre-flush boundary checks, one terminal-flush check, and one truncation
+check. The writer uses `write_size=113`; the reference decoder uses
+`decompressobj(write_size=65536)`.
 
 Use `compressobj.flush(COMPRESSOBJ_FLUSH_BLOCK)` or
 `stream_writer.flush(FLUSH_BLOCK)` for nonterminal flushing. Default
-`compressobj.flush()` finishes the frame and later compression raises an error;
-closing a writer also finalizes it. See the
-[versioned compression API](https://python-zstandard.readthedocs.io/en/0.25.0/compressor.html).
-
-A truncated frame does not necessarily cause `decompressobj()` to raise.
-Its `flush()` returns no bytes and does not validate completion. The application
-must check `eof` at transport closure; our missing-last-byte test passes because
-that check rejects `eof=false`. This differs from compress-utils' decoder
-`finish()` exception. See the
-[decoder EOF documentation](https://python-zstandard.readthedocs.io/en/0.25.0/decompressor.html#zstandard.ZstdDecompressionObj.eof).
+`compressobj.flush()` finishes the frame. The decoder's `.flush()` does not
+validate completion: check `eof` at transport closure. See the versioned
+[compression API](https://python-zstandard.readthedocs.io/en/0.25.0/compressor.html)
+and [decoder EOF documentation](https://python-zstandard.readthedocs.io/en/0.25.0/decompressor.html#zstandard.ZstdDecompressionObj.eof).
 
 ## Issues and measured behavior
 
-Unless a profile is named, the byte measurements below use default irregular
-transport (`1, 3, 7, 97, 4093`). No upstream fixes were applied.
+### Nonterminal flush and zstd drain fixes verified in v0.10.1
 
-### No nonterminal codec flush exposed by compress-utils
+The [C flush API](https://github.com/dupontcyborg/compress-utils/blob/e70d4e319c707636467e1cb7c29a7283f6738609/include/compress_utils.h#L324-L342)
+now emits everything needed to decode submitted input without ending the frame.
+It exposes retry/completion status for small output buffers. Rust flushes the
+codec and then the sink; Python and JavaScript expose `.flush()`. `finish()`
+remains terminal and separate from flushing.
 
-**Impact:** small requests on a long-lived stream can remain unreadable at the
-receiver indefinitely if the sender waits for a response before writing more.
-The 4,096-byte probes decode zero bytes for both codecs, even after the next
-37-byte and 4,096-byte writes and the empty-input checks.
+In all three bindings with irregular transport:
 
-The [C API](https://github.com/dupontcyborg/compress-utils/blob/11ea489add2435d2eb8360aad0a104a63e714fb3/include/compress_utils.h#L269-L326)
-provides create/write/finish/destroy, with no nonterminal flush operation.
+- **131,072 pseudorandom bytes:** the write now emits 131,081 compressed bytes
+  and decodes all 131,072 before flush. Previously it emitted 65,536 compressed
+  bytes and decoded only 65,527. No extra input is needed to drain the block.
+- **131,072 repeated bytes:** the 18-byte compressed block now decodes all
+  131,072 before flush. Previously only 65,536 were available.
+- **4,096 repeated LZ4 bytes:** the write emits the seven-byte frame header and
+  no decoded data; the nonterminal flush emits 30 more bytes and makes all
+  4,096 input bytes available while keeping the frame open.
 
-- [Rust `Write::flush`](https://github.com/dupontcyborg/compress-utils/blob/11ea489add2435d2eb8360aad0a104a63e714fb3/bindings/rust/src/stream.rs#L185-L195)
-  calls only `sink.flush()`. All four calls per midpoint probe reached the sink
-  successfully but emitted zero additional compressed bytes.
-- [Python `CompressStream`](https://github.com/dupontcyborg/compress-utils/blob/11ea489add2435d2eb8360aad0a104a63e714fb3/bindings/python/compress_utils_py.cpp#L128-L138)
-  exposes `compress()` and `finish()`, with no `flush()` method.
-- [JavaScript `CompressStream`](https://github.com/dupontcyborg/compress-utils/blob/11ea489add2435d2eb8360aad0a104a63e714fb3/bindings/wasm/src/core/dispatch.ts#L284-L316)
-  exposes `write()` and `finish()`, with no `flush()` method. The Web Streams
-  writer likewise has no flush method; closing it produces a correct complete
-  stream. The internal
-  [`TransformStream` flush callback](https://github.com/dupontcyborg/compress-utils/blob/11ea489add2435d2eb8360aad0a104a63e714fb3/bindings/wasm/src/core/dispatch.ts#L527-L545)
-  calls `finish()` during closure, so it does not expose midway flushing.
+The updated zstd [encoder pump](https://github.com/dupontcyborg/compress-utils/blob/e70d4e319c707636467e1cb7c29a7283f6738609/src/algorithms/zstd/zstd.c#L300-L310)
+and [decoder pump](https://github.com/dupontcyborg/compress-utils/blob/e70d4e319c707636467e1cb7c29a7283f6738609/src/algorithms/zstd/zstd.c#L475-L492)
+continue draining when output fills even after input is consumed. The native
+controls still demonstrate that the same underlying zstd codec can release
+65,545 pending encoded bytes or 65,536 pending decoded bytes with empty input;
+the wrappers now recover that output in the tested cases.
 
-**Fix direction:** add a C-level flush operation and surface it in each binding.
-The vendored codecs provide
-[`ZSTD_e_flush`](https://github.com/dupontcyborg/compress-utils/blob/11ea489add2435d2eb8360aad0a104a63e714fb3/third_party/zstd/lib/zstd.h#L750-L757)
-and [`LZ4F_flush`](https://github.com/dupontcyborg/compress-utils/blob/11ea489add2435d2eb8360aad0a104a63e714fb3/third_party/lz4/lib/lz4frame.h#L337-L350).
-The wrapper needs to retain pending output, expose flush completion, and accept
-later input without starting a new frame. This direction is based on source
-inspection; no upstream fix was applied in this test run.
+All six binding/algorithm pairs also pass terminal-finalization and truncated
+frame detection. No upstream source changes were applied locally.
 
-### zstd encoder output remains buffered
+### Repeated empty decoder calls can trigger a no-progress error
 
-**Reproduction:** `midpoint / random-131072` in each binding's JSONL file.
-A single 131,072-byte write returns only 65,536 compressed bytes. The decoder can
-recover 65,527 bytes. Three empty writes return nothing; Rust `flush()` also
-returns successfully without releasing output. Writing the next 37 bytes releases
-65,545 more compressed bytes, allowing the original 131,072 bytes to be decoded.
+The original mixed-receiver harness attempts three empty decoder calls after
+**every application write**, including writes whose compressor emits no bytes.
+In v0.10.1, four no-flush cases per Python/JS receiver now fail with:
 
-The [zstd encoder loop](https://github.com/dupontcyborg/compress-utils/blob/11ea489add2435d2eb8360aad0a104a63e714fb3/src/algorithms/zstd/zstd.c#L290-L328)
-requests another drain only when the output buffer is full **and input remains**.
-It can return `CU_OK` when all input was consumed but zstd still has output
-buffered. An empty wrapper write then skips the codec call entirely. The binding
-scratch buffers are 64 KiB, making this boundary visible in all three languages.
+```text
+zstd: Operation made no progress over multiple calls, due to input being empty
+```
 
-The [native control](results/2026-10-16/native-control.jsonl) uses the same vendored zstd 1.5.7,
-native level 11, and fixture. After consuming all 131,072 input bytes and filling
-a 65,536-byte output buffer, a direct empty-input `ZSTD_e_continue` call releases
-the remaining **65,545 bytes without a flush or new input**. This establishes an
-output-drain defect separate from the missing flush API.
+The cases are `no-flush-{compressobj,stream_writer}-{repeat,random}`, each using
+1,048,593 input bytes. All four transport profiles behave identically. These are
+exceptions before finalization, not measured final-data mismatches. The other
+14 no-flush cases and all 46 block-flush cases pass in each receiver.
 
-### zstd decoder output remains buffered
+The wrapper now invokes zstd for empty-input drains. After output is already
+exhausted, repeated calls reach the vendored codec's
+[16-call no-progress guard](https://github.com/dupontcyborg/compress-utils/blob/e70d4e319c707636467e1cb7c29a7283f6738609/third_party/zstd/lib/decompress/zstd_decompress.c#L2356-L2365).
+A focused check decodes all 131,072 repeated bytes from an 18-byte flushed batch,
+then gets the exception on the **15th extra public empty call** in both Python
+and JS; the binding's internal drain already used one no-progress call.
+The [recorded recheck](results/2026-10-17-v0.10.1/empty-decode-recheck.json)
+also identifies the failing stage in an original no-flush case.
 
-**Reproduction:** `midpoint / repeat-131072` in each binding's JSONL file.
-The compressor emits 18 bytes for 131,072 repeated `A` bytes. The binding's
-decoder initially returns only **65,536 decoded bytes**. Python/JS empty decoder
-writes return nothing more; Rust's reader waits for further compressed input.
-The later small writes emit no compressed data, so the missing decoded bytes
-remain unavailable until finalization supplies more compressed input.
+The [control](tests/no_empty_decode_control.py) replays all 18 no-flush cases
+through Python and JS with **zero extra empty decoder calls**. It verifies
+fixture hashes and changes only that call policy. Both receivers pass
+**18/18 in every profile**, including all four cases above. These controls are
+additional rows in the same result table and are recorded separately from the
+552 main observations. They do not replace or erase the original failures.
 
-The [zstd decoder loop](https://github.com/dupontcyborg/compress-utils/blob/11ea489add2435d2eb8360aad0a104a63e714fb3/src/algorithms/zstd/zstd.c#L430-L495)
-has the corresponding input-consumed condition and skips the codec on an empty
-write. The [native control](results/2026-10-16/native-control.jsonl) consumes the same 18-byte
-block, produces 65,536 bytes on its first call, then produces the remaining
-**65,536 bytes with an empty-input decoder call**. The compressed block already
-contains the data; withholding it is not a requirement of the zstd format.
-
-The [mixed-receiver tests](#mixed-receiver-checkpoints-and-transport-effects) reproduce this with
-a Python `zstandard` sender that explicitly block-flushes. All three
-compress-utils receivers still return only 65,536 of the 131,072 repeated bytes.
-Replacing the sender therefore does not resolve this decoder defect.
-
-**Fix direction for both drain defects:** track and drain codec output even when no
-caller input remains, report the correct retry status, and ensure empty-input
-drain calls actually invoke the codec. Add regression cases with compressible
-and incompressible blocks crossing the binding output-buffer boundary.
-
-### Finish cannot substitute for midway flush
-
-Python's docstring says to "flush with .finish()", but it terminates the stream.
-Python and JS both reject a write after `finish()`; the captured errors are in
-the raw results. Rust's `finish(self)` consumes the compressor and returns its
-sink. JS Web Streams closure likewise finishes the frame.
-
-All six binding/codec pairs also reject a stream missing its last byte when
-finalized. The tests intentionally keep that truncation check separate from
-midway decoding, where an unfinished frame is normal.
+For these push APIs, feed available compressed bytes and use `finish()` once at
+transport closure; repeatedly polling with empty input after output is drained
+is not needed for successful delivery. The main suite deliberately retains its
+original empty-call policy to make this behavior visible.
 
 ### fzstd startup waits for 18 compressed bytes
 
-fzstd fails four initial-payload cases per sender API, in every transport
-profile (eight cases total):
+The JavaScript npm package **fzstd@0.1.1** fails four initial-payload cases per
+sender API, in every transport profile (eight cases total):
 
 - Initially empty, followed by 37 `B` bytes: 16 compressed bytes received,
   zero of 37 input bytes decoded.
@@ -503,243 +480,165 @@ same-stream contract. A possible fix is incremental header parsing based on the
 actual available header/block lengths; no fzstd changes or workarounds were
 implemented or validated here.
 
-### Mixed-receiver checkpoints and transport effects
-
-All four receivers pass all 18 ordinary no-flush cases in each profile. Each
-explicit-flush case requires all four checkpoints plus the final exact round
-trip to pass. Both Python sender APIs produce the same pass/limitation pattern.
-There are no corrupt prefixes, final mismatches, or unexpected errors.
-
-With irregular transport, all three compress-utils receivers fail the first
-checkpoint for six repeated-prefix sizes per sender API. Below, each tuple is
-`submitted input → compressed stage bytes → decoded bytes`:
-
-- `65537 → 18 → 65536`
-- `131071 → 18 → 65536` and `131072 → 18 → 65536`
-- `131073 → 22 → 131072`
-- `262145 → 26 → 262144`
-- `1048593 → 50 → 1048576`
-
-Empty decoder writes release nothing. In this profile, the next 37-byte payload
-and its four compressed bytes release the pending output, and later checkpoints
-pass. All random-prefix cases and the initially empty case pass, as do the
-repeated prefixes up to 65,536 bytes. The reference decoder recovers every
-prefix from the same bytes, confirming that a working sender alone does not
-resolve the decoder output-drain defect.
-
-Changing chunk size affects compress-utils' codec calls:
-
-- **1 byte:** only repeated prefixes of 65,537, 131,071, and 131,072 bytes fail
-  in each binding, giving 40/46 passing cases.
-- **4,096 bytes:** 34/46 cases pass, as in the irregular profile, although
-  intermediate recovery can differ. For 131,071/131,072 repeated bytes, output
-  still lags after the following 37-byte payload.
-- **Whole batches:** Python/JS additionally withhold output for random prefixes
-  of 65,537, 131,071, 131,072, 131,073, 262,145, and 1,048,593 bytes, giving 22/46
-  passing cases. Rust remains at 34/46 because its internal 64 KiB input buffer
-  subdivides larger batches before passing them to the codec.
-
-fzstd fails the same eight startup cases in every profile. Splitting a 17-byte
-initial batch does not increase the total bytes available. PUI's larger initial
-payload changes the compressed data, independently of transport fragmentation.
-
-### Initial buffering without a codec flush
-
-The following pseudorandom-input observations agree across compress-utils
-Rust/Python/JS with irregular transport. Empty writes and Rust's sink `flush()`
-add no compressed output:
-
-- Input sizes 1, 4,096, and 65,535: zstd emits nothing; LZ4 emits only its
-  seven-byte frame header. Neither decodes application data.
-- Input sizes 65,536, 65,537, and 131,071: zstd still emits nothing. LZ4 emits
-  65,547 bytes and decodes 65,536, leaving partial blocks pending.
-- Input 131,072: zstd emits 65,536 bytes and decodes 65,527; LZ4 emits 131,087
-  and decodes all 131,072.
-- Input 131,073: zstd emits 131,081 and decodes 131,072; LZ4 emits 131,087 and
-  decodes 131,072.
-- Input 1,048,593: zstd emits 1,048,606 and LZ4 emits 1,048,647; both decode
-  1,048,576 bytes.
-
-Automatic full-block output does not satisfy the arbitrary flush requirement.
-These measurements are specific to this revision, level, and fixtures; aligned
-application writes are not a general solution.
-
 ## Run the tests
 
-Prerequisites: Git, a C/C++ compiler, CMake, Ninja, Python with `venv`/pip, Node.js
-with npm, Rust/Cargo, and Zig on `PATH`. The recorded run used Python 3.14.4,
-Node 22.22.1, npm 10.9.4, Rust 1.90.0, CMake 4.2.3, and Zig 0.14.1.
+Prerequisites: Git, a C/C++ compiler, CMake, Ninja, Python with venv/pip, Node/npm,
+Rust/Cargo, and Zig on `PATH`. Setup pins v0.10.1 to commit `e70d4e3` and builds
+its unmodified bindings. If `.work/upstream` or `.work/build` contains an older
+checkout/build, move those directories aside first; setup refuses a mismatched
+upstream revision. The previous checkout and results need not be deleted.
 
 ```sh
 bash tests/setup.sh
-.work/venv/bin/python tests/run.py --require-midstream-flush
+.work/venv/bin/python tests/run.py --require-midstream-flush --output results/latest/irregular
+.work/venv/bin/python tests/no_empty_decode_control.py results/latest/irregular
 ```
 
-Choose compressed transport fragmentation with `--transport-chunk-size`:
+The first test command currently **exits 1** because it records eight no-progress
+exceptions and nine fzstd limitations. Omitting `--require-midstream-flush`
+still exits 1 for those eight exceptions. The separate no-empty-call control
+exits **0**. Run it after the main suite, even when that suite exits 1.
+
+Repeat for other transport profiles (each main run currently exits 1):
 
 ```sh
 .work/venv/bin/python tests/run.py --transport-chunk-size 1 --require-midstream-flush --output results/latest/byte
+.work/venv/bin/python tests/no_empty_decode_control.py results/latest/byte
 .work/venv/bin/python tests/run.py --transport-chunk-size 4096 --require-midstream-flush --output results/latest/4k
+.work/venv/bin/python tests/no_empty_decode_control.py results/latest/4k
 .work/venv/bin/python tests/run.py --transport-chunk-size whole --require-midstream-flush --output results/latest/whole
+.work/venv/bin/python tests/no_empty_decode_control.py results/latest/whole
 ```
 
-Omitting the option, or using `irregular`, cycles through 1, 3, 7, 97, and 4,093
-bytes. The setting applies to streaming receivers in every language, including
-the Python reference decoder; one-shot decoder calls and native diagnostic
-controls keep their existing behavior. It is recorded in the fixture manifests,
-JSONL observations, and summary (`[]` means whole batches). Standalone probes use
-the most recently generated manifest's setting.
+Omitting `--transport-chunk-size`, or using `irregular`, cycles through
+1, 3, 7, 97, and 4,093 bytes. The setting controls compressed delivery, not
+application message sizes or flush boundaries. `whole` is represented by `[]`
+in JSON. One-shot decoder calls and native diagnostic controls are unchanged.
 
-Application writes in ordinary streaming tests still cycle through 1, 7, 63,
-1,024, and 65,521 bytes. Flush tests retain their 11 initial payload sizes from
-1 to 1,048,593 bytes, followed by 37 bytes, 4,096 bytes, and an empty flush.
-Changing transport chunk size therefore tests fragmentation independently of
-message size, content, and flush boundaries. The traffic-pattern probe adds
-the initial 294 compressed bytes using its level-3 compression settings.
+Setup installs pybind11 3.0.1, Python zstandard 0.25.0, and msgpack 1.2.3 into
+`.work/venv`, and npm fzstd 0.1.1 into `tests/node_modules`. Generated builds,
+dependencies, and shared fixtures stay in ignored directories. The runner
+checks the upstream commit, tracked-source cleanliness, and runtime version of
+each compress-utils binding before accepting its results. Run profiles
+sequentially because they share `.work/fixtures` and `.work/interop`.
 
-Setup downloads the pinned upstream source and build dependencies, builds its
-unmodified bindings, and compiles the probes. It installs pybind11 3.0.1,
-zstandard 0.25.0, and msgpack 1.2.3 into a local virtual environment, and fzstd
-0.1.1 into `tests/node_modules/`. Generated dependencies, builds, and fixtures
-stay in ignored directories: `.work/`, `node_modules/`, and Rust's `target/`.
-
-The strict command currently **exits 1**, because the compress-utils and fzstd
-tests include unmet flush checkpoints; Python `zstandard` at both ends passes.
-Raw JSONL observations and a summary are written to `results/latest/`.
-Omit `--require-midstream-flush` to check completed round trips while recording
-known flush limitations without failing the command. A round-trip mismatch,
-missing observations, or a probe execution error still fails that mode.
-
-`tests/run.py --output <directory>` selects another result directory. The shared
-fixtures are generated deterministically; their SHA-256 hashes are recorded in
-the result summary. The native zstd control isolates the two drain defects and
-is counted separately from the binding tests.
-
-Once the runner has generated `.work/fixtures`, run just the comparison with:
+After generating fixtures, individual probes can be run with:
 
 ```sh
 .work/venv/bin/python tests/python_zstandard_probe.py .work/fixtures
-```
-
-This comparison exits 0 only when all 62 checks pass. Use
-`compressobj.flush(zstandard.COMPRESSOBJ_FLUSH_BLOCK)` or
-`stream_writer.flush(zstandard.FLUSH_BLOCK)` for midway flushing. The default
-`compressobj.flush()` finishes the frame. At transport closure, verify the
-incremental decoder's `eof` flag; its `flush()` method does not validate completion.
-
-Run the PUI traffic pattern cases and startup controls for a receiver with:
-
-```sh
-.work/venv/bin/python tests/preamble_stream_probe.py .work/fixtures
-.work/venv/bin/python tests/preamble_stream_probe.py .work/fixtures --receiver compress_utils_rust
-.work/venv/bin/python tests/preamble_stream_probe.py .work/fixtures --receiver compress_utils_python
-.work/venv/bin/python tests/preamble_stream_probe.py .work/fixtures --receiver compress_utils_js
-```
-
-The default receiver is `fzstd`. All four receivers are part of the full runner;
-no external application checkout is needed. Each emits two `preamble_stream`
-observations and two `startup_control` observations. The PUI traffic pattern rows
-count only `preamble_stream`. The raw 17-byte startup control records the fzstd
-limitation even after three additional empty block flushes; compress-utils passes
-that control. Individual probes return 0 when integrity checks and final round
-trips pass, recording incomplete checkpoints as `LIMITATION`.
-
-Run only the ordinary Python-sender mixed-receiver cases (18 no-flush and
-46 explicit-flush cases per receiver) after fixture generation:
-
-```sh
 PYTHONPATH=.work/upstream/bindings/python .work/venv/bin/python tests/interop_python.py .work/interop
 node tests/interop_js.mjs .work/interop .work/upstream compress_utils_js
 node tests/interop_js.mjs .work/interop .work/upstream fzstd
 cargo run --locked --release --manifest-path tests/rust/Cargo.toml -- .work/interop --interop
+.work/venv/bin/python tests/preamble_stream_probe.py .work/fixtures --receiver compress_utils_rust
+.work/venv/bin/python tests/preamble_stream_probe.py .work/fixtures --receiver compress_utils_python
+.work/venv/bin/python tests/preamble_stream_probe.py .work/fixtures --receiver compress_utils_js
+.work/venv/bin/python tests/preamble_stream_probe.py .work/fixtures
 ```
+
+The traffic-pattern probe defaults to fzstd and needs no external application
+checkout. Each receiver emits two `preamble_stream` observations counted in the
+table, plus two `startup_control` observations. Internal file/test identifiers
+retain their original names. Individual probes exit 1 for `FAIL`, while
+incomplete checkpoints without integrity errors are recorded as `LIMITATION`.
 
 ## Version and environment
 
-- Upstream: [11ea489add2435d2eb8360aad0a104a63e714fb3](https://github.com/dupontcyborg/compress-utils/commit/11ea489add2435d2eb8360aad0a104a63e714fb3).
-  All three bindings were built from this same, unmodified source revision.
-  The source reports version 0.9.0; these are source-build results, not claims
-  about independently downloaded PyPI/npm/crates.io packages.
-- Vendored codecs: zstd 1.5.7 and LZ4 1.10.0; compress-utils level 5 throughout.
-  The zstd mapping selects native level 11.
+- Upstream: **v0.10.1**, commit `e70d4e319c707636467e1cb7c29a7283f6738609`.
+  Rust, Python, and WASM were built from the same unmodified source and each
+  reported runtime version `0.10.1`. These are source-build results, not a test
+  of independently downloaded PyPI/npm/crates.io artifacts.
+- Vendored codecs: zstd 1.5.7 and LZ4 1.10.0; compress-utils level 5. The Python
+  zstandard comparison uses native level 11; PUI cases use native level 3.
 - Linux x86_64, Ubuntu 26.04.1; GCC 16.0.1 development snapshot, CMake 4.2.3,
   Ninja 1.13.2, Python 3.14.4, pybind11 3.0.1, Node 22.22.1, npm 10.9.4,
   Rust/Cargo 1.90.0, Zig 0.14.1.
-- Python is the native pybind11 binding. JavaScript is the upstream WASM binding
-  running in Node. Rust uses the upstream native C build through its safe API.
-  Native Python and WASM builds enable zstd/LZ4; Cargo builds its default codecs.
+- Python uses native pybind11; JavaScript uses WASM under Node. Rust builds the
+  C core through its safe API. Native Python/WASM enable zstd and LZ4 families;
+  Cargo builds its default codecs.
+- Comparison packages: Python **zstandard==0.25.0** (`cext`, zstd 1.5.7) and
+  JavaScript npm **fzstd@0.1.1**. Python msgpack 1.2.3 generates the PUI fixture.
 
-Exact fixture hashes, commands, toolchain details, and exit codes are in
-[summary.json](results/2026-10-16/summary.json). The dependency versions are locked
-in the upstream npm lockfile and this repository's [Cargo.lock](tests/rust/Cargo.lock).
-The comparison uses Python `zstandard` 0.25.0 with the `cext` backend, and
-msgpack 1.2.3 generates the traffic-pattern fixture. Mixed receivers also use npm
-`fzstd` 0.1.1, pinned in the test [package lockfile](tests/package-lock.json).
+Dependency versions are locked in upstream's npm lockfile,
+[tests/package-lock.json](tests/package-lock.json), and
+[tests/rust/Cargo.lock](tests/rust/Cargo.lock). Fixture hashes, commands, and
+runtime details are recorded with each run.
 
 ## Recorded evidence
 
-All explanations and results are in this README. The files below contain raw
-observations, reproducibility metadata, and diagnostic output.
+All four v0.10.1 profiles have **535 PASS / 8 FAIL / 9 LIMITATION** among 552
+main observations. The native controls add two passes, and the no-empty-call
+controls add 36 passes per profile; both are counted separately.
 
-Each run has 552 binding/comparison observations, with two native controls
-counted separately. In strict mode all four runs exit 1 for unmet flush
-requirements; every individual probe exits 0 and there are zero unexpected
-failures. Runner totals include diagnostics that are excluded from the main
-result table:
+- [Irregular chunks](results/2026-10-17-v0.10.1/summary.json) and
+  [no-empty-call controls](results/2026-10-17-v0.10.1/no-empty-decode-summary.json).
+- [1-byte chunks](results/2026-10-17-v0.10.1/chunks-1/summary.json) and
+  [no-empty-call controls](results/2026-10-17-v0.10.1/chunks-1/no-empty-decode-summary.json).
+- [4,096-byte chunks](results/2026-10-17-v0.10.1/chunks-4096/summary.json) and
+  [no-empty-call controls](results/2026-10-17-v0.10.1/chunks-4096/no-empty-decode-summary.json).
+- [Whole batches](results/2026-10-17-v0.10.1/chunks-whole/summary.json) and
+  [no-empty-call controls](results/2026-10-17-v0.10.1/chunks-whole/no-empty-decode-summary.json).
 
-- [Irregular chunks](results/2026-10-16/summary.json): 370 PASS / 182 LIMITATION.
-- [1-byte chunks](results/2026-10-16/chunks-1/summary.json): 388 PASS / 164 LIMITATION.
-- [4,096-byte chunks](results/2026-10-16/chunks-4096/summary.json): 370 PASS / 182 LIMITATION.
-- [Whole batches](results/2026-10-16/chunks-whole/summary.json): 346 PASS / 206 LIMITATION.
+Per main run, the self-tests contribute 72 Rust passes, 72 Python passes, and
+74 JS passes (including two Web Streams probes). Python zstandard adds 62
+passes. Mixed receivers add 240 passes, eight exceptions, and eight fzstd
+limitations. Traffic-pattern/startup cases add 15 passes and one fzstd startup
+limitation. All completed final round trips are exact; the eight exception
+cases abort before finalization.
 
-For the irregular run, compress-utils self-round-trip probes contribute 84
-passes and 134 limitations: 72 ordinary round trips plus six finalization and
-six truncation checks pass; 132 midpoint and two JS Web Streams checks record
-limitations. The reference package adds 62 passes, ordinary mixed receivers add
-212 passes / 44 limitations, and traffic-pattern/startup cases add 12 passes /
-four limitations. The two native drain controls both pass.
+Raw default-profile observations (other profiles use the same filenames):
 
-Raw default-profile observations are linked here; the other profile folders
-use the same filenames:
+- Compress-utils self-tests: [Rust](results/2026-10-17-v0.10.1/rust.jsonl),
+  [Python](results/2026-10-17-v0.10.1/python.jsonl), [JS/WASM](results/2026-10-17-v0.10.1/js.jsonl).
+- Reference: [Python zstandard](results/2026-10-17-v0.10.1/python_zstandard.jsonl).
+- Mixed receivers: [Rust](results/2026-10-17-v0.10.1/interop_rust.jsonl),
+  [Python](results/2026-10-17-v0.10.1/interop_python.jsonl),
+  [JS/WASM](results/2026-10-17-v0.10.1/interop_js.jsonl), [fzstd](results/2026-10-17-v0.10.1/interop_fzstd.jsonl).
+- No-empty-call controls: [Python](results/2026-10-17-v0.10.1/interop_python_no_empty.jsonl),
+  [JS/WASM](results/2026-10-17-v0.10.1/interop_js_no_empty.jsonl).
+- PUI and startup cases: [Rust](results/2026-10-17-v0.10.1/preamble_rust.jsonl),
+  [Python](results/2026-10-17-v0.10.1/preamble_python.jsonl),
+  [JS/WASM](results/2026-10-17-v0.10.1/preamble_js.jsonl), [fzstd](results/2026-10-17-v0.10.1/preamble_fzstd.jsonl).
+- [Sender-stage metadata](results/2026-10-17-v0.10.1/interop-fixtures.json),
+  [native controls](results/2026-10-17-v0.10.1/native-control.jsonl), and
+  [empty-call recheck](results/2026-10-17-v0.10.1/empty-decode-recheck.json).
 
-- Compress-utils self-tests: [Rust](results/2026-10-16/rust.jsonl),
-  [Python](results/2026-10-16/python.jsonl), [JS/WASM](results/2026-10-16/js.jsonl).
-- Reference comparison: [Python zstandard](results/2026-10-16/python_zstandard.jsonl).
-- Ordinary mixed receivers: [Rust](results/2026-10-16/interop_rust.jsonl),
-  [Python](results/2026-10-16/interop_python.jsonl),
-  [JS/WASM](results/2026-10-16/interop_js.jsonl), [fzstd](results/2026-10-16/interop_fzstd.jsonl).
-- Traffic-pattern cases and startup controls: [Rust](results/2026-10-16/preamble_rust.jsonl),
-  [Python](results/2026-10-16/preamble_python.jsonl),
-  [JS/WASM](results/2026-10-16/preamble_js.jsonl), [fzstd](results/2026-10-16/preamble_fzstd.jsonl).
-- [Shared sender-stage metadata](results/2026-10-16/interop-fixtures.json),
-  [native controls](results/2026-10-16/native-control.jsonl), and
-  [PUI source compatibility check](results/2026-10-16/pui-source-check.json).
+### Previous v0.9.0 baseline
 
-Implementation: [setup](tests/setup.sh), [runner](tests/run.py),
-[self-test Python](tests/python_probe.py), [self-test JS](tests/js_probe.mjs),
-[self-test Rust](tests/rust/src/main.rs), [reference comparison](tests/python_zstandard_probe.py),
-[mixed sender](tests/interop_fixtures.py), [Python receiver](tests/interop_python.py),
-[JS/fzstd receiver](tests/interop_js.mjs), [Rust receiver](tests/rust/src/interop.rs),
-[traffic-pattern sender](tests/preamble_stream_probe.py),
-[traffic-pattern fzstd receiver](tests/preamble_fzstd_receiver.mjs), and
-[native control source](tests/native_zstd_control.c).
+The 2026-10-16 results at commit `11ea489` remain unchanged. Main observation
+totals were [370 PASS / 182 LIMITATION for irregular](results/2026-10-16/summary.json),
+[388 / 164 for 1-byte chunks](results/2026-10-16/chunks-1/summary.json),
+[370 / 182 for 4,096-byte chunks](results/2026-10-16/chunks-4096/summary.json), and
+[346 / 206 for whole batches](results/2026-10-16/chunks-whole/summary.json), with
+zero `FAIL` observations. All completed round trips passed.
+
+At that revision, each compress-utils binding/algorithm passed **0/22** required
+flush cases. Python zstandard → compress-utils passed **34/46** flush cases
+with irregular/4,096-byte chunks, **40/46** with 1-byte chunks, and **22/46**
+with whole batches in Python/JS (**34/46** in Rust). PUI rows were **1/2** for
+compress-utils. All these flush subsets now pass in v0.10.1. The fzstd results
+are unchanged. The new empty-call exceptions are documented above rather than
+silently removing those calls to make the original suite pass.
+
+The 550 non-Web-Streams main observations preserve the previous test scenarios.
+The two old Web Streams close-only probes have been replaced by actual
+`flushEachChunk` checkpoint tests; 36 no-empty-call controls are additional.
+Original detailed documentation is available in the
+[baseline README](https://github.com/buganini/zstream-tests/blob/be7e4a5525ed9309b9b55a8e6a3a8512d9ad2d14/README.md).
 
 ## Scope and remaining work
 
-These results cover one frame per case, no dictionaries, zstd native levels 11
-and 3 as specified, deterministic in-memory transport, and Node for JS/WASM.
-All bindings use the same unmodified upstream source. No upstream fixes or
-issue submissions are included.
+These runs cover one frame per case, no dictionaries, the stated compression
+levels and fixtures, deterministic in-memory transport, and Node for JS/WASM.
+Passing these cases is evidence for the tested flush contract, not a guarantee
+for all inputs, workloads, or package builds. No upstream fixes or issue
+submissions were made by this test run.
 
 Still to test: other compression levels, larger windows, broader malformed-input
-cases, additional sender/receiver combinations, LZ4 interoperability, concatenated
-frames, external tools, and real network backpressure. Truncation detection and
-terminal finalization are covered separately from mid-stream behavior. Browser
-runtimes, performance, latency, and memory bounds are not established here.
+cases, additional encoder/decoder combinations, LZ4 interoperability,
+concatenated frames, real network backpressure, and browser runtimes.
+Performance, latency, and memory bounds are not established here.
 
 When extending the suite, record the upstream commit, environment, algorithm,
-compression settings, input and stage hashes, exact command, and expected versus
-actual behavior. Use the upstream
-[development guide](https://github.com/dupontcyborg/compress-utils/blob/main/DEVELOPMENT.md)
-for its build/test setup. Keep generated builds and large datasets out of version
-control; record source, checksum, and preparation steps for external fixtures.
+compression settings, input/stage hashes, exact commands, and expected versus
+actual behavior. Keep generated builds and large fixtures out of version control.

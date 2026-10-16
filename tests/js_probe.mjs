@@ -55,6 +55,7 @@ async function midpoint(api, data) {
       expected = cat(expected, part);
       const wire = encoder.write(part);
       decoded = cat(decoded, receive(decoder, wire));
+      const decodedBeforeFlush = decoded.length;
       const extra = hasFlush ? (encoder.flush() ?? new Uint8Array()) : new Uint8Array();
       const emptyOutput = cat(...Array.from({length: 3}, () => encoder.write(new Uint8Array())));
       decoded = cat(decoded, receive(decoder, cat(extra, emptyOutput)));
@@ -62,6 +63,7 @@ async function midpoint(api, data) {
       decoded = cat(decoded, emptyDecoded);
       assert.deepEqual(decoded, expected.subarray(0, decoded.length));
       stages.push({submitted: expected.length, decoded: decoded.length, write_output: wire.length,
+                   decoded_before_flush: decodedBeforeFlush,
                    flush_output: extra.length, empty_write_output: emptyOutput.length,
                    empty_decode_output: emptyDecoded.length});
     }
@@ -95,26 +97,47 @@ async function truncated(api) {
   } finally { encoder.destroy(); decoder.destroy(); }
 }
 async function webStream(api) {
-  const data = Buffer.from('live stream payload');
-  const stream = api.compressionStream({ level });
-  const wire = [];
-  const consume = (async () => { for await (const part of stream.readable) wire.push(part); })();
+  const stream = api.compressionStream({ level, flushEachChunk: true });
+  const reader = stream.readable.getReader();
   const writer = stream.writable.getWriter();
-  await writer.write(data);
-  // No timing assertion: API inspection plus close/finalization round trip.
-  const hasFlush = typeof writer.flush === 'function';
-  await writer.close();
-  await consume;
   const decoder = await api.createDecompressStream();
   try {
-    assert.deepEqual(cat(receive(decoder, cat(...wire)), decoder.finish()), data);
-    return {status: hasFlush ? 'PASS' : 'LIMITATION', writer_flush_api: hasFlush,
-            close_roundtrip: true};
+    let expected = Buffer.alloc(0), decoded = Buffer.alloc(0);
+    const stages = [];
+    const payloads = [Buffer.from('live stream payload'), Buffer.alloc(65537, 65),
+                      fs.readFileSync(path.join(root, 'random.bin')).subarray(0, 131072)];
+    for (const data of payloads) {
+      // Read concurrently to satisfy TransformStream backpressure. A flushed
+      // batch must arrive before the next write or close, not after a timeout.
+      const next = reader.read();
+      await writer.write(data);
+      const {value, done} = await next;
+      assert.equal(done, false, 'stream closed at a midpoint');
+      expected = cat(expected, data);
+      decoded = cat(decoded, receive(decoder, value));
+      assert.deepEqual(decoded, expected);
+      stages.push({submitted: expected.length, decoded: decoded.length, wire_bytes: value.length});
+    }
+    const consumeTail = (async () => {
+      while (true) {
+        const {value, done} = await reader.read();
+        if (done) break;
+        decoded = cat(decoded, receive(decoder, value));
+      }
+    })();
+    await writer.close();
+    await consumeTail;
+    decoded = cat(decoded, decoder.finish());
+    assert.deepEqual(decoded, expected);
+    return {status: 'PASS', flush_each_chunk: true, writer_flush_api: typeof writer.flush === 'function',
+            stages, final_roundtrip: true};
   } finally { decoder.destroy(); }
 }
 let failed = false;
+const libraryVersions = {};
 async function run(codec, test, name, operation) {
   const row = {binding: 'js', codec, test, case: name, level,
+               library_version: libraryVersions[codec],
                transport_chunks: manifest.transport_chunks ?? [1, 3, 7, 97, 4093]};
   try { Object.assign(row, await operation()); }
   catch (error) { Object.assign(row, {status: 'FAIL', error: String(error)}); failed = true; }
@@ -122,6 +145,7 @@ async function run(codec, test, name, operation) {
 }
 for (const codec of ['zstd', 'lz4']) {
   const api = await import(pathToFileURL(path.join(upstream, 'bindings/wasm/dist/algorithms', codec, 'index.js')));
+  libraryVersions[codec] = await api.version();
   for (const testCase of manifest.roundtrip) {
     const data = fs.readFileSync(path.join(root, testCase.file));
     for (const streaming of [false, true]) {
@@ -137,6 +161,6 @@ for (const codec of ['zstd', 'lz4']) {
   }
   await run(codec, 'finish_is_terminal', 'A-then-B', () => finishIsTerminal(api));
   await run(codec, 'truncated', 'missing-last-byte', () => truncated(api));
-  await run(codec, 'web_stream_close', 'small-text', () => webStream(api));
+  await run(codec, 'web_stream_flush_each_chunk', 'text-repeat65537-random131072', () => webStream(api));
 }
 process.exitCode = failed ? 1 : 0;

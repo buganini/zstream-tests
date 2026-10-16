@@ -10,7 +10,8 @@ import subprocess
 import sys
 
 ROOT = Path(__file__).resolve().parents[1]
-REVISION = "11ea489add2435d2eb8360aad0a104a63e714fb3"
+REVISION = "e70d4e319c707636467e1cb7c29a7283f6738609"  # v0.10.1
+VERSION = "0.10.1"
 DEFAULT_TRANSPORT_CHUNKS = [1, 3, 7, 97, 4093]
 
 
@@ -116,7 +117,7 @@ def main():
         binding_rows = [json.loads(line) for line in stdout.splitlines() if line.strip()]
         expected_rows = 2 * (2 * len(manifest["roundtrip"]) + 2 * len(manifest["midpoint_sizes"]) + 2)
         if binding == "js":
-            expected_rows += 2  # Web Streams close/API probe.
+            expected_rows += 2  # Web Streams flushEachChunk probe.
         elif binding == "python_zstandard":
             # One codec: round trips, both flush APIs, four boundary controls,
             # and terminal/truncated checks.
@@ -127,6 +128,10 @@ def main():
             expected_rows = 4  # Message sequence, 64 KiB boundary, two startup controls.
         if len(binding_rows) != expected_rows:
             exits[binding] = code or 1
+        if binding in ("python", "js", "rust") and any(
+                r.get("library_version") != VERSION for r in binding_rows):
+            exits[binding] = code or 1
+            print(f"{binding}: runtime library version does not match {VERSION}", file=sys.stderr)
         rows.extend(binding_rows)
         print(binding, dict(collections.Counter(r["status"] for r in binding_rows)), f"exit={exits[binding]}", flush=True)
     control = subprocess.run([str(ROOT / ".work/native_zstd_control"), str(fixture_dir / "random.bin")],
@@ -135,13 +140,15 @@ def main():
     (args.output / "native-control.stderr").write_text(control.stderr)
     exits["native_control"] = control.returncode
     bad = any(exits.values()) or any(r["status"] == "FAIL" for r in rows)
-    midstream_tests = ("midpoint", "midpoint_writer", "sender_flush", "preamble_stream")
+    midstream_tests = ("midpoint", "midpoint_writer", "sender_flush", "preamble_stream",
+                       "web_stream_flush_each_chunk")
     midstream_ok = not any(r["test"] in midstream_tests and r["status"] != "PASS" for r in rows)
     by_binding = {binding: [r for r in rows if r["binding"] == binding] for binding in commands}
     reference = by_binding["python_zstandard"][0] if by_binding["python_zstandard"] else {}
     if args.require_midstream_flush:
         bad |= any(r["status"] == "LIMITATION" for r in rows)
-    summary = {"upstream_revision": revision, "upstream_tracked_clean": not dirty,
+    summary = {"upstream_revision": revision, "upstream_version": VERSION,
+               "upstream_tracked_clean": not dirty,
                "platform": platform.platform(), "machine": platform.machine(),
                "python": sys.version, "node": output(["node", "--version"]),
                "rustc": output(["rustc", "--version"]), "cargo": output(["cargo", "--version"]),

@@ -1,0 +1,22 @@
+{
+  "upstream_revision": "e70d4e319c707636467e1cb7c29a7283f6738609",
+  "transport_chunks": [
+    1
+  ],
+  "empty_decode_calls": 0,
+  "counts_by_binding": {
+    "interop_python_no_empty": {
+      "PASS": 18
+    },
+    "interop_js_no_empty": {
+      "PASS": 18
+    }
+  },
+  "exit_codes": {
+    "interop_python_no_empty": 0,
+    "interop_js_no_empty": 0
+  },
+  "runner_exit_code": 0,
+  "fixture_hashes_verified": true,
+  "scope": "18 ordinary no-flush cases per receiver; recorded separately from main suite"
+}
