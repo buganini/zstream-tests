@@ -174,11 +174,11 @@ configurations are not listed. The receiver always decodes the algorithm
 specified in the sender cell.
 
 Each **294-byte preamble** row covers two connection cases: the preamble followed
-by 100 MessagePack messages, and the preamble followed by 65,537 repeated bytes
+by 100 payloads, and the preamble followed by 65,537 repeated bytes
 and a 37-byte follow-up. Here, **294 bytes is the compressed preamble size**,
 including the frame header; it decodes to 422 bytes of application data. Each
 payload is block-flushed through the same compressor and must decode before the
-next payload arrives. All receivers pass the 101-checkpoint message sequence,
+next payload arrives. All receivers pass the 101-checkpoint payload sequence,
 including packets down to 14 compressed bytes. Compress-utils Rust/Python/JS
 each withhold one byte at the 65,537-byte boundary; fzstd passes both cases.
 The preamble is ordinary data, not padding or an extra flush. `whole` delivers
