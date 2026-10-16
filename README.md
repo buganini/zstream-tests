@@ -43,12 +43,20 @@ Tested on 2026-10-16 against upstream commit
 | Rust | Pass | Pass | Fails: `flush()` only flushes the sink |
 | Python | Pass | Pass | Unavailable: no flush method |
 | JavaScript / Node WASM | Pass | Pass | Unavailable: no flush method |
+| Python `zstandard` comparison | Pass | Not applicable | Pass: explicit block flush |
 
 All 72 primary round trips passed, and all 132 midpoint probes recovered the
-complete input after finalization. **None of the bindings satisfies the live
-stream requirement.** Small pending payloads cannot be forced through without
-ending the stream. Two additional zstd output-drain defects affect both encoding
+complete input after finalization. **None of the compress-utils bindings
+satisfies the live stream requirement.** Small pending payloads cannot be forced
+through without ending the stream. Two additional zstd output-drain defects affect both encoding
 and decoding at buffer boundaries.
+
+The separate Python `zstandard` 0.25.0 comparison passes 12 round trips and all
+44 midway-flush cases across `compressobj()` and `stream_writer()`. It uses zstd
+1.5.7 at native level 11, matching compress-utils level 5. A completed block flush
+makes all pending bytes decodable, and subsequent writes continue the same frame.
+See the [comparison details](results/2026-10-16/README.md#python-zstandard-comparison)
+for API differences and buffering measurements.
 
 See the [results and issue details](results/2026-10-16/README.md), including exact
 byte counts, source references, and raw observations.
@@ -65,12 +73,13 @@ bash tests/setup.sh
 ```
 
 Setup downloads the pinned upstream source and build dependencies, builds its
-unmodified bindings, and compiles the probes. It installs pybind11 3.0.1 into a
-local virtual environment. Generated dependencies, builds, and fixtures stay in
-`.work/` and the ignored Rust `target/` directory.
+unmodified bindings, and compiles the probes. It installs pybind11 3.0.1 and
+zstandard 0.25.0 into a local virtual environment. Generated dependencies, builds,
+and fixtures stay in `.work/` and the ignored Rust `target/` directory.
 
-The strict command currently **exits 1**, because the required flush behavior is
-unsupported. Raw JSONL observations and a summary are written to `results/latest/`.
+The strict command currently **exits 1**, because compress-utils lacks the required
+flush behavior; the `zstandard` comparison passes. Raw JSONL observations and a
+summary are written to `results/latest/`.
 Omit `--require-midstream-flush` to check completed round trips while recording
 known flush limitations without failing the command. A round-trip mismatch,
 missing observations, or a probe execution error still fails that mode.
@@ -79,6 +88,18 @@ missing observations, or a probe execution error still fails that mode.
 fixtures are generated deterministically; their SHA-256 hashes are recorded in
 the result summary. The native zstd control isolates the two drain defects and
 is counted separately from the binding tests.
+
+Once the runner has generated `.work/fixtures`, run just the comparison with:
+
+```sh
+.work/venv/bin/python tests/python_zstandard_probe.py .work/fixtures
+```
+
+This comparison exits 0 only when all 62 checks pass. Use
+`compressobj.flush(zstandard.COMPRESSOBJ_FLUSH_BLOCK)` or
+`stream_writer.flush(zstandard.FLUSH_BLOCK)` for midway flushing. The default
+`compressobj.flush()` finishes the frame. At transport closure, verify the
+incremental decoder's `eof` flag; its `flush()` method does not validate completion.
 
 ## Core acceptance test
 
@@ -103,7 +124,8 @@ does not satisfy this acceptance test.
 ## Coverage and remaining work
 
 - Mid-stream flush and continued decoding for both zstd and LZ4, as described
-  above. This is the primary acceptance criterion; it currently fails.
+  above. This is the primary acceptance criterion; compress-utils fails it,
+  while the Python `zstandard` comparison passes for zstd.
 - Incremental input and output: tiny buffers, irregular transport chunks, and
   repeated write/flush cycles.
 - Round-trip correctness for empty inputs, binary data, and large inputs.

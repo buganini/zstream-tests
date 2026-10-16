@@ -23,7 +23,7 @@ fi
 if [[ ! -x .work/venv/bin/python ]]; then
     "${PYTHON:-python3}" -m venv .work/venv
 fi
-.work/venv/bin/python -m pip install pybind11==3.0.1
+.work/venv/bin/python -m pip install pybind11==3.0.1 zstandard==0.25.0
 pybind_dir=$(.work/venv/bin/python -m pybind11 --cmakedir)
 cmake -S .work/upstream -B .work/build -G Ninja \
     -DCMAKE_BUILD_TYPE=Release -DENABLE_TESTS=OFF \

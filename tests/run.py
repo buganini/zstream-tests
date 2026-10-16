@@ -62,6 +62,7 @@ def main():
     env = dict(os.environ, PYTHONPATH=str(upstream / "bindings/python"))
     commands = {
         "python": [sys.executable, str(ROOT / "tests/python_probe.py"), str(fixture_dir)],
+        "python_zstandard": [sys.executable, str(ROOT / "tests/python_zstandard_probe.py"), str(fixture_dir)],
         "js": ["node", str(ROOT / "tests/js_probe.mjs"), str(fixture_dir), str(upstream)],
         "rust": ["cargo", "run", "--locked", "--quiet", "--release", "--manifest-path",
                  str(ROOT / "tests/rust/Cargo.toml"), "--", str(fixture_dir)],
@@ -81,6 +82,10 @@ def main():
         expected_rows = 2 * (2 * len(manifest["roundtrip"]) + 2 * len(manifest["midpoint_sizes"]) + 2)
         if binding == "js":
             expected_rows += 2  # Web Streams close/API probe.
+        elif binding == "python_zstandard":
+            # One codec: round trips, both flush APIs, four boundary controls,
+            # and terminal/truncated checks.
+            expected_rows = 2 * len(manifest["roundtrip"]) + 4 * len(manifest["midpoint_sizes"]) + 6
         if len(binding_rows) != expected_rows:
             exits[binding] = code or 1
         rows.extend(binding_rows)
@@ -91,7 +96,10 @@ def main():
     (args.output / "native-control.stderr").write_text(control.stderr)
     exits["native_control"] = control.returncode
     bad = any(exits.values()) or any(r["status"] == "FAIL" for r in rows)
-    midstream_ok = not any(r["test"] == "midpoint" and r["status"] != "PASS" for r in rows)
+    midstream_tests = ("midpoint", "midpoint_writer")
+    midstream_ok = not any(r["test"] in midstream_tests and r["status"] != "PASS" for r in rows)
+    by_binding = {binding: [r for r in rows if r["binding"] == binding] for binding in commands}
+    reference = by_binding["python_zstandard"][0] if by_binding["python_zstandard"] else {}
     if args.require_midstream_flush:
         bad |= any(r["status"] == "LIMITATION" for r in rows)
     summary = {"upstream_revision": revision, "upstream_tracked_clean": not dirty,
@@ -106,6 +114,17 @@ def main():
                "midstream_acceptance_passed": midstream_ok and not any(exits.values()),
                "require_midstream_flush": args.require_midstream_flush, "runner_exit_code": int(bad),
                "counts": dict(collections.Counter(r["status"] for r in rows)),
+               "counts_by_binding": {binding: dict(collections.Counter(r["status"] for r in observations))
+                                     for binding, observations in by_binding.items()},
+               "midstream_acceptance_by_binding": {
+                   binding: not exits[binding] and any(r["test"] in midstream_tests for r in observations)
+                   and all(r["status"] == "PASS" for r in observations if r["test"] in midstream_tests)
+                   for binding, observations in by_binding.items()},
+               "python_zstandard": {"package_version": reference.get("package_version"),
+                                    "zstd_version": reference.get("zstd_version"),
+                                    "backend": reference.get("backend"),
+                                    "native_level": reference.get("level"),
+                                    "compress_utils_equivalent_level": 5},
                "commands": commands}
     (args.output / "summary.json").write_text(json.dumps(summary, indent=2) + "\n")
     return int(bad)

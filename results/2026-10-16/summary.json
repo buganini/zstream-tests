@@ -98,6 +98,7 @@
   },
   "exit_codes": {
     "python": 0,
+    "python_zstandard": 0,
     "js": 0,
     "rust": 0,
     "native_control": 0
@@ -106,13 +107,52 @@
   "require_midstream_flush": true,
   "runner_exit_code": 1,
   "counts": {
-    "PASS": 84,
+    "PASS": 146,
     "LIMITATION": 134
+  },
+  "counts_by_binding": {
+    "python": {
+      "PASS": 28,
+      "LIMITATION": 44
+    },
+    "python_zstandard": {
+      "PASS": 62
+    },
+    "js": {
+      "PASS": 28,
+      "LIMITATION": 46
+    },
+    "rust": {
+      "PASS": 28,
+      "LIMITATION": 44
+    }
+  },
+  "midstream_acceptance_by_binding": {
+    "python": false,
+    "python_zstandard": true,
+    "js": false,
+    "rust": false
+  },
+  "python_zstandard": {
+    "package_version": "0.25.0",
+    "zstd_version": [
+      1,
+      5,
+      7
+    ],
+    "backend": "cext",
+    "native_level": 11,
+    "compress_utils_equivalent_level": 5
   },
   "commands": {
     "python": [
       "/home/buganini/repo/compress-utils/.work/venv/bin/python",
       "/home/buganini/repo/compress-utils/tests/python_probe.py",
+      "/home/buganini/repo/compress-utils/.work/fixtures"
+    ],
+    "python_zstandard": [
+      "/home/buganini/repo/compress-utils/.work/venv/bin/python",
+      "/home/buganini/repo/compress-utils/tests/python_zstandard_probe.py",
       "/home/buganini/repo/compress-utils/.work/fixtures"
     ],
     "js": [

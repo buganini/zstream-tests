@@ -3,9 +3,12 @@
 Test date: 2026-10-16 (Asia/Taipei).
 
 **Completed round trips pass for Rust, Python, and JavaScript with both zstd and
-LZ4. None meets the requirement to flush arbitrary pending input while keeping
-the compressed stream open.** In addition to the missing flush operation, the
+LZ4. None of these compress-utils bindings meets the requirement to flush
+arbitrary pending input while keeping the compressed stream open.** In addition
+to the missing flush operation, the
 zstd wrapper can leave already-produced encoder or decoder output undrained.
+The added Python `zstandard` comparison meets that requirement with an explicit
+block flush through both tested compression APIs.
 
 ## Version and environment
 
@@ -66,11 +69,17 @@ in-memory transport tests; no timing, socket, or browser behavior is assumed.
 | JavaScript | zstd | 6/6 | 6/6 | 22/22 | Not met |
 | JavaScript | LZ4 | 6/6 | 6/6 | 22/22 | Not met |
 
-Across the binding probes: **84 PASS observations and 134 LIMITATION observations;
+Across the compress-utils binding probes: **84 PASS observations and 134 LIMITATION observations;
 zero round-trip mismatches or unexpected errors.** The 84 passes comprise 72
 primary round trips, six finalization checks, and six truncation checks. The
 134 limitations comprise 132 midpoint probes and two JS Web Streams API probes.
 The two native zstd diagnostic controls also pass, outside those counts.
+
+The separate Python `zstandard` comparison adds **62 PASS observations**, bringing
+the combined runner summary to **146 PASS and 134 LIMITATION**. Its midway
+acceptance result is `true`; all three compress-utils binding results remain
+`false`. See `counts_by_binding` and `midstream_acceptance_by_binding` in the
+summary for the separate results.
 
 These counts deliberately distinguish completed data integrity from the unmet
 flush requirement. In strict mode the runner exits **1**, as recorded in the
@@ -98,6 +107,76 @@ LZ4's seven initial bytes are a frame header, not decoded application data.
 Full blocks can emerge automatically, but partial blocks remain pending. These
 measurements are specific to this revision, level, and input; block-size-aligned
 writes are not a general solution to the flush requirement.
+
+## Python zstandard comparison
+
+Tested PyPI `zstandard==0.25.0`, C extension backend (`cext`), bundling zstd 1.5.7.
+The comparison uses **native level 11**, equivalent to compress-utils user level
+5, with the same deterministic fixtures, input chunking, transport chunking,
+and 11 midpoint sizes. It tests zstd only. These are separate package tests,
+not calls through compress-utils or Python's `compression.zstd` standard library.
+
+| Check | Result |
+| --- | --- |
+| One-shot round trips | 6/6 pass |
+| Incremental round trips using `compressobj()` | 6/6 pass |
+| Midway block flush using `compressobj()` | 22/22 pass |
+| Midway block flush using `stream_writer()` | 22/22 pass |
+| Pre-flush buffering and subsequent flush at 128 KiB | 4/4 pass |
+| Default compressor flush is terminal | Pass |
+| Application detects truncation using decoder `eof` | Pass |
+
+Both midpoint variants assert exact recovery **after every block flush, before
+the next input arrives**. They check `decoder.eof == False` at all four
+checkpoints, including the empty-input flush, then require `eof == True` only
+after finalization. One compressor and one decoder remain in use throughout.
+
+The decoder uses `decompressobj(write_size=65536)` to exercise the same output
+chunk size as the compress-utils bindings. The writer variant additionally uses
+`stream_writer(write_size=113, write_return_read=True, closefd=False)`; its sink
+asserts that each compressed output write is at most 113 bytes. The sink accepts
+each write in full. This does not test partial sink writes or socket backpressure.
+
+### Observed buffering comparison
+
+These are decoded bytes at the first checkpoint, before and after a block flush
+where available. The three compress-utils bindings agree; Python is shown here.
+
+| Input | compress-utils Python: before / after attempted flush | zstandard `compressobj`: before / after block flush | zstandard writer (113-byte output): before / after block flush |
+| --- | ---: | ---: | ---: |
+| 4,096 random bytes | 0 / 0 | 0 / 4,096 | 0 / 4,096 |
+| 131,072 random bytes | 65,527 / 65,527 | 131,072 / 131,072 | 104 / 131,072 |
+| 131,072 repeated bytes | 65,536 / 65,536 | 131,072 / 131,072 | 131,072 / 131,072 |
+
+For compress-utils, an attempted flush means the empty-write probes; Python has
+no flush method. For `zstandard`, both APIs emit 4,105 compressed bytes when
+flushing the 4,096-byte random prefix, making all 4,096 bytes decodable immediately.
+Later payloads and repeated empty flushes also preserve the same open frame.
+
+Buffering before a flush still occurs with `zstandard`. In the small-output
+writer case, the 131,072-byte random write emits only 113 compressed bytes;
+`FLUSH_BLOCK` then emits the remaining 130,968 bytes without ending the frame.
+The four boundary checks measure this behavior and require complete recovery
+after block flush; they do not require every ordinary write to drain all output.
+
+### API details that matter
+
+- `compressobj.flush(COMPRESSOBJ_FLUSH_BLOCK)` preserves the frame. Its default
+  `flush()` instead finishes the frame and further compression raises an error.
+  `stream_writer.flush(FLUSH_BLOCK)` preserves the frame; closing the writer
+  finalizes it. These mode distinctions match the
+  [versioned compression API documentation](https://python-zstandard.readthedocs.io/en/0.25.0/compressor.html).
+- The incremental decoder does **not** raise merely because the final byte is
+  missing, and `decompressobj.flush()` returns empty bytes without completing
+  or validating that frame. Our truncated-input probe passes because the
+  application completion check rejects `eof == False` at transport closure.
+  This differs from compress-utils' decoder `finish()` exception. See the
+  [decoder EOF and flush documentation](https://python-zstandard.readthedocs.io/en/0.25.0/decompressor.html#zstandard.ZstdDecompressionObj.eof).
+
+Raw evidence: [python_zstandard.jsonl](python_zstandard.jsonl). Implementation:
+[python_zstandard_probe.py](../../tests/python_zstandard_probe.py). The root
+runner includes this comparison automatically; after fixture generation, the
+probe can also be run alone and exits 0 for the recorded 62 passing checks.
 
 ## Issues
 
@@ -186,7 +265,8 @@ midway decoding, where an unfinished frame is normal.
 ## Evidence and reproduction
 
 - [Python observations](python.jsonl), [JavaScript observations](js.jsonl),
-  [Rust observations](rust.jsonl), and [native controls](native-control.jsonl).
+  [Rust observations](rust.jsonl), [Python zstandard comparison](python_zstandard.jsonl),
+  and [native controls](native-control.jsonl).
 - [Python probe](../../tests/python_probe.py), [JS probe](../../tests/js_probe.mjs),
   [Rust probe](../../tests/rust/src/main.rs), and
   [native control source](../../tests/native_zstd_control.c).
