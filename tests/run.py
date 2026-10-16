@@ -94,6 +94,7 @@ def main():
         "interop_fzstd": ["node", str(ROOT / "tests/interop_js.mjs"), str(interop_dir), str(upstream), "fzstd"],
         "interop_rust": ["cargo", "run", "--locked", "--quiet", "--release", "--manifest-path",
                          str(ROOT / "tests/rust/Cargo.toml"), "--", str(interop_dir), "--interop"],
+        "pui_fzstd": [sys.executable, str(ROOT / "tests/pui_stream_probe.py"), str(fixture_dir)],
     }
     rows, exits = [], {}
     for binding, command in commands.items():
@@ -116,6 +117,8 @@ def main():
             expected_rows = 2 * len(manifest["roundtrip"]) + 4 * len(manifest["midpoint_sizes"]) + 6
         elif binding.startswith("interop_"):
             expected_rows = len(interop_manifest["cases"])
+        elif binding == "pui_fzstd":
+            expected_rows = 3  # Ready-first stream plus two startup controls.
         if len(binding_rows) != expected_rows:
             exits[binding] = code or 1
         rows.extend(binding_rows)
@@ -126,7 +129,7 @@ def main():
     (args.output / "native-control.stderr").write_text(control.stderr)
     exits["native_control"] = control.returncode
     bad = any(exits.values()) or any(r["status"] == "FAIL" for r in rows)
-    midstream_tests = ("midpoint", "midpoint_writer", "sender_flush")
+    midstream_tests = ("midpoint", "midpoint_writer", "sender_flush", "pui_stream")
     midstream_ok = not any(r["test"] in midstream_tests and r["status"] != "PASS" for r in rows)
     by_binding = {binding: [r for r in rows if r["binding"] == binding] for binding in commands}
     reference = by_binding["python_zstandard"][0] if by_binding["python_zstandard"] else {}

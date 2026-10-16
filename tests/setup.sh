@@ -23,7 +23,7 @@ fi
 if [[ ! -x .work/venv/bin/python ]]; then
     "${PYTHON:-python3}" -m venv .work/venv
 fi
-.work/venv/bin/python -m pip install pybind11==3.0.1 zstandard==0.25.0
+.work/venv/bin/python -m pip install pybind11==3.0.1 zstandard==0.25.0 msgpack==1.2.3
 npm ci --prefix tests --ignore-scripts --cache "$repo_dir/.work/npm-cache"
 pybind_dir=$(.work/venv/bin/python -m pybind11 --cmakedir)
 cmake -S .work/upstream -B .work/build -G Ninja \

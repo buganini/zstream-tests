@@ -36,7 +36,8 @@ establish that the wrapper exposes the required behavior.
 
 Tested on 2026-10-16 against upstream commit
 [`11ea489`](https://github.com/dupontcyborg/compress-utils/commit/11ea489add2435d2eb8360aad0a104a63e714fb3)
-(source version 0.9.0), using compression level 5.
+(source version 0.9.0), using compression level 5. The separate PUI reproduction
+uses PUI's native zstd level 3 and 4 MiB window.
 
 Each row is one sender/receiver configuration. **No** checks a completed round
 trip without requesting a mid-stream flush. **Yes** requires every flushed prefix
@@ -142,6 +143,10 @@ to its internal read buffer. No profile combines data across flush checkpoints.
 | zstandard / Python | fzstd / JavaScript | Yes | 1 | 82.61% (38/46) |
 | zstandard / Python | fzstd / JavaScript | Yes | 4096 | 82.61% (38/46) |
 | zstandard / Python | fzstd / JavaScript | Yes | whole | 82.61% (38/46) |
+| zstandard / Python (PUI ready-first) | fzstd / JavaScript | Yes | 1, 3, 7, 97, 4093 | 100% (1/1) |
+| zstandard / Python (PUI ready-first) | fzstd / JavaScript | Yes | 1 | 100% (1/1) |
+| zstandard / Python (PUI ready-first) | fzstd / JavaScript | Yes | 4096 | 100% (1/1) |
+| zstandard / Python (PUI ready-first) | fzstd / JavaScript | Yes | whole | 100% (1/1) |
 
 The **No** rows with the same package at both ends cover six one-shot and six
 incremental round trips. The mixed-receiver **No** rows cover six payloads through
@@ -150,11 +155,21 @@ each of three sender APIs: one-shot compression, `compressobj()`, and
 mid-stream flush; both finalize only after all input has been written. Partial
 decoded prefixes before finalization are allowed in these tests.
 
-The Python `zstandard` **Yes** rows combine its `compressobj()` and
+The ordinary Python `zstandard` **Yes** rows combine its `compressobj()` and
 `stream_writer()` block flush APIs: 22 cases each with its own receiver, or 23
 cases each with mixed receivers (including an initially empty prefix). Untested
 configurations are not listed. The receiver always decodes the algorithm
 specified in the sender cell.
+
+Each **PUI ready-first** row is one connection case with 101 message checkpoints:
+a complete MessagePack `ready` envelope, then 100 `result` envelopes. Every
+message must decode before any bytes of the next are delivered. PUI uses one
+block flush per envelope and retains the same compressor/decoder. Its initial
+`ready` packet is 294 compressed bytes in this fixture; later packets down to
+14 bytes decode immediately. There is no extra empty flush or padding after a
+message. `whole` matches PUI's delivery of one complete batch per WebSocket
+message; the other rows additionally test fragmentation before fzstd. See the
+[PUI reproduction and controls](results/2026-10-16/INTEROP.md#pui-ready-first-stream).
 
 For compress-utils, **Yes (attempted)** records the required behavior being
 probed: Rust's `flush()` only flushes the sink; Python and JS expose no flush
@@ -162,13 +177,14 @@ method. Empty writes also fail to flush pending codec data. In each transport
 profile, all 132 midpoint cases still recover the complete input after
 finalization, but none passes every mid-stream checkpoint.
 
-Python `zstandard` 0.25.0 uses zstd 1.5.7 at native level 11, matching
-compress-utils level 5. With Python `zstandard` at both ends, all 44 explicit
-block-flush cases pass. See the [comparison details](results/2026-10-16/README.md#python-zstandard-comparison).
+The ordinary Python `zstandard` 0.25.0 comparison uses zstd 1.5.7 at native
+level 11, matching compress-utils level 5. With Python `zstandard` at both ends,
+all 44 explicit block-flush cases pass. See the
+[comparison details](results/2026-10-16/README.md#python-zstandard-comparison).
 
-In each transport profile, all 256 mixed-receiver cases (72 without mid-stream
-flush and 184 with it) recover the full input after finalization, but some
-flushed prefixes stay buffered. Compress-utils returns only 65,536 of 131,072
+In each transport profile, all 256 ordinary mixed-receiver cases (72 without
+mid-stream flush and 184 with it) recover the full input after finalization, but
+some flushed prefixes stay buffered. Compress-utils returns only 65,536 of 131,072
 repeated bytes at a checkpoint. fzstd 0.1.1 waits for at least 18 initial
 compressed bytes, so a flushed 4,096-byte repeated payload compressed to 17 bytes
 yields zero decoded bytes. Neither receiver meets the arbitrary mid-stream flush
@@ -213,14 +229,14 @@ Application writes in ordinary streaming tests still cycle through 1, 7, 63,
 1,024, and 65,521 bytes. Flush tests retain their 11 initial payload sizes from
 1 to 1,048,593 bytes, followed by 37 bytes, 4,096 bytes, and an empty flush.
 Changing transport chunk size therefore tests fragmentation independently of
-message size, content, and flush boundaries; it does not reproduce PUI's larger
-initial `ready` envelope by itself.
+message size, content, and flush boundaries. The separate PUI probe explicitly
+adds the larger initial `ready` envelope and preserves PUI's compression settings.
 
 Setup downloads the pinned upstream source and build dependencies, builds its
-unmodified bindings, and compiles the probes. It installs pybind11 3.0.1 and
-zstandard 0.25.0 into a local virtual environment and fzstd 0.1.1 into
-`tests/node_modules/`. Generated dependencies, builds, and fixtures stay in ignored
-directories: `.work/`, `node_modules/`, and Rust's `target/`.
+unmodified bindings, and compiles the probes. It installs pybind11 3.0.1,
+zstandard 0.25.0, and msgpack 1.2.3 into a local virtual environment, and fzstd
+0.1.1 into `tests/node_modules/`. Generated dependencies, builds, and fixtures
+stay in ignored directories: `.work/`, `node_modules/`, and Rust's `target/`.
 
 The strict command currently **exits 1**, because the compress-utils and fzstd
 tests include unmet flush checkpoints; Python `zstandard` at both ends passes.
@@ -239,6 +255,17 @@ Once the runner has generated `.work/fixtures`, run just the comparison with:
 ```sh
 .work/venv/bin/python tests/python_zstandard_probe.py .work/fixtures
 ```
+
+Run just the PUI reproduction and its two startup controls with:
+
+```sh
+.work/venv/bin/python tests/pui_stream_probe.py .work/fixtures
+```
+
+This is also part of the full runner and needs no PUI checkout. It emits one
+`pui_stream` observation and two `startup_control` observations. The PUI table
+rows count only `pui_stream`; the raw 17-byte startup control intentionally
+records the fzstd limitation even after three additional empty block flushes.
 
 This comparison exits 0 only when all 62 checks pass. Use
 `compressobj.flush(zstandard.COMPRESSOBJ_FLUSH_BLOCK)` or
@@ -277,6 +304,9 @@ does not satisfy this acceptance test.
 - Truncation detection and the terminal behavior of `finish()` are tested.
 - Python `zstandard` sender interoperability with compress-utils receivers in
   Rust/Python/JS and the JS fzstd receiver is tested, including mid-stream flush.
+- PUI's ready-first MessagePack sequence is reproduced with its compression
+  settings, followed by 100 result messages and checked under all four transport
+  profiles. Separate controls distinguish startup from extra empty flushes.
 - Still to test: invalid options, broader malformed-data cases, other
   sender/receiver combinations, LZ4 interoperability, external tools, and real
   network transports.

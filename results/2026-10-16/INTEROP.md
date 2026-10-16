@@ -5,6 +5,8 @@ Test date: 2026-10-16 (Asia/Taipei).
 Unless stated otherwise, counts and stage measurements below use the default
 irregular transport chunks. The [transport comparison](#transport-chunk-size-comparison)
 also tests fixed 1-byte, fixed 4,096-byte, and whole-batch delivery.
+The separate [PUI reproduction](#pui-ready-first-stream) uses native level 3 and
+has its own case counts; the ordinary mixed-receiver counts below exclude it.
 
 **All 256 mixed-receiver streams round-trip exactly after finalization: 72 without
 mid-stream flush and 184 with it. Neither
@@ -224,11 +226,72 @@ variable from splitting that batch for transport.
 
 Raw observations and summaries are in [chunks-1](chunks-1/summary.json),
 [chunks-4096](chunks-4096/summary.json), and [chunks-whole](chunks-whole/summary.json).
-The complete runner counts are respectively 376 PASS / 160 LIMITATION,
-358 PASS / 178 LIMITATION, and 334 PASS / 202 LIMITATION. The default remains
-358 PASS / 178 LIMITATION. These are separate runs; native controls are counted
-separately. Every strict run exits 1 for unmet flush requirements, with zero
-unexpected failures.
+The complete runner counts are respectively 378 PASS / 161 LIMITATION,
+360 PASS / 179 LIMITATION, and 336 PASS / 203 LIMITATION. The default is
+360 PASS / 179 LIMITATION. These include the PUI case and two startup controls
+described below (two additional passes and one limitation per profile). These
+are separate runs; native controls are counted separately. Every strict run
+exits 1 for unmet flush requirements, with zero unexpected failures.
+
+### PUI ready-first stream
+
+The reproducible [Python sender](../../tests/pui_stream_probe.py) and
+[fzstd receiver](../../tests/pui_fzstd_receiver.mjs) model the downstream codec
+behavior in PUI commit `8a8ef99da854c75d5c9abfd24e03bc21f8f5a880`:
+
+- One persistent `compressobj()` at native level 3, `window_log=22` (4 MiB),
+  without a content size or checksum.
+- Pack each complete envelope with MessagePack, compress it, and call
+  `flush(COMPRESSOBJ_FLUSH_BLOCK)` once. Send the concatenated output of
+  `compress()` and that flush as one WebSocket message.
+- Send a `ready` envelope first, then retain both codec contexts for subsequent
+  messages. fzstd receives `push(packet, false)`; it is not finalized between
+  messages. There is no padding or additional empty flush.
+
+Each transport profile passes **100% (1/1)** connection cases, with **101/101
+message checkpoints**: one representative `ready` followed by 100 `result`
+envelopes. All MessagePack bytes must match before the next message is supplied.
+The reference decoder also matches every prefix and reports `eof=false` at each
+checkpoint. `ready` is 422 uncompressed bytes and 294 compressed bytes, above
+fzstd's startup threshold. Later packets shrink to 14 bytes and still decode
+immediately because the frame state already exists. These are synthetic,
+deterministic envelopes with fixed IDs, not captured application traffic.
+
+`whole` reproduces the codec-level WebSocket delivery: one complete batch per
+decode call. The other three profiles split each batch before fzstd as an extra
+fragmentation check; PUI's `StreamDecoder.decode()` itself expects a complete
+envelope and is not called once per fragment. After all checkpoints, the test
+finalizes solely to verify full-stream integrity. Actual PUI closes by discarding
+its context; none of the measured messages relies on finalization.
+
+Two diagnostic controls use the same level-3 encoder in every profile:
+
+- **Raw 17-byte prefix first:** 17 repeated `A` bytes produce 17 compressed bytes.
+  Python decodes all 17 bytes, while fzstd returns none. Three additional empty
+  block flushes produce **zero bytes** and do not resolve the stall. Only the
+  following 37-byte payload and its 4 compressed bytes allow fzstd to catch up.
+- **Ready, then the same raw prefix:** after decoding `ready`, the 17-byte payload
+  compresses to 4 bytes and decodes immediately, as does the next 37-byte payload.
+  This control uses raw data after `ready` to isolate decoder startup; those
+  later raw payloads are not valid PUI MessagePack envelopes.
+
+Thus PUI's successful pattern comes from its real first message initializing
+the decoder, not an extra flush after a message. PUI's level-3 settings also
+differ from the ordinary level-11 comparison: 4,096 repeated bytes compress to
+18 initial bytes at level 3, versus 17 at level 11. Neither this PUI case nor the
+ready-first control establishes arbitrary small-first-payload support in fzstd.
+
+As a source compatibility check, all 101 generated packets matched the actual
+PUI `StreamCodec.encode()` output byte-for-byte, and PUI's packaged JavaScript
+`StreamDecoder` decoded and body-validated every envelope under Node. Source
+hashes and results are in [pui-source-check.json](pui-source-check.json). This
+check used a local PUI checkout; the permanent reproduction runs without it.
+No live WebSocket/browser UI was exercised.
+
+Recorded observations: [default](pui_fzstd.jsonl), [1-byte](chunks-1/pui_fzstd.jsonl),
+[4,096-byte](chunks-4096/pui_fzstd.jsonl), and [whole](chunks-whole/pui_fzstd.jsonl).
+Each file contains the one `pui_stream` case and two `startup_control` cases;
+controls are excluded from the PUI percentage in the consolidated table.
 
 ## Evidence and reproduction
 
@@ -248,8 +311,9 @@ bash tests/setup.sh
 
 Expected strict exit: **1**, because some checkpoints are unmet. The complete
 runner includes the original binding probes and Python-to-Python comparison as
-well as all mixed receivers. [summary.json](summary.json) records 358 PASS and
-178 LIMITATION observations, with the two native controls counted separately.
+well as all mixed receivers and the PUI reproduction with its startup controls.
+[summary.json](summary.json) records 360 PASS and 179 LIMITATION observations,
+with the two native controls counted separately.
 
 After fixture generation, run just the Python sender → fzstd receiver cases
 (18 without mid-stream flush and 46 with it):
@@ -270,7 +334,8 @@ Individual receiver probes exit 0 when final round trips and integrity checks
 pass, while recording unmet checkpoints as `LIMITATION`. Use the runner's strict
 flag to enforce the mid-stream requirement as an exit-status failure.
 
-Scope: one zstd frame per case, no dictionaries, native level 11, deterministic
+Scope: one zstd frame per case, no dictionaries, native level 11 (level 3 for the
+PUI reproduction and its controls), deterministic
 in-memory transport, and Node rather than a browser. This does not establish
 behavior for other levels, larger windows, malformed/truncated input to fzstd,
 concatenated frames, network backpressure, or timing and memory limits.

@@ -106,6 +106,7 @@
     "interop_js": 0,
     "interop_fzstd": 0,
     "interop_rust": 0,
+    "pui_fzstd": 0,
     "native_control": 0
   },
   "transport_chunks": [],
@@ -113,8 +114,8 @@
   "require_midstream_flush": true,
   "runner_exit_code": 1,
   "counts": {
-    "PASS": 334,
-    "LIMITATION": 202
+    "PASS": 336,
+    "LIMITATION": 203
   },
   "counts_by_binding": {
     "python": {
@@ -147,6 +148,10 @@
     "interop_rust": {
       "PASS": 52,
       "LIMITATION": 12
+    },
+    "pui_fzstd": {
+      "PASS": 2,
+      "LIMITATION": 1
     }
   },
   "midstream_acceptance_by_binding": {
@@ -157,7 +162,8 @@
     "interop_python": false,
     "interop_js": false,
     "interop_fzstd": false,
-    "interop_rust": false
+    "interop_rust": false,
+    "pui_fzstd": true
   },
   "python_zstandard": {
     "package_version": "0.25.0",
@@ -229,6 +235,11 @@
       "--",
       "/home/buganini/repo/compress-utils/.work/interop",
       "--interop"
+    ],
+    "pui_fzstd": [
+      "/home/buganini/repo/compress-utils/.work/venv/bin/python",
+      "/home/buganini/repo/compress-utils/tests/pui_stream_probe.py",
+      "/home/buganini/repo/compress-utils/.work/fixtures"
     ]
   }
 }

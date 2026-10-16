@@ -1,0 +1,21 @@
+{
+  "pui_revision": "8a8ef99da854c75d5c9abfd24e03bc21f8f5a880",
+  "source_sha256": {
+    "PUI/web/protocol.py": "acd1932b36f0cb99a17d494fbf5aa280b4ec5a2217af0842bd4724ce847a9058",
+    "PUI/web/worker.py": "d701f4fdabd90298f04a32c521d1c04774e13729268c9157cb98a6b601ec1033",
+    "browser-client/web/protocol.js": "13f201b5dc8fef2a343e6ea690bfcd6ecc80b17cf83c6db9e2b4fb9f383fd073",
+    "PUI/web/static/client.js": "1193fa7bdb01e6297fe315705cec9fe84e5f7dcf5c1723e517222e5a5bc5e36d"
+  },
+  "status": "PASS",
+  "messages": 101,
+  "sender_matches_reproduction_byte_for_byte": true,
+  "packaged_client_messages_match": true,
+  "server_body_validation_passed": true,
+  "transport": "one complete flushed batch per StreamDecoder.decode call",
+  "first_wire_bytes": 294,
+  "min_subsequent_wire_bytes": 14,
+  "extra_flush_calls": 0,
+  "midstream_finalization": false,
+  "runtime": "v22.22.1",
+  "scope": "Actual PUI StreamCodec and packaged client under Node; no live WebSocket or browser run"
+}

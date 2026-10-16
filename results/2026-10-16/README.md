@@ -90,10 +90,13 @@ primary round trips, six finalization checks, and six truncation checks. The
 The two native zstd diagnostic controls also pass, outside those counts.
 
 The separate Python `zstandard` comparison adds **62 PASS observations**. The
-[mixed-receiver tests](INTEROP.md) add **212 PASS and 44 LIMITATION observations**,
-bringing the combined runner summary to **358 PASS and 178 LIMITATION**. Only
-Python `zstandard` at both ends has a midway acceptance result of `true`; all
-compress-utils and fzstd configurations include failed checkpoints. See
+[ordinary mixed-receiver tests](INTEROP.md) add **212 PASS and 44 LIMITATION
+observations**. The [PUI reproduction and startup controls](INTEROP.md#pui-ready-first-stream)
+add **2 PASS and 1 LIMITATION**, bringing the combined runner summary to
+**360 PASS and 179 LIMITATION**. Python `zstandard` at both ends and the PUI
+ready-first sequence have midway acceptance results of `true`; the ordinary
+compress-utils and fzstd suites include failed checkpoints. The raw-startup
+controls are separate diagnostics, not PUI message acceptance cases. See
 `counts_by_binding` and `midstream_acceptance_by_binding` in the summary for the
 separate results. All 256 mixed-receiver cases recover the complete input after
 finalization: 72 without mid-stream flush and 184 with it, including those
