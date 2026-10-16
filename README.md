@@ -42,9 +42,9 @@ Each row is one sender/receiver configuration. **No** checks a completed round
 trip without requesting a mid-stream flush. **Yes** requires every flushed prefix
 to be fully decoded before the next write, continued use of the same open frame,
 and an exact final round trip. The pass percentage is the share of tested cases
-meeting all requirements; anything below 100% leaves the requested behavior
-unmet. These percentages describe the fixtures, not estimated success rates for
-arbitrary traffic.
+meeting all requirements, followed by passing/total case counts. Anything below
+100% leaves the requested behavior unmet. These percentages describe the
+fixtures, not estimated success rates for arbitrary traffic.
 
 Transport chunk size controls compressed bytes delivered to the receiver, not
 the application payload size before a flush. A fixed size is a maximum: the last
@@ -52,96 +52,96 @@ chunk can be shorter. The irregular pattern repeats; `whole` delivers each
 write/flush batch without harness fragmentation. Rust still limits source reads
 to its internal read buffer. No profile combines data across flush checkpoints.
 
-| Sender | Receiver (package/binding) | Mid-stream flush | Transport chunk (bytes) | Pass percentage |
+| Sender | Receiver (package/binding) | Mid-stream flush | Transport chunk (bytes) | Pass percentage (pass/all) |
 | --- | --- | --- | --- | --- |
-| compress-utils / Rust · zstd | compress-utils / Rust | No | 1, 3, 7, 97, 4093 | 100% |
-| compress-utils / Rust · zstd | compress-utils / Rust | No | 1 | 100% |
-| compress-utils / Rust · zstd | compress-utils / Rust | No | 4096 | 100% |
-| compress-utils / Rust · zstd | compress-utils / Rust | No | whole | 100% |
-| compress-utils / Rust · zstd | compress-utils / Rust | Yes (attempted) | 1, 3, 7, 97, 4093 | 0% |
-| compress-utils / Rust · zstd | compress-utils / Rust | Yes (attempted) | 1 | 0% |
-| compress-utils / Rust · zstd | compress-utils / Rust | Yes (attempted) | 4096 | 0% |
-| compress-utils / Rust · zstd | compress-utils / Rust | Yes (attempted) | whole | 0% |
-| compress-utils / Rust · LZ4 | compress-utils / Rust | No | 1, 3, 7, 97, 4093 | 100% |
-| compress-utils / Rust · LZ4 | compress-utils / Rust | No | 1 | 100% |
-| compress-utils / Rust · LZ4 | compress-utils / Rust | No | 4096 | 100% |
-| compress-utils / Rust · LZ4 | compress-utils / Rust | No | whole | 100% |
-| compress-utils / Rust · LZ4 | compress-utils / Rust | Yes (attempted) | 1, 3, 7, 97, 4093 | 0% |
-| compress-utils / Rust · LZ4 | compress-utils / Rust | Yes (attempted) | 1 | 0% |
-| compress-utils / Rust · LZ4 | compress-utils / Rust | Yes (attempted) | 4096 | 0% |
-| compress-utils / Rust · LZ4 | compress-utils / Rust | Yes (attempted) | whole | 0% |
-| compress-utils / Python · zstd | compress-utils / Python | No | 1, 3, 7, 97, 4093 | 100% |
-| compress-utils / Python · zstd | compress-utils / Python | No | 1 | 100% |
-| compress-utils / Python · zstd | compress-utils / Python | No | 4096 | 100% |
-| compress-utils / Python · zstd | compress-utils / Python | No | whole | 100% |
-| compress-utils / Python · zstd | compress-utils / Python | Yes (attempted) | 1, 3, 7, 97, 4093 | 0% |
-| compress-utils / Python · zstd | compress-utils / Python | Yes (attempted) | 1 | 0% |
-| compress-utils / Python · zstd | compress-utils / Python | Yes (attempted) | 4096 | 0% |
-| compress-utils / Python · zstd | compress-utils / Python | Yes (attempted) | whole | 0% |
-| compress-utils / Python · LZ4 | compress-utils / Python | No | 1, 3, 7, 97, 4093 | 100% |
-| compress-utils / Python · LZ4 | compress-utils / Python | No | 1 | 100% |
-| compress-utils / Python · LZ4 | compress-utils / Python | No | 4096 | 100% |
-| compress-utils / Python · LZ4 | compress-utils / Python | No | whole | 100% |
-| compress-utils / Python · LZ4 | compress-utils / Python | Yes (attempted) | 1, 3, 7, 97, 4093 | 0% |
-| compress-utils / Python · LZ4 | compress-utils / Python | Yes (attempted) | 1 | 0% |
-| compress-utils / Python · LZ4 | compress-utils / Python | Yes (attempted) | 4096 | 0% |
-| compress-utils / Python · LZ4 | compress-utils / Python | Yes (attempted) | whole | 0% |
-| compress-utils / JS/WASM · zstd | compress-utils / JS/WASM | No | 1, 3, 7, 97, 4093 | 100% |
-| compress-utils / JS/WASM · zstd | compress-utils / JS/WASM | No | 1 | 100% |
-| compress-utils / JS/WASM · zstd | compress-utils / JS/WASM | No | 4096 | 100% |
-| compress-utils / JS/WASM · zstd | compress-utils / JS/WASM | No | whole | 100% |
-| compress-utils / JS/WASM · zstd | compress-utils / JS/WASM | Yes (attempted) | 1, 3, 7, 97, 4093 | 0% |
-| compress-utils / JS/WASM · zstd | compress-utils / JS/WASM | Yes (attempted) | 1 | 0% |
-| compress-utils / JS/WASM · zstd | compress-utils / JS/WASM | Yes (attempted) | 4096 | 0% |
-| compress-utils / JS/WASM · zstd | compress-utils / JS/WASM | Yes (attempted) | whole | 0% |
-| compress-utils / JS/WASM · LZ4 | compress-utils / JS/WASM | No | 1, 3, 7, 97, 4093 | 100% |
-| compress-utils / JS/WASM · LZ4 | compress-utils / JS/WASM | No | 1 | 100% |
-| compress-utils / JS/WASM · LZ4 | compress-utils / JS/WASM | No | 4096 | 100% |
-| compress-utils / JS/WASM · LZ4 | compress-utils / JS/WASM | No | whole | 100% |
-| compress-utils / JS/WASM · LZ4 | compress-utils / JS/WASM | Yes (attempted) | 1, 3, 7, 97, 4093 | 0% |
-| compress-utils / JS/WASM · LZ4 | compress-utils / JS/WASM | Yes (attempted) | 1 | 0% |
-| compress-utils / JS/WASM · LZ4 | compress-utils / JS/WASM | Yes (attempted) | 4096 | 0% |
-| compress-utils / JS/WASM · LZ4 | compress-utils / JS/WASM | Yes (attempted) | whole | 0% |
-| zstandard / Python | zstandard / Python | No | 1, 3, 7, 97, 4093 | 100% |
-| zstandard / Python | zstandard / Python | No | 1 | 100% |
-| zstandard / Python | zstandard / Python | No | 4096 | 100% |
-| zstandard / Python | zstandard / Python | No | whole | 100% |
-| zstandard / Python | zstandard / Python | Yes | 1, 3, 7, 97, 4093 | 100% |
-| zstandard / Python | zstandard / Python | Yes | 1 | 100% |
-| zstandard / Python | zstandard / Python | Yes | 4096 | 100% |
-| zstandard / Python | zstandard / Python | Yes | whole | 100% |
-| zstandard / Python | compress-utils / Rust | No | 1, 3, 7, 97, 4093 | 100% |
-| zstandard / Python | compress-utils / Rust | No | 1 | 100% |
-| zstandard / Python | compress-utils / Rust | No | 4096 | 100% |
-| zstandard / Python | compress-utils / Rust | No | whole | 100% |
-| zstandard / Python | compress-utils / Rust | Yes | 1, 3, 7, 97, 4093 | 73.91% |
-| zstandard / Python | compress-utils / Rust | Yes | 1 | 86.96% |
-| zstandard / Python | compress-utils / Rust | Yes | 4096 | 73.91% |
-| zstandard / Python | compress-utils / Rust | Yes | whole | 73.91% |
-| zstandard / Python | compress-utils / Python | No | 1, 3, 7, 97, 4093 | 100% |
-| zstandard / Python | compress-utils / Python | No | 1 | 100% |
-| zstandard / Python | compress-utils / Python | No | 4096 | 100% |
-| zstandard / Python | compress-utils / Python | No | whole | 100% |
-| zstandard / Python | compress-utils / Python | Yes | 1, 3, 7, 97, 4093 | 73.91% |
-| zstandard / Python | compress-utils / Python | Yes | 1 | 86.96% |
-| zstandard / Python | compress-utils / Python | Yes | 4096 | 73.91% |
-| zstandard / Python | compress-utils / Python | Yes | whole | 47.83% |
-| zstandard / Python | compress-utils / JS/WASM | No | 1, 3, 7, 97, 4093 | 100% |
-| zstandard / Python | compress-utils / JS/WASM | No | 1 | 100% |
-| zstandard / Python | compress-utils / JS/WASM | No | 4096 | 100% |
-| zstandard / Python | compress-utils / JS/WASM | No | whole | 100% |
-| zstandard / Python | compress-utils / JS/WASM | Yes | 1, 3, 7, 97, 4093 | 73.91% |
-| zstandard / Python | compress-utils / JS/WASM | Yes | 1 | 86.96% |
-| zstandard / Python | compress-utils / JS/WASM | Yes | 4096 | 73.91% |
-| zstandard / Python | compress-utils / JS/WASM | Yes | whole | 47.83% |
-| zstandard / Python | fzstd / JavaScript | No | 1, 3, 7, 97, 4093 | 100% |
-| zstandard / Python | fzstd / JavaScript | No | 1 | 100% |
-| zstandard / Python | fzstd / JavaScript | No | 4096 | 100% |
-| zstandard / Python | fzstd / JavaScript | No | whole | 100% |
-| zstandard / Python | fzstd / JavaScript | Yes | 1, 3, 7, 97, 4093 | 82.61% |
-| zstandard / Python | fzstd / JavaScript | Yes | 1 | 82.61% |
-| zstandard / Python | fzstd / JavaScript | Yes | 4096 | 82.61% |
-| zstandard / Python | fzstd / JavaScript | Yes | whole | 82.61% |
+| compress-utils / Rust · zstd | compress-utils / Rust | No | 1, 3, 7, 97, 4093 | 100% (12/12) |
+| compress-utils / Rust · zstd | compress-utils / Rust | No | 1 | 100% (12/12) |
+| compress-utils / Rust · zstd | compress-utils / Rust | No | 4096 | 100% (12/12) |
+| compress-utils / Rust · zstd | compress-utils / Rust | No | whole | 100% (12/12) |
+| compress-utils / Rust · zstd | compress-utils / Rust | Yes (attempted) | 1, 3, 7, 97, 4093 | 0% (0/22) |
+| compress-utils / Rust · zstd | compress-utils / Rust | Yes (attempted) | 1 | 0% (0/22) |
+| compress-utils / Rust · zstd | compress-utils / Rust | Yes (attempted) | 4096 | 0% (0/22) |
+| compress-utils / Rust · zstd | compress-utils / Rust | Yes (attempted) | whole | 0% (0/22) |
+| compress-utils / Rust · LZ4 | compress-utils / Rust | No | 1, 3, 7, 97, 4093 | 100% (12/12) |
+| compress-utils / Rust · LZ4 | compress-utils / Rust | No | 1 | 100% (12/12) |
+| compress-utils / Rust · LZ4 | compress-utils / Rust | No | 4096 | 100% (12/12) |
+| compress-utils / Rust · LZ4 | compress-utils / Rust | No | whole | 100% (12/12) |
+| compress-utils / Rust · LZ4 | compress-utils / Rust | Yes (attempted) | 1, 3, 7, 97, 4093 | 0% (0/22) |
+| compress-utils / Rust · LZ4 | compress-utils / Rust | Yes (attempted) | 1 | 0% (0/22) |
+| compress-utils / Rust · LZ4 | compress-utils / Rust | Yes (attempted) | 4096 | 0% (0/22) |
+| compress-utils / Rust · LZ4 | compress-utils / Rust | Yes (attempted) | whole | 0% (0/22) |
+| compress-utils / Python · zstd | compress-utils / Python | No | 1, 3, 7, 97, 4093 | 100% (12/12) |
+| compress-utils / Python · zstd | compress-utils / Python | No | 1 | 100% (12/12) |
+| compress-utils / Python · zstd | compress-utils / Python | No | 4096 | 100% (12/12) |
+| compress-utils / Python · zstd | compress-utils / Python | No | whole | 100% (12/12) |
+| compress-utils / Python · zstd | compress-utils / Python | Yes (attempted) | 1, 3, 7, 97, 4093 | 0% (0/22) |
+| compress-utils / Python · zstd | compress-utils / Python | Yes (attempted) | 1 | 0% (0/22) |
+| compress-utils / Python · zstd | compress-utils / Python | Yes (attempted) | 4096 | 0% (0/22) |
+| compress-utils / Python · zstd | compress-utils / Python | Yes (attempted) | whole | 0% (0/22) |
+| compress-utils / Python · LZ4 | compress-utils / Python | No | 1, 3, 7, 97, 4093 | 100% (12/12) |
+| compress-utils / Python · LZ4 | compress-utils / Python | No | 1 | 100% (12/12) |
+| compress-utils / Python · LZ4 | compress-utils / Python | No | 4096 | 100% (12/12) |
+| compress-utils / Python · LZ4 | compress-utils / Python | No | whole | 100% (12/12) |
+| compress-utils / Python · LZ4 | compress-utils / Python | Yes (attempted) | 1, 3, 7, 97, 4093 | 0% (0/22) |
+| compress-utils / Python · LZ4 | compress-utils / Python | Yes (attempted) | 1 | 0% (0/22) |
+| compress-utils / Python · LZ4 | compress-utils / Python | Yes (attempted) | 4096 | 0% (0/22) |
+| compress-utils / Python · LZ4 | compress-utils / Python | Yes (attempted) | whole | 0% (0/22) |
+| compress-utils / JS/WASM · zstd | compress-utils / JS/WASM | No | 1, 3, 7, 97, 4093 | 100% (12/12) |
+| compress-utils / JS/WASM · zstd | compress-utils / JS/WASM | No | 1 | 100% (12/12) |
+| compress-utils / JS/WASM · zstd | compress-utils / JS/WASM | No | 4096 | 100% (12/12) |
+| compress-utils / JS/WASM · zstd | compress-utils / JS/WASM | No | whole | 100% (12/12) |
+| compress-utils / JS/WASM · zstd | compress-utils / JS/WASM | Yes (attempted) | 1, 3, 7, 97, 4093 | 0% (0/22) |
+| compress-utils / JS/WASM · zstd | compress-utils / JS/WASM | Yes (attempted) | 1 | 0% (0/22) |
+| compress-utils / JS/WASM · zstd | compress-utils / JS/WASM | Yes (attempted) | 4096 | 0% (0/22) |
+| compress-utils / JS/WASM · zstd | compress-utils / JS/WASM | Yes (attempted) | whole | 0% (0/22) |
+| compress-utils / JS/WASM · LZ4 | compress-utils / JS/WASM | No | 1, 3, 7, 97, 4093 | 100% (12/12) |
+| compress-utils / JS/WASM · LZ4 | compress-utils / JS/WASM | No | 1 | 100% (12/12) |
+| compress-utils / JS/WASM · LZ4 | compress-utils / JS/WASM | No | 4096 | 100% (12/12) |
+| compress-utils / JS/WASM · LZ4 | compress-utils / JS/WASM | No | whole | 100% (12/12) |
+| compress-utils / JS/WASM · LZ4 | compress-utils / JS/WASM | Yes (attempted) | 1, 3, 7, 97, 4093 | 0% (0/22) |
+| compress-utils / JS/WASM · LZ4 | compress-utils / JS/WASM | Yes (attempted) | 1 | 0% (0/22) |
+| compress-utils / JS/WASM · LZ4 | compress-utils / JS/WASM | Yes (attempted) | 4096 | 0% (0/22) |
+| compress-utils / JS/WASM · LZ4 | compress-utils / JS/WASM | Yes (attempted) | whole | 0% (0/22) |
+| zstandard / Python | zstandard / Python | No | 1, 3, 7, 97, 4093 | 100% (12/12) |
+| zstandard / Python | zstandard / Python | No | 1 | 100% (12/12) |
+| zstandard / Python | zstandard / Python | No | 4096 | 100% (12/12) |
+| zstandard / Python | zstandard / Python | No | whole | 100% (12/12) |
+| zstandard / Python | zstandard / Python | Yes | 1, 3, 7, 97, 4093 | 100% (44/44) |
+| zstandard / Python | zstandard / Python | Yes | 1 | 100% (44/44) |
+| zstandard / Python | zstandard / Python | Yes | 4096 | 100% (44/44) |
+| zstandard / Python | zstandard / Python | Yes | whole | 100% (44/44) |
+| zstandard / Python | compress-utils / Rust | No | 1, 3, 7, 97, 4093 | 100% (18/18) |
+| zstandard / Python | compress-utils / Rust | No | 1 | 100% (18/18) |
+| zstandard / Python | compress-utils / Rust | No | 4096 | 100% (18/18) |
+| zstandard / Python | compress-utils / Rust | No | whole | 100% (18/18) |
+| zstandard / Python | compress-utils / Rust | Yes | 1, 3, 7, 97, 4093 | 73.91% (34/46) |
+| zstandard / Python | compress-utils / Rust | Yes | 1 | 86.96% (40/46) |
+| zstandard / Python | compress-utils / Rust | Yes | 4096 | 73.91% (34/46) |
+| zstandard / Python | compress-utils / Rust | Yes | whole | 73.91% (34/46) |
+| zstandard / Python | compress-utils / Python | No | 1, 3, 7, 97, 4093 | 100% (18/18) |
+| zstandard / Python | compress-utils / Python | No | 1 | 100% (18/18) |
+| zstandard / Python | compress-utils / Python | No | 4096 | 100% (18/18) |
+| zstandard / Python | compress-utils / Python | No | whole | 100% (18/18) |
+| zstandard / Python | compress-utils / Python | Yes | 1, 3, 7, 97, 4093 | 73.91% (34/46) |
+| zstandard / Python | compress-utils / Python | Yes | 1 | 86.96% (40/46) |
+| zstandard / Python | compress-utils / Python | Yes | 4096 | 73.91% (34/46) |
+| zstandard / Python | compress-utils / Python | Yes | whole | 47.83% (22/46) |
+| zstandard / Python | compress-utils / JS/WASM | No | 1, 3, 7, 97, 4093 | 100% (18/18) |
+| zstandard / Python | compress-utils / JS/WASM | No | 1 | 100% (18/18) |
+| zstandard / Python | compress-utils / JS/WASM | No | 4096 | 100% (18/18) |
+| zstandard / Python | compress-utils / JS/WASM | No | whole | 100% (18/18) |
+| zstandard / Python | compress-utils / JS/WASM | Yes | 1, 3, 7, 97, 4093 | 73.91% (34/46) |
+| zstandard / Python | compress-utils / JS/WASM | Yes | 1 | 86.96% (40/46) |
+| zstandard / Python | compress-utils / JS/WASM | Yes | 4096 | 73.91% (34/46) |
+| zstandard / Python | compress-utils / JS/WASM | Yes | whole | 47.83% (22/46) |
+| zstandard / Python | fzstd / JavaScript | No | 1, 3, 7, 97, 4093 | 100% (18/18) |
+| zstandard / Python | fzstd / JavaScript | No | 1 | 100% (18/18) |
+| zstandard / Python | fzstd / JavaScript | No | 4096 | 100% (18/18) |
+| zstandard / Python | fzstd / JavaScript | No | whole | 100% (18/18) |
+| zstandard / Python | fzstd / JavaScript | Yes | 1, 3, 7, 97, 4093 | 82.61% (38/46) |
+| zstandard / Python | fzstd / JavaScript | Yes | 1 | 82.61% (38/46) |
+| zstandard / Python | fzstd / JavaScript | Yes | 4096 | 82.61% (38/46) |
+| zstandard / Python | fzstd / JavaScript | Yes | whole | 82.61% (38/46) |
 
 The **No** rows with the same package at both ends cover six one-shot and six
 incremental round trips. The mixed-receiver **No** rows cover six payloads through
