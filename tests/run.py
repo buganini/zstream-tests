@@ -58,7 +58,11 @@ def main():
         raise SystemExit(f"Upstream tracked files changed; refuse mislabeled results:\n{dirty}")
     fixture_dir = ROOT / ".work/fixtures"
     manifest = fixtures(fixture_dir)
+    from interop_fixtures import generate
+    interop_dir = ROOT / ".work/interop"
+    interop_manifest = generate(fixture_dir, interop_dir)
     args.output.mkdir(parents=True, exist_ok=True)
+    (args.output / "interop-fixtures.json").write_text(json.dumps(interop_manifest, indent=2) + "\n")
     env = dict(os.environ, PYTHONPATH=str(upstream / "bindings/python"))
     commands = {
         "python": [sys.executable, str(ROOT / "tests/python_probe.py"), str(fixture_dir)],
@@ -66,6 +70,11 @@ def main():
         "js": ["node", str(ROOT / "tests/js_probe.mjs"), str(fixture_dir), str(upstream)],
         "rust": ["cargo", "run", "--locked", "--quiet", "--release", "--manifest-path",
                  str(ROOT / "tests/rust/Cargo.toml"), "--", str(fixture_dir)],
+        "interop_python": [sys.executable, str(ROOT / "tests/interop_python.py"), str(interop_dir)],
+        "interop_js": ["node", str(ROOT / "tests/interop_js.mjs"), str(interop_dir), str(upstream), "compress_utils_js"],
+        "interop_fzstd": ["node", str(ROOT / "tests/interop_js.mjs"), str(interop_dir), str(upstream), "fzstd"],
+        "interop_rust": ["cargo", "run", "--locked", "--quiet", "--release", "--manifest-path",
+                         str(ROOT / "tests/rust/Cargo.toml"), "--", str(interop_dir), "--interop"],
     }
     rows, exits = [], {}
     for binding, command in commands.items():
@@ -86,6 +95,8 @@ def main():
             # One codec: round trips, both flush APIs, four boundary controls,
             # and terminal/truncated checks.
             expected_rows = 2 * len(manifest["roundtrip"]) + 4 * len(manifest["midpoint_sizes"]) + 6
+        elif binding.startswith("interop_"):
+            expected_rows = len(interop_manifest["cases"])
         if len(binding_rows) != expected_rows:
             exits[binding] = code or 1
         rows.extend(binding_rows)
@@ -96,7 +107,7 @@ def main():
     (args.output / "native-control.stderr").write_text(control.stderr)
     exits["native_control"] = control.returncode
     bad = any(exits.values()) or any(r["status"] == "FAIL" for r in rows)
-    midstream_tests = ("midpoint", "midpoint_writer")
+    midstream_tests = ("midpoint", "midpoint_writer", "sender_flush")
     midstream_ok = not any(r["test"] in midstream_tests and r["status"] != "PASS" for r in rows)
     by_binding = {binding: [r for r in rows if r["binding"] == binding] for binding in commands}
     reference = by_binding["python_zstandard"][0] if by_binding["python_zstandard"] else {}
@@ -125,6 +136,7 @@ def main():
                                     "backend": reference.get("backend"),
                                     "native_level": reference.get("level"),
                                     "compress_utils_equivalent_level": 5},
+               "fzstd": json.loads((ROOT / "tests/node_modules/fzstd/package.json").read_text())["version"],
                "commands": commands}
     (args.output / "summary.json").write_text(json.dumps(summary, indent=2) + "\n")
     return int(bad)

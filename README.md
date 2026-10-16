@@ -38,25 +38,53 @@ Tested on 2026-10-16 against upstream commit
 [`11ea489`](https://github.com/dupontcyborg/compress-utils/commit/11ea489add2435d2eb8360aad0a104a63e714fb3)
 (source version 0.9.0), using compression level 5.
 
-| Binding | zstd round trips | LZ4 round trips | Required mid-stream flush |
+| Sender → receiver | zstd round trips | LZ4 round trips | Required mid-stream flush round trip |
 | --- | --- | --- | --- |
-| Rust | Pass | Pass | Fails: `flush()` only flushes the sink |
-| Python | Pass | Pass | Unavailable: no flush method |
-| JavaScript / Node WASM | Pass | Pass | Unavailable: no flush method |
-| Python `zstandard` comparison | Pass | Not applicable | Pass: explicit block flush |
+| compress-utils Rust → compress-utils Rust | Pass | Pass | Fails: `flush()` only flushes the sink |
+| compress-utils Python → compress-utils Python | Pass | Pass | Unavailable: no flush method |
+| compress-utils JS/WASM → compress-utils JS/WASM | Pass | Pass | Unavailable: no flush method |
+| Python `zstandard` → Python `zstandard` | Pass | Not applicable | Pass: explicit block flush |
 
-All 72 primary round trips passed, and all 132 midpoint probes recovered the
-complete input after finalization. **None of the compress-utils bindings
-satisfies the live stream requirement.** Small pending payloads cannot be forced
-through without ending the stream. Two additional zstd output-drain defects affect both encoding
-and decoding at buffer boundaries.
+Each row above uses the named implementation at **both ends**. The Python
+`zstandard` comparison does not use a compress-utils receiver. A pass in the
+last column means that every block flush makes all bytes submitted so far
+decodable **before the next write**, the same compressor/decompressor pair
+continues with the frame still open, and the final round trip matches all input.
+A completed round trip alone does not establish midway-flush support.
 
-The separate Python `zstandard` 0.25.0 comparison passes 12 round trips and all
-44 midway-flush cases across `compressobj()` and `stream_writer()`. It uses zstd
+All 72 primary compress-utils round trips passed, and all 132 midpoint probes
+recovered the complete input after finalization. **None of the compress-utils
+bindings satisfies the live stream requirement.** Small pending payloads cannot
+be forced through without ending the stream. Two additional zstd output-drain
+defects affect both encoding and decoding at buffer boundaries.
+
+The separate Python `zstandard` 0.25.0 comparison uses a `zstandard` sender and
+`zstandard` receiver. It passes 12 round trips and all 44 midway-flush round-trip
+cases across the sender's `compressobj()` and `stream_writer()` APIs. It uses zstd
 1.5.7 at native level 11, matching compress-utils level 5. A completed block flush
 makes all pending bytes decodable, and subsequent writes continue the same frame.
 See the [comparison details](results/2026-10-16/README.md#python-zstandard-comparison)
 for API differences and buffering measurements.
+
+The mixed-receiver tests use Python `zstandard` as the sender, with explicit
+block flushes through both sender APIs. Each receiver replays the same 46 streams
+and checks every flushed prefix before receiving the next stage:
+
+| Sender → receiver | Exact full round trip after finish | Every mid-stream flush checkpoint passes |
+| --- | --- | --- |
+| Python `zstandard` → compress-utils Rust | 46/46 | 34/46; decoder leaves output buffered |
+| Python `zstandard` → compress-utils Python | 46/46 | 34/46; decoder leaves output buffered |
+| Python `zstandard` → compress-utils JS/WASM | 46/46 | 34/46; decoder leaves output buffered |
+| Python `zstandard` → JS `fzstd` 0.1.1 | 46/46 | 38/46; short initial compressed blocks stay buffered |
+
+**Neither mixed receiver implementation meets the arbitrary mid-stream flush
+requirement.** For example, a flushed 131,072-byte repeated prefix yields only
+65,536 bytes through compress-utils. With fzstd, a flushed 4,096-byte repeated
+prefix occupies 17 compressed bytes and yields zero decoded bytes: its initial
+non-final input buffering waits for at least 18 compressed bytes. All flushed
+prefixes decode fully with the Python `zstandard` reference receiver. See the
+[mixed-receiver results](results/2026-10-16/INTEROP.md) for cases, causes, and
+reproduction commands.
 
 See the [results and issue details](results/2026-10-16/README.md), including exact
 byte counts, source references, and raw observations.
@@ -74,12 +102,13 @@ bash tests/setup.sh
 
 Setup downloads the pinned upstream source and build dependencies, builds its
 unmodified bindings, and compiles the probes. It installs pybind11 3.0.1 and
-zstandard 0.25.0 into a local virtual environment. Generated dependencies, builds,
-and fixtures stay in `.work/` and the ignored Rust `target/` directory.
+zstandard 0.25.0 into a local virtual environment and fzstd 0.1.1 into
+`tests/node_modules/`. Generated dependencies, builds, and fixtures stay in ignored
+directories: `.work/`, `node_modules/`, and Rust's `target/`.
 
-The strict command currently **exits 1**, because compress-utils lacks the required
-flush behavior; the `zstandard` comparison passes. Raw JSONL observations and a
-summary are written to `results/latest/`.
+The strict command currently **exits 1**, because the compress-utils and fzstd
+tests include unmet flush checkpoints; Python `zstandard` at both ends passes.
+Raw JSONL observations and a summary are written to `results/latest/`.
 Omit `--require-midstream-flush` to check completed round trips while recording
 known flush limitations without failing the command. A round-trip mismatch,
 missing observations, or a probe execution error still fails that mode.
@@ -130,8 +159,11 @@ does not satisfy this acceptance test.
   repeated write/flush cycles.
 - Round-trip correctness for empty inputs, binary data, and large inputs.
 - Truncation detection and the terminal behavior of `finish()` are tested.
-- Still to test: invalid options, broader malformed-data cases, cross-language
-  interoperability, external tools, and real network transports.
+- Python `zstandard` sender interoperability with compress-utils receivers in
+  Rust/Python/JS and the JS fzstd receiver is tested, including mid-stream flush.
+- Still to test: invalid options, broader malformed-data cases, other
+  sender/receiver combinations, LZ4 interoperability, external tools, and real
+  network transports.
 - Performance benchmarking (including flush latency and memory use) remains
   future work. The current results are correctness and buffering observations.
 

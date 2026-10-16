@@ -1,0 +1,2688 @@
+{
+  "sender": "python_zstandard",
+  "package_version": "0.25.0",
+  "zstd_version": [
+    1,
+    5,
+    7
+  ],
+  "backend": "cext",
+  "native_level": 11,
+  "transport_chunks": [
+    1,
+    3,
+    7,
+    97,
+    4093
+  ],
+  "cases": [
+    {
+      "name": "compressobj-empty",
+      "payload": "empty",
+      "sender_api": "compressobj",
+      "stages": [
+        {
+          "file": "compressobj-empty-0.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 0,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 0,
+          "reference_eof": false
+        },
+        {
+          "file": "compressobj-empty-1.zst",
+          "bytes": 16,
+          "sha256": "3a79dc5e0b72b93293f1509fdbd643ede72e31ad7c28b8bc6552eef351b14f4b",
+          "submitted": 37,
+          "write_output": 0,
+          "flush_output": 16,
+          "reference_decoded": 37,
+          "reference_eof": false
+        },
+        {
+          "file": "compressobj-empty-2.zst",
+          "bytes": 269,
+          "sha256": "5be3ef133b75ddef64a6267f5c2f634d648c10a531d0dfcb51d34771d96f8c26",
+          "submitted": 4133,
+          "write_output": 0,
+          "flush_output": 269,
+          "reference_decoded": 4133,
+          "reference_eof": false
+        },
+        {
+          "file": "compressobj-empty-3.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 4133,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 4133,
+          "reference_eof": false
+        }
+      ],
+      "tail": {
+        "file": "compressobj-empty-finish.zst",
+        "bytes": 3,
+        "sha256": "fb50dc0717ff266cf9baf82b1ce7a1c2ef6d9247859680b11a19fb7077f5f222"
+      },
+      "expected": {
+        "file": "compressobj-empty.bin",
+        "bytes": 4133,
+        "sha256": "7e15f354fdd2990d94a71160d581e3594f30d8daf8f158cfaf7e28bc1e05e862"
+      },
+      "reference_final_eof": true
+    },
+    {
+      "name": "compressobj-random-1",
+      "payload": "random-1",
+      "sender_api": "compressobj",
+      "stages": [
+        {
+          "file": "compressobj-random-1-0.zst",
+          "bytes": 10,
+          "sha256": "7c4af75e7e074f6445ac5528b2b067a895231d4b44492f564a6e69661c3d9f1a",
+          "submitted": 1,
+          "write_output": 0,
+          "flush_output": 10,
+          "reference_decoded": 1,
+          "reference_eof": false
+        },
+        {
+          "file": "compressobj-random-1-1.zst",
+          "bytes": 4,
+          "sha256": "442df309341a6213d2c5bc5d4375c4b05571b17b750063bb3c09bb2bd5f81de3",
+          "submitted": 38,
+          "write_output": 0,
+          "flush_output": 4,
+          "reference_decoded": 38,
+          "reference_eof": false
+        },
+        {
+          "file": "compressobj-random-1-2.zst",
+          "bytes": 269,
+          "sha256": "5be3ef133b75ddef64a6267f5c2f634d648c10a531d0dfcb51d34771d96f8c26",
+          "submitted": 4134,
+          "write_output": 0,
+          "flush_output": 269,
+          "reference_decoded": 4134,
+          "reference_eof": false
+        },
+        {
+          "file": "compressobj-random-1-3.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 4134,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 4134,
+          "reference_eof": false
+        }
+      ],
+      "tail": {
+        "file": "compressobj-random-1-finish.zst",
+        "bytes": 3,
+        "sha256": "fb50dc0717ff266cf9baf82b1ce7a1c2ef6d9247859680b11a19fb7077f5f222"
+      },
+      "expected": {
+        "file": "compressobj-random-1.bin",
+        "bytes": 4134,
+        "sha256": "16f44bc6b9cb0eaed5e11ecbbe27d7c73120f5a58f258ce5023f0d65db87b454"
+      },
+      "reference_final_eof": true
+    },
+    {
+      "name": "compressobj-random-17",
+      "payload": "random-17",
+      "sender_api": "compressobj",
+      "stages": [
+        {
+          "file": "compressobj-random-17-0.zst",
+          "bytes": 26,
+          "sha256": "c56b7f665c93c76e112ce63c4f227a70af14e7f01d812fc31e9f92af5c5fa4dd",
+          "submitted": 17,
+          "write_output": 0,
+          "flush_output": 26,
+          "reference_decoded": 17,
+          "reference_eof": false
+        },
+        {
+          "file": "compressobj-random-17-1.zst",
+          "bytes": 4,
+          "sha256": "442df309341a6213d2c5bc5d4375c4b05571b17b750063bb3c09bb2bd5f81de3",
+          "submitted": 54,
+          "write_output": 0,
+          "flush_output": 4,
+          "reference_decoded": 54,
+          "reference_eof": false
+        },
+        {
+          "file": "compressobj-random-17-2.zst",
+          "bytes": 269,
+          "sha256": "5be3ef133b75ddef64a6267f5c2f634d648c10a531d0dfcb51d34771d96f8c26",
+          "submitted": 4150,
+          "write_output": 0,
+          "flush_output": 269,
+          "reference_decoded": 4150,
+          "reference_eof": false
+        },
+        {
+          "file": "compressobj-random-17-3.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 4150,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 4150,
+          "reference_eof": false
+        }
+      ],
+      "tail": {
+        "file": "compressobj-random-17-finish.zst",
+        "bytes": 3,
+        "sha256": "fb50dc0717ff266cf9baf82b1ce7a1c2ef6d9247859680b11a19fb7077f5f222"
+      },
+      "expected": {
+        "file": "compressobj-random-17.bin",
+        "bytes": 4150,
+        "sha256": "5b4e23c7aedc6847c5dee2bbee56dcb6dd2a567e8bc66e0dbf2fb8fc934b3b35"
+      },
+      "reference_final_eof": true
+    },
+    {
+      "name": "compressobj-random-4096",
+      "payload": "random-4096",
+      "sender_api": "compressobj",
+      "stages": [
+        {
+          "file": "compressobj-random-4096-0.zst",
+          "bytes": 4105,
+          "sha256": "d69f40f7e05875a19d13a6d7874a5af9a333106689f2b03ba0383e9ede50c010",
+          "submitted": 4096,
+          "write_output": 0,
+          "flush_output": 4105,
+          "reference_decoded": 4096,
+          "reference_eof": false
+        },
+        {
+          "file": "compressobj-random-4096-1.zst",
+          "bytes": 4,
+          "sha256": "442df309341a6213d2c5bc5d4375c4b05571b17b750063bb3c09bb2bd5f81de3",
+          "submitted": 4133,
+          "write_output": 0,
+          "flush_output": 4,
+          "reference_decoded": 4133,
+          "reference_eof": false
+        },
+        {
+          "file": "compressobj-random-4096-2.zst",
+          "bytes": 269,
+          "sha256": "5be3ef133b75ddef64a6267f5c2f634d648c10a531d0dfcb51d34771d96f8c26",
+          "submitted": 8229,
+          "write_output": 0,
+          "flush_output": 269,
+          "reference_decoded": 8229,
+          "reference_eof": false
+        },
+        {
+          "file": "compressobj-random-4096-3.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 8229,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 8229,
+          "reference_eof": false
+        }
+      ],
+      "tail": {
+        "file": "compressobj-random-4096-finish.zst",
+        "bytes": 3,
+        "sha256": "fb50dc0717ff266cf9baf82b1ce7a1c2ef6d9247859680b11a19fb7077f5f222"
+      },
+      "expected": {
+        "file": "compressobj-random-4096.bin",
+        "bytes": 8229,
+        "sha256": "e6a7c5303c899815e59f354c824a5905253abe4fad5b422f4c2c2394468dafa2"
+      },
+      "reference_final_eof": true
+    },
+    {
+      "name": "compressobj-random-65535",
+      "payload": "random-65535",
+      "sender_api": "compressobj",
+      "stages": [
+        {
+          "file": "compressobj-random-65535-0.zst",
+          "bytes": 65544,
+          "sha256": "8e48fa76277702407829e1eb8a3dd0e5518bb25930d02db8bcfb3871f5b80deb",
+          "submitted": 65535,
+          "write_output": 0,
+          "flush_output": 65544,
+          "reference_decoded": 65535,
+          "reference_eof": false
+        },
+        {
+          "file": "compressobj-random-65535-1.zst",
+          "bytes": 4,
+          "sha256": "442df309341a6213d2c5bc5d4375c4b05571b17b750063bb3c09bb2bd5f81de3",
+          "submitted": 65572,
+          "write_output": 0,
+          "flush_output": 4,
+          "reference_decoded": 65572,
+          "reference_eof": false
+        },
+        {
+          "file": "compressobj-random-65535-2.zst",
+          "bytes": 269,
+          "sha256": "5be3ef133b75ddef64a6267f5c2f634d648c10a531d0dfcb51d34771d96f8c26",
+          "submitted": 69668,
+          "write_output": 0,
+          "flush_output": 269,
+          "reference_decoded": 69668,
+          "reference_eof": false
+        },
+        {
+          "file": "compressobj-random-65535-3.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 69668,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 69668,
+          "reference_eof": false
+        }
+      ],
+      "tail": {
+        "file": "compressobj-random-65535-finish.zst",
+        "bytes": 3,
+        "sha256": "fb50dc0717ff266cf9baf82b1ce7a1c2ef6d9247859680b11a19fb7077f5f222"
+      },
+      "expected": {
+        "file": "compressobj-random-65535.bin",
+        "bytes": 69668,
+        "sha256": "a3d7d452bbda59b3f07bce486a3ab504c44704e9a0177f6606afd2ac19209ae1"
+      },
+      "reference_final_eof": true
+    },
+    {
+      "name": "compressobj-random-65536",
+      "payload": "random-65536",
+      "sender_api": "compressobj",
+      "stages": [
+        {
+          "file": "compressobj-random-65536-0.zst",
+          "bytes": 65545,
+          "sha256": "bec47810ebb43cc1b055adf67273a5c4eda8b260aca96233c8e0b84eb1d02411",
+          "submitted": 65536,
+          "write_output": 0,
+          "flush_output": 65545,
+          "reference_decoded": 65536,
+          "reference_eof": false
+        },
+        {
+          "file": "compressobj-random-65536-1.zst",
+          "bytes": 4,
+          "sha256": "442df309341a6213d2c5bc5d4375c4b05571b17b750063bb3c09bb2bd5f81de3",
+          "submitted": 65573,
+          "write_output": 0,
+          "flush_output": 4,
+          "reference_decoded": 65573,
+          "reference_eof": false
+        },
+        {
+          "file": "compressobj-random-65536-2.zst",
+          "bytes": 269,
+          "sha256": "5be3ef133b75ddef64a6267f5c2f634d648c10a531d0dfcb51d34771d96f8c26",
+          "submitted": 69669,
+          "write_output": 0,
+          "flush_output": 269,
+          "reference_decoded": 69669,
+          "reference_eof": false
+        },
+        {
+          "file": "compressobj-random-65536-3.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 69669,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 69669,
+          "reference_eof": false
+        }
+      ],
+      "tail": {
+        "file": "compressobj-random-65536-finish.zst",
+        "bytes": 3,
+        "sha256": "fb50dc0717ff266cf9baf82b1ce7a1c2ef6d9247859680b11a19fb7077f5f222"
+      },
+      "expected": {
+        "file": "compressobj-random-65536.bin",
+        "bytes": 69669,
+        "sha256": "31dc71f4edc5dda9d7f95b62504b60efcb91a2ffdad53d458ec3065c4fa7f1d9"
+      },
+      "reference_final_eof": true
+    },
+    {
+      "name": "compressobj-random-65537",
+      "payload": "random-65537",
+      "sender_api": "compressobj",
+      "stages": [
+        {
+          "file": "compressobj-random-65537-0.zst",
+          "bytes": 65546,
+          "sha256": "07107b94ce9099191df9769653651e44f7bdfdcae7412ce1971b6045a28b2a8e",
+          "submitted": 65537,
+          "write_output": 0,
+          "flush_output": 65546,
+          "reference_decoded": 65537,
+          "reference_eof": false
+        },
+        {
+          "file": "compressobj-random-65537-1.zst",
+          "bytes": 4,
+          "sha256": "442df309341a6213d2c5bc5d4375c4b05571b17b750063bb3c09bb2bd5f81de3",
+          "submitted": 65574,
+          "write_output": 0,
+          "flush_output": 4,
+          "reference_decoded": 65574,
+          "reference_eof": false
+        },
+        {
+          "file": "compressobj-random-65537-2.zst",
+          "bytes": 269,
+          "sha256": "5be3ef133b75ddef64a6267f5c2f634d648c10a531d0dfcb51d34771d96f8c26",
+          "submitted": 69670,
+          "write_output": 0,
+          "flush_output": 269,
+          "reference_decoded": 69670,
+          "reference_eof": false
+        },
+        {
+          "file": "compressobj-random-65537-3.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 69670,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 69670,
+          "reference_eof": false
+        }
+      ],
+      "tail": {
+        "file": "compressobj-random-65537-finish.zst",
+        "bytes": 3,
+        "sha256": "fb50dc0717ff266cf9baf82b1ce7a1c2ef6d9247859680b11a19fb7077f5f222"
+      },
+      "expected": {
+        "file": "compressobj-random-65537.bin",
+        "bytes": 69670,
+        "sha256": "8a00503ea09e3bc8fc3d96e13455a8508089e5c5ecc72fca4511eb672881962b"
+      },
+      "reference_final_eof": true
+    },
+    {
+      "name": "compressobj-random-131071",
+      "payload": "random-131071",
+      "sender_api": "compressobj",
+      "stages": [
+        {
+          "file": "compressobj-random-131071-0.zst",
+          "bytes": 131080,
+          "sha256": "f73345066f97bc8c3868a3633189fdb46c0f926b49fb1c2838970e4321b5e021",
+          "submitted": 131071,
+          "write_output": 0,
+          "flush_output": 131080,
+          "reference_decoded": 131071,
+          "reference_eof": false
+        },
+        {
+          "file": "compressobj-random-131071-1.zst",
+          "bytes": 4,
+          "sha256": "442df309341a6213d2c5bc5d4375c4b05571b17b750063bb3c09bb2bd5f81de3",
+          "submitted": 131108,
+          "write_output": 0,
+          "flush_output": 4,
+          "reference_decoded": 131108,
+          "reference_eof": false
+        },
+        {
+          "file": "compressobj-random-131071-2.zst",
+          "bytes": 269,
+          "sha256": "5be3ef133b75ddef64a6267f5c2f634d648c10a531d0dfcb51d34771d96f8c26",
+          "submitted": 135204,
+          "write_output": 0,
+          "flush_output": 269,
+          "reference_decoded": 135204,
+          "reference_eof": false
+        },
+        {
+          "file": "compressobj-random-131071-3.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 135204,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 135204,
+          "reference_eof": false
+        }
+      ],
+      "tail": {
+        "file": "compressobj-random-131071-finish.zst",
+        "bytes": 3,
+        "sha256": "fb50dc0717ff266cf9baf82b1ce7a1c2ef6d9247859680b11a19fb7077f5f222"
+      },
+      "expected": {
+        "file": "compressobj-random-131071.bin",
+        "bytes": 135204,
+        "sha256": "3db737993a8a375075266447a1c29d06c86b125766d5f2855bfbafa17b601196"
+      },
+      "reference_final_eof": true
+    },
+    {
+      "name": "compressobj-random-131072",
+      "payload": "random-131072",
+      "sender_api": "compressobj",
+      "stages": [
+        {
+          "file": "compressobj-random-131072-0.zst",
+          "bytes": 131081,
+          "sha256": "0fa84aaab8e558b5bb8d2321f6f3d09d2278efeea0ef10e1cdd9af1c048e71d1",
+          "submitted": 131072,
+          "write_output": 131081,
+          "flush_output": 0,
+          "reference_decoded": 131072,
+          "reference_eof": false
+        },
+        {
+          "file": "compressobj-random-131072-1.zst",
+          "bytes": 4,
+          "sha256": "442df309341a6213d2c5bc5d4375c4b05571b17b750063bb3c09bb2bd5f81de3",
+          "submitted": 131109,
+          "write_output": 0,
+          "flush_output": 4,
+          "reference_decoded": 131109,
+          "reference_eof": false
+        },
+        {
+          "file": "compressobj-random-131072-2.zst",
+          "bytes": 269,
+          "sha256": "5be3ef133b75ddef64a6267f5c2f634d648c10a531d0dfcb51d34771d96f8c26",
+          "submitted": 135205,
+          "write_output": 0,
+          "flush_output": 269,
+          "reference_decoded": 135205,
+          "reference_eof": false
+        },
+        {
+          "file": "compressobj-random-131072-3.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 135205,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 135205,
+          "reference_eof": false
+        }
+      ],
+      "tail": {
+        "file": "compressobj-random-131072-finish.zst",
+        "bytes": 3,
+        "sha256": "fb50dc0717ff266cf9baf82b1ce7a1c2ef6d9247859680b11a19fb7077f5f222"
+      },
+      "expected": {
+        "file": "compressobj-random-131072.bin",
+        "bytes": 135205,
+        "sha256": "8388975c11bad203e93ff5011d6efab4f04836fa4730f06bb6beb5d15decb757"
+      },
+      "reference_final_eof": true
+    },
+    {
+      "name": "compressobj-random-131073",
+      "payload": "random-131073",
+      "sender_api": "compressobj",
+      "stages": [
+        {
+          "file": "compressobj-random-131073-0.zst",
+          "bytes": 131085,
+          "sha256": "c3c7b9d61c4a1412430d58f613f9e1557dc7d6c8257ecc50252803c2d7ca5462",
+          "submitted": 131073,
+          "write_output": 131081,
+          "flush_output": 4,
+          "reference_decoded": 131073,
+          "reference_eof": false
+        },
+        {
+          "file": "compressobj-random-131073-1.zst",
+          "bytes": 4,
+          "sha256": "442df309341a6213d2c5bc5d4375c4b05571b17b750063bb3c09bb2bd5f81de3",
+          "submitted": 131110,
+          "write_output": 0,
+          "flush_output": 4,
+          "reference_decoded": 131110,
+          "reference_eof": false
+        },
+        {
+          "file": "compressobj-random-131073-2.zst",
+          "bytes": 269,
+          "sha256": "5be3ef133b75ddef64a6267f5c2f634d648c10a531d0dfcb51d34771d96f8c26",
+          "submitted": 135206,
+          "write_output": 0,
+          "flush_output": 269,
+          "reference_decoded": 135206,
+          "reference_eof": false
+        },
+        {
+          "file": "compressobj-random-131073-3.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 135206,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 135206,
+          "reference_eof": false
+        }
+      ],
+      "tail": {
+        "file": "compressobj-random-131073-finish.zst",
+        "bytes": 3,
+        "sha256": "fb50dc0717ff266cf9baf82b1ce7a1c2ef6d9247859680b11a19fb7077f5f222"
+      },
+      "expected": {
+        "file": "compressobj-random-131073.bin",
+        "bytes": 135206,
+        "sha256": "aa0efc0174e7d2cfdeed817acdfedc0dd7751246ce68cd29fd409ae62c71f85e"
+      },
+      "reference_final_eof": true
+    },
+    {
+      "name": "compressobj-random-262145",
+      "payload": "random-262145",
+      "sender_api": "compressobj",
+      "stages": [
+        {
+          "file": "compressobj-random-262145-0.zst",
+          "bytes": 262160,
+          "sha256": "d9125f34b7d92bad7f0ada8f4ca26801318cae24c10408b86be9f9412011dba1",
+          "submitted": 262145,
+          "write_output": 262156,
+          "flush_output": 4,
+          "reference_decoded": 262145,
+          "reference_eof": false
+        },
+        {
+          "file": "compressobj-random-262145-1.zst",
+          "bytes": 4,
+          "sha256": "442df309341a6213d2c5bc5d4375c4b05571b17b750063bb3c09bb2bd5f81de3",
+          "submitted": 262182,
+          "write_output": 0,
+          "flush_output": 4,
+          "reference_decoded": 262182,
+          "reference_eof": false
+        },
+        {
+          "file": "compressobj-random-262145-2.zst",
+          "bytes": 269,
+          "sha256": "5be3ef133b75ddef64a6267f5c2f634d648c10a531d0dfcb51d34771d96f8c26",
+          "submitted": 266278,
+          "write_output": 0,
+          "flush_output": 269,
+          "reference_decoded": 266278,
+          "reference_eof": false
+        },
+        {
+          "file": "compressobj-random-262145-3.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 266278,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 266278,
+          "reference_eof": false
+        }
+      ],
+      "tail": {
+        "file": "compressobj-random-262145-finish.zst",
+        "bytes": 3,
+        "sha256": "fb50dc0717ff266cf9baf82b1ce7a1c2ef6d9247859680b11a19fb7077f5f222"
+      },
+      "expected": {
+        "file": "compressobj-random-262145.bin",
+        "bytes": 266278,
+        "sha256": "dd7a5307eb748445275c2bf949546223e513a2053cacdf9a67319061bd40c3a6"
+      },
+      "reference_final_eof": true
+    },
+    {
+      "name": "compressobj-random-1048593",
+      "payload": "random-1048593",
+      "sender_api": "compressobj",
+      "stages": [
+        {
+          "file": "compressobj-random-1048593-0.zst",
+          "bytes": 1048626,
+          "sha256": "3d4c629c26c7481d3d4e1e6702dea5ca40bd6cf1294deab9b0c09b7dfd0258fa",
+          "submitted": 1048593,
+          "write_output": 1048606,
+          "flush_output": 20,
+          "reference_decoded": 1048593,
+          "reference_eof": false
+        },
+        {
+          "file": "compressobj-random-1048593-1.zst",
+          "bytes": 4,
+          "sha256": "442df309341a6213d2c5bc5d4375c4b05571b17b750063bb3c09bb2bd5f81de3",
+          "submitted": 1048630,
+          "write_output": 0,
+          "flush_output": 4,
+          "reference_decoded": 1048630,
+          "reference_eof": false
+        },
+        {
+          "file": "compressobj-random-1048593-2.zst",
+          "bytes": 269,
+          "sha256": "5be3ef133b75ddef64a6267f5c2f634d648c10a531d0dfcb51d34771d96f8c26",
+          "submitted": 1052726,
+          "write_output": 0,
+          "flush_output": 269,
+          "reference_decoded": 1052726,
+          "reference_eof": false
+        },
+        {
+          "file": "compressobj-random-1048593-3.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 1052726,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 1052726,
+          "reference_eof": false
+        }
+      ],
+      "tail": {
+        "file": "compressobj-random-1048593-finish.zst",
+        "bytes": 3,
+        "sha256": "fb50dc0717ff266cf9baf82b1ce7a1c2ef6d9247859680b11a19fb7077f5f222"
+      },
+      "expected": {
+        "file": "compressobj-random-1048593.bin",
+        "bytes": 1052726,
+        "sha256": "f0da71313caf075ffdfc9099acc4c3e4807212ec24ed44af72cd0562d80910e3"
+      },
+      "reference_final_eof": true
+    },
+    {
+      "name": "compressobj-repeat-1",
+      "payload": "repeat-1",
+      "sender_api": "compressobj",
+      "stages": [
+        {
+          "file": "compressobj-repeat-1-0.zst",
+          "bytes": 10,
+          "sha256": "e450723a0ccefb3259d5865e61b8ec725afd7e90969049a5da48c27ea2787e31",
+          "submitted": 1,
+          "write_output": 0,
+          "flush_output": 10,
+          "reference_decoded": 1,
+          "reference_eof": false
+        },
+        {
+          "file": "compressobj-repeat-1-1.zst",
+          "bytes": 4,
+          "sha256": "442df309341a6213d2c5bc5d4375c4b05571b17b750063bb3c09bb2bd5f81de3",
+          "submitted": 38,
+          "write_output": 0,
+          "flush_output": 4,
+          "reference_decoded": 38,
+          "reference_eof": false
+        },
+        {
+          "file": "compressobj-repeat-1-2.zst",
+          "bytes": 269,
+          "sha256": "5be3ef133b75ddef64a6267f5c2f634d648c10a531d0dfcb51d34771d96f8c26",
+          "submitted": 4134,
+          "write_output": 0,
+          "flush_output": 269,
+          "reference_decoded": 4134,
+          "reference_eof": false
+        },
+        {
+          "file": "compressobj-repeat-1-3.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 4134,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 4134,
+          "reference_eof": false
+        }
+      ],
+      "tail": {
+        "file": "compressobj-repeat-1-finish.zst",
+        "bytes": 3,
+        "sha256": "fb50dc0717ff266cf9baf82b1ce7a1c2ef6d9247859680b11a19fb7077f5f222"
+      },
+      "expected": {
+        "file": "compressobj-repeat-1.bin",
+        "bytes": 4134,
+        "sha256": "8a0a7415fda5fd90819680ed006bc7fda0f7d101074a02faacc539660b6b8ac2"
+      },
+      "reference_final_eof": true
+    },
+    {
+      "name": "compressobj-repeat-17",
+      "payload": "repeat-17",
+      "sender_api": "compressobj",
+      "stages": [
+        {
+          "file": "compressobj-repeat-17-0.zst",
+          "bytes": 26,
+          "sha256": "52e45b8af0c2fdd235906589ce6e4c645fd9832c6599258daca13c7b9c56ad00",
+          "submitted": 17,
+          "write_output": 0,
+          "flush_output": 26,
+          "reference_decoded": 17,
+          "reference_eof": false
+        },
+        {
+          "file": "compressobj-repeat-17-1.zst",
+          "bytes": 4,
+          "sha256": "442df309341a6213d2c5bc5d4375c4b05571b17b750063bb3c09bb2bd5f81de3",
+          "submitted": 54,
+          "write_output": 0,
+          "flush_output": 4,
+          "reference_decoded": 54,
+          "reference_eof": false
+        },
+        {
+          "file": "compressobj-repeat-17-2.zst",
+          "bytes": 269,
+          "sha256": "5be3ef133b75ddef64a6267f5c2f634d648c10a531d0dfcb51d34771d96f8c26",
+          "submitted": 4150,
+          "write_output": 0,
+          "flush_output": 269,
+          "reference_decoded": 4150,
+          "reference_eof": false
+        },
+        {
+          "file": "compressobj-repeat-17-3.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 4150,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 4150,
+          "reference_eof": false
+        }
+      ],
+      "tail": {
+        "file": "compressobj-repeat-17-finish.zst",
+        "bytes": 3,
+        "sha256": "fb50dc0717ff266cf9baf82b1ce7a1c2ef6d9247859680b11a19fb7077f5f222"
+      },
+      "expected": {
+        "file": "compressobj-repeat-17.bin",
+        "bytes": 4150,
+        "sha256": "be2bb3b3957d6b9fd7d44fae662a42ccad97925f1bbe61cf47d371a352870d9a"
+      },
+      "reference_final_eof": true
+    },
+    {
+      "name": "compressobj-repeat-4096",
+      "payload": "repeat-4096",
+      "sender_api": "compressobj",
+      "stages": [
+        {
+          "file": "compressobj-repeat-4096-0.zst",
+          "bytes": 17,
+          "sha256": "845b03e160628972e1a6f03e1e3e73b3fa73bf82c9b2fdd793fae789af75180b",
+          "submitted": 4096,
+          "write_output": 0,
+          "flush_output": 17,
+          "reference_decoded": 4096,
+          "reference_eof": false
+        },
+        {
+          "file": "compressobj-repeat-4096-1.zst",
+          "bytes": 4,
+          "sha256": "442df309341a6213d2c5bc5d4375c4b05571b17b750063bb3c09bb2bd5f81de3",
+          "submitted": 4133,
+          "write_output": 0,
+          "flush_output": 4,
+          "reference_decoded": 4133,
+          "reference_eof": false
+        },
+        {
+          "file": "compressobj-repeat-4096-2.zst",
+          "bytes": 269,
+          "sha256": "5be3ef133b75ddef64a6267f5c2f634d648c10a531d0dfcb51d34771d96f8c26",
+          "submitted": 8229,
+          "write_output": 0,
+          "flush_output": 269,
+          "reference_decoded": 8229,
+          "reference_eof": false
+        },
+        {
+          "file": "compressobj-repeat-4096-3.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 8229,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 8229,
+          "reference_eof": false
+        }
+      ],
+      "tail": {
+        "file": "compressobj-repeat-4096-finish.zst",
+        "bytes": 3,
+        "sha256": "fb50dc0717ff266cf9baf82b1ce7a1c2ef6d9247859680b11a19fb7077f5f222"
+      },
+      "expected": {
+        "file": "compressobj-repeat-4096.bin",
+        "bytes": 8229,
+        "sha256": "06ffcea20525b662f309dd9c897d4f2575b0d6fa29571967474f274d00231f93"
+      },
+      "reference_final_eof": true
+    },
+    {
+      "name": "compressobj-repeat-65535",
+      "payload": "repeat-65535",
+      "sender_api": "compressobj",
+      "stages": [
+        {
+          "file": "compressobj-repeat-65535-0.zst",
+          "bytes": 18,
+          "sha256": "b7b893f399d71955c812c22c849352ba211474ae455dcd19b6a59bffb2d1f707",
+          "submitted": 65535,
+          "write_output": 0,
+          "flush_output": 18,
+          "reference_decoded": 65535,
+          "reference_eof": false
+        },
+        {
+          "file": "compressobj-repeat-65535-1.zst",
+          "bytes": 4,
+          "sha256": "442df309341a6213d2c5bc5d4375c4b05571b17b750063bb3c09bb2bd5f81de3",
+          "submitted": 65572,
+          "write_output": 0,
+          "flush_output": 4,
+          "reference_decoded": 65572,
+          "reference_eof": false
+        },
+        {
+          "file": "compressobj-repeat-65535-2.zst",
+          "bytes": 269,
+          "sha256": "5be3ef133b75ddef64a6267f5c2f634d648c10a531d0dfcb51d34771d96f8c26",
+          "submitted": 69668,
+          "write_output": 0,
+          "flush_output": 269,
+          "reference_decoded": 69668,
+          "reference_eof": false
+        },
+        {
+          "file": "compressobj-repeat-65535-3.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 69668,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 69668,
+          "reference_eof": false
+        }
+      ],
+      "tail": {
+        "file": "compressobj-repeat-65535-finish.zst",
+        "bytes": 3,
+        "sha256": "fb50dc0717ff266cf9baf82b1ce7a1c2ef6d9247859680b11a19fb7077f5f222"
+      },
+      "expected": {
+        "file": "compressobj-repeat-65535.bin",
+        "bytes": 69668,
+        "sha256": "8cef50fc47ee7f97fe7ec1b623aee506c8ca172320ebbd4e0b25ad19efedab7e"
+      },
+      "reference_final_eof": true
+    },
+    {
+      "name": "compressobj-repeat-65536",
+      "payload": "repeat-65536",
+      "sender_api": "compressobj",
+      "stages": [
+        {
+          "file": "compressobj-repeat-65536-0.zst",
+          "bytes": 18,
+          "sha256": "fdfe1141c505e1c4e1c3d8522a9c6150f1bf5761948d8bc96f72a003c5c57c3d",
+          "submitted": 65536,
+          "write_output": 0,
+          "flush_output": 18,
+          "reference_decoded": 65536,
+          "reference_eof": false
+        },
+        {
+          "file": "compressobj-repeat-65536-1.zst",
+          "bytes": 4,
+          "sha256": "442df309341a6213d2c5bc5d4375c4b05571b17b750063bb3c09bb2bd5f81de3",
+          "submitted": 65573,
+          "write_output": 0,
+          "flush_output": 4,
+          "reference_decoded": 65573,
+          "reference_eof": false
+        },
+        {
+          "file": "compressobj-repeat-65536-2.zst",
+          "bytes": 269,
+          "sha256": "5be3ef133b75ddef64a6267f5c2f634d648c10a531d0dfcb51d34771d96f8c26",
+          "submitted": 69669,
+          "write_output": 0,
+          "flush_output": 269,
+          "reference_decoded": 69669,
+          "reference_eof": false
+        },
+        {
+          "file": "compressobj-repeat-65536-3.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 69669,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 69669,
+          "reference_eof": false
+        }
+      ],
+      "tail": {
+        "file": "compressobj-repeat-65536-finish.zst",
+        "bytes": 3,
+        "sha256": "fb50dc0717ff266cf9baf82b1ce7a1c2ef6d9247859680b11a19fb7077f5f222"
+      },
+      "expected": {
+        "file": "compressobj-repeat-65536.bin",
+        "bytes": 69669,
+        "sha256": "546cadd2d2ab64f839ca3db785a7ba270bb50a103bd081ba73f605788f371b88"
+      },
+      "reference_final_eof": true
+    },
+    {
+      "name": "compressobj-repeat-65537",
+      "payload": "repeat-65537",
+      "sender_api": "compressobj",
+      "stages": [
+        {
+          "file": "compressobj-repeat-65537-0.zst",
+          "bytes": 18,
+          "sha256": "1dc18f1617d6a92875e8a795810204cc1a97aab546162d1aa6261620c63a1a6c",
+          "submitted": 65537,
+          "write_output": 0,
+          "flush_output": 18,
+          "reference_decoded": 65537,
+          "reference_eof": false
+        },
+        {
+          "file": "compressobj-repeat-65537-1.zst",
+          "bytes": 4,
+          "sha256": "442df309341a6213d2c5bc5d4375c4b05571b17b750063bb3c09bb2bd5f81de3",
+          "submitted": 65574,
+          "write_output": 0,
+          "flush_output": 4,
+          "reference_decoded": 65574,
+          "reference_eof": false
+        },
+        {
+          "file": "compressobj-repeat-65537-2.zst",
+          "bytes": 269,
+          "sha256": "5be3ef133b75ddef64a6267f5c2f634d648c10a531d0dfcb51d34771d96f8c26",
+          "submitted": 69670,
+          "write_output": 0,
+          "flush_output": 269,
+          "reference_decoded": 69670,
+          "reference_eof": false
+        },
+        {
+          "file": "compressobj-repeat-65537-3.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 69670,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 69670,
+          "reference_eof": false
+        }
+      ],
+      "tail": {
+        "file": "compressobj-repeat-65537-finish.zst",
+        "bytes": 3,
+        "sha256": "fb50dc0717ff266cf9baf82b1ce7a1c2ef6d9247859680b11a19fb7077f5f222"
+      },
+      "expected": {
+        "file": "compressobj-repeat-65537.bin",
+        "bytes": 69670,
+        "sha256": "e3d72cece2f2982a25cb64a146db4fada7d8acfdf610dad760d1fba912f0c4be"
+      },
+      "reference_final_eof": true
+    },
+    {
+      "name": "compressobj-repeat-131071",
+      "payload": "repeat-131071",
+      "sender_api": "compressobj",
+      "stages": [
+        {
+          "file": "compressobj-repeat-131071-0.zst",
+          "bytes": 18,
+          "sha256": "374d4d8a157474e574784c92bc36acf66a3380ec55564c3ddd861401f08e6a07",
+          "submitted": 131071,
+          "write_output": 0,
+          "flush_output": 18,
+          "reference_decoded": 131071,
+          "reference_eof": false
+        },
+        {
+          "file": "compressobj-repeat-131071-1.zst",
+          "bytes": 4,
+          "sha256": "442df309341a6213d2c5bc5d4375c4b05571b17b750063bb3c09bb2bd5f81de3",
+          "submitted": 131108,
+          "write_output": 0,
+          "flush_output": 4,
+          "reference_decoded": 131108,
+          "reference_eof": false
+        },
+        {
+          "file": "compressobj-repeat-131071-2.zst",
+          "bytes": 269,
+          "sha256": "5be3ef133b75ddef64a6267f5c2f634d648c10a531d0dfcb51d34771d96f8c26",
+          "submitted": 135204,
+          "write_output": 0,
+          "flush_output": 269,
+          "reference_decoded": 135204,
+          "reference_eof": false
+        },
+        {
+          "file": "compressobj-repeat-131071-3.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 135204,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 135204,
+          "reference_eof": false
+        }
+      ],
+      "tail": {
+        "file": "compressobj-repeat-131071-finish.zst",
+        "bytes": 3,
+        "sha256": "fb50dc0717ff266cf9baf82b1ce7a1c2ef6d9247859680b11a19fb7077f5f222"
+      },
+      "expected": {
+        "file": "compressobj-repeat-131071.bin",
+        "bytes": 135204,
+        "sha256": "cb977d53c1381fc01d22bd59e20486090d7352097c05c49764672735e823f402"
+      },
+      "reference_final_eof": true
+    },
+    {
+      "name": "compressobj-repeat-131072",
+      "payload": "repeat-131072",
+      "sender_api": "compressobj",
+      "stages": [
+        {
+          "file": "compressobj-repeat-131072-0.zst",
+          "bytes": 18,
+          "sha256": "8187e7ac7cf4d8466c1433fc78cc0f29b1bf1e6ca10d0ac7b630c3ad0fa38a9a",
+          "submitted": 131072,
+          "write_output": 18,
+          "flush_output": 0,
+          "reference_decoded": 131072,
+          "reference_eof": false
+        },
+        {
+          "file": "compressobj-repeat-131072-1.zst",
+          "bytes": 4,
+          "sha256": "442df309341a6213d2c5bc5d4375c4b05571b17b750063bb3c09bb2bd5f81de3",
+          "submitted": 131109,
+          "write_output": 0,
+          "flush_output": 4,
+          "reference_decoded": 131109,
+          "reference_eof": false
+        },
+        {
+          "file": "compressobj-repeat-131072-2.zst",
+          "bytes": 269,
+          "sha256": "5be3ef133b75ddef64a6267f5c2f634d648c10a531d0dfcb51d34771d96f8c26",
+          "submitted": 135205,
+          "write_output": 0,
+          "flush_output": 269,
+          "reference_decoded": 135205,
+          "reference_eof": false
+        },
+        {
+          "file": "compressobj-repeat-131072-3.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 135205,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 135205,
+          "reference_eof": false
+        }
+      ],
+      "tail": {
+        "file": "compressobj-repeat-131072-finish.zst",
+        "bytes": 3,
+        "sha256": "fb50dc0717ff266cf9baf82b1ce7a1c2ef6d9247859680b11a19fb7077f5f222"
+      },
+      "expected": {
+        "file": "compressobj-repeat-131072.bin",
+        "bytes": 135205,
+        "sha256": "2d84382f8fc3f568578a637469f1af98bd77df785b2699f56045c8ec9ba7a6fb"
+      },
+      "reference_final_eof": true
+    },
+    {
+      "name": "compressobj-repeat-131073",
+      "payload": "repeat-131073",
+      "sender_api": "compressobj",
+      "stages": [
+        {
+          "file": "compressobj-repeat-131073-0.zst",
+          "bytes": 22,
+          "sha256": "9d4b51164e679a914b4299020300bda7f305852b2438d34faa93b2a11d557a3c",
+          "submitted": 131073,
+          "write_output": 18,
+          "flush_output": 4,
+          "reference_decoded": 131073,
+          "reference_eof": false
+        },
+        {
+          "file": "compressobj-repeat-131073-1.zst",
+          "bytes": 4,
+          "sha256": "442df309341a6213d2c5bc5d4375c4b05571b17b750063bb3c09bb2bd5f81de3",
+          "submitted": 131110,
+          "write_output": 0,
+          "flush_output": 4,
+          "reference_decoded": 131110,
+          "reference_eof": false
+        },
+        {
+          "file": "compressobj-repeat-131073-2.zst",
+          "bytes": 269,
+          "sha256": "5be3ef133b75ddef64a6267f5c2f634d648c10a531d0dfcb51d34771d96f8c26",
+          "submitted": 135206,
+          "write_output": 0,
+          "flush_output": 269,
+          "reference_decoded": 135206,
+          "reference_eof": false
+        },
+        {
+          "file": "compressobj-repeat-131073-3.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 135206,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 135206,
+          "reference_eof": false
+        }
+      ],
+      "tail": {
+        "file": "compressobj-repeat-131073-finish.zst",
+        "bytes": 3,
+        "sha256": "fb50dc0717ff266cf9baf82b1ce7a1c2ef6d9247859680b11a19fb7077f5f222"
+      },
+      "expected": {
+        "file": "compressobj-repeat-131073.bin",
+        "bytes": 135206,
+        "sha256": "f987f60242a8252fa5f5554fdb14a5a12ee10253696efcbfba905aa9e541a8de"
+      },
+      "reference_final_eof": true
+    },
+    {
+      "name": "compressobj-repeat-262145",
+      "payload": "repeat-262145",
+      "sender_api": "compressobj",
+      "stages": [
+        {
+          "file": "compressobj-repeat-262145-0.zst",
+          "bytes": 26,
+          "sha256": "2edf0263e62dd766de972f16b39725dabc0540276e6f9f868527374457459fcc",
+          "submitted": 262145,
+          "write_output": 22,
+          "flush_output": 4,
+          "reference_decoded": 262145,
+          "reference_eof": false
+        },
+        {
+          "file": "compressobj-repeat-262145-1.zst",
+          "bytes": 4,
+          "sha256": "442df309341a6213d2c5bc5d4375c4b05571b17b750063bb3c09bb2bd5f81de3",
+          "submitted": 262182,
+          "write_output": 0,
+          "flush_output": 4,
+          "reference_decoded": 262182,
+          "reference_eof": false
+        },
+        {
+          "file": "compressobj-repeat-262145-2.zst",
+          "bytes": 269,
+          "sha256": "5be3ef133b75ddef64a6267f5c2f634d648c10a531d0dfcb51d34771d96f8c26",
+          "submitted": 266278,
+          "write_output": 0,
+          "flush_output": 269,
+          "reference_decoded": 266278,
+          "reference_eof": false
+        },
+        {
+          "file": "compressobj-repeat-262145-3.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 266278,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 266278,
+          "reference_eof": false
+        }
+      ],
+      "tail": {
+        "file": "compressobj-repeat-262145-finish.zst",
+        "bytes": 3,
+        "sha256": "fb50dc0717ff266cf9baf82b1ce7a1c2ef6d9247859680b11a19fb7077f5f222"
+      },
+      "expected": {
+        "file": "compressobj-repeat-262145.bin",
+        "bytes": 266278,
+        "sha256": "a84de2488e6d1e327ebd38ee3599d81a1d191a6201a35c8a1094e58d2139ecfb"
+      },
+      "reference_final_eof": true
+    },
+    {
+      "name": "compressobj-repeat-1048593",
+      "payload": "repeat-1048593",
+      "sender_api": "compressobj",
+      "stages": [
+        {
+          "file": "compressobj-repeat-1048593-0.zst",
+          "bytes": 50,
+          "sha256": "974701e311c7bb0688d53d2715ed02514e03688c1d9642bed7c1f2cf53b57e55",
+          "submitted": 1048593,
+          "write_output": 46,
+          "flush_output": 4,
+          "reference_decoded": 1048593,
+          "reference_eof": false
+        },
+        {
+          "file": "compressobj-repeat-1048593-1.zst",
+          "bytes": 4,
+          "sha256": "442df309341a6213d2c5bc5d4375c4b05571b17b750063bb3c09bb2bd5f81de3",
+          "submitted": 1048630,
+          "write_output": 0,
+          "flush_output": 4,
+          "reference_decoded": 1048630,
+          "reference_eof": false
+        },
+        {
+          "file": "compressobj-repeat-1048593-2.zst",
+          "bytes": 269,
+          "sha256": "5be3ef133b75ddef64a6267f5c2f634d648c10a531d0dfcb51d34771d96f8c26",
+          "submitted": 1052726,
+          "write_output": 0,
+          "flush_output": 269,
+          "reference_decoded": 1052726,
+          "reference_eof": false
+        },
+        {
+          "file": "compressobj-repeat-1048593-3.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 1052726,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 1052726,
+          "reference_eof": false
+        }
+      ],
+      "tail": {
+        "file": "compressobj-repeat-1048593-finish.zst",
+        "bytes": 3,
+        "sha256": "fb50dc0717ff266cf9baf82b1ce7a1c2ef6d9247859680b11a19fb7077f5f222"
+      },
+      "expected": {
+        "file": "compressobj-repeat-1048593.bin",
+        "bytes": 1052726,
+        "sha256": "a43d095fb876d0bb0b7db39d5c194e50f9457786ba327e5b954cf3931c6b26ec"
+      },
+      "reference_final_eof": true
+    },
+    {
+      "name": "stream_writer-empty",
+      "payload": "empty",
+      "sender_api": "stream_writer",
+      "stages": [
+        {
+          "file": "stream_writer-empty-0.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 0,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 0,
+          "reference_eof": false
+        },
+        {
+          "file": "stream_writer-empty-1.zst",
+          "bytes": 16,
+          "sha256": "3a79dc5e0b72b93293f1509fdbd643ede72e31ad7c28b8bc6552eef351b14f4b",
+          "submitted": 37,
+          "write_output": 0,
+          "flush_output": 16,
+          "reference_decoded": 37,
+          "reference_eof": false
+        },
+        {
+          "file": "stream_writer-empty-2.zst",
+          "bytes": 269,
+          "sha256": "5be3ef133b75ddef64a6267f5c2f634d648c10a531d0dfcb51d34771d96f8c26",
+          "submitted": 4133,
+          "write_output": 0,
+          "flush_output": 269,
+          "reference_decoded": 4133,
+          "reference_eof": false
+        },
+        {
+          "file": "stream_writer-empty-3.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 4133,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 4133,
+          "reference_eof": false
+        }
+      ],
+      "tail": {
+        "file": "stream_writer-empty-finish.zst",
+        "bytes": 3,
+        "sha256": "fb50dc0717ff266cf9baf82b1ce7a1c2ef6d9247859680b11a19fb7077f5f222"
+      },
+      "expected": {
+        "file": "stream_writer-empty.bin",
+        "bytes": 4133,
+        "sha256": "7e15f354fdd2990d94a71160d581e3594f30d8daf8f158cfaf7e28bc1e05e862"
+      },
+      "reference_final_eof": true
+    },
+    {
+      "name": "stream_writer-random-1",
+      "payload": "random-1",
+      "sender_api": "stream_writer",
+      "stages": [
+        {
+          "file": "stream_writer-random-1-0.zst",
+          "bytes": 10,
+          "sha256": "7c4af75e7e074f6445ac5528b2b067a895231d4b44492f564a6e69661c3d9f1a",
+          "submitted": 1,
+          "write_output": 0,
+          "flush_output": 10,
+          "reference_decoded": 1,
+          "reference_eof": false
+        },
+        {
+          "file": "stream_writer-random-1-1.zst",
+          "bytes": 4,
+          "sha256": "442df309341a6213d2c5bc5d4375c4b05571b17b750063bb3c09bb2bd5f81de3",
+          "submitted": 38,
+          "write_output": 0,
+          "flush_output": 4,
+          "reference_decoded": 38,
+          "reference_eof": false
+        },
+        {
+          "file": "stream_writer-random-1-2.zst",
+          "bytes": 269,
+          "sha256": "5be3ef133b75ddef64a6267f5c2f634d648c10a531d0dfcb51d34771d96f8c26",
+          "submitted": 4134,
+          "write_output": 0,
+          "flush_output": 269,
+          "reference_decoded": 4134,
+          "reference_eof": false
+        },
+        {
+          "file": "stream_writer-random-1-3.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 4134,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 4134,
+          "reference_eof": false
+        }
+      ],
+      "tail": {
+        "file": "stream_writer-random-1-finish.zst",
+        "bytes": 3,
+        "sha256": "fb50dc0717ff266cf9baf82b1ce7a1c2ef6d9247859680b11a19fb7077f5f222"
+      },
+      "expected": {
+        "file": "stream_writer-random-1.bin",
+        "bytes": 4134,
+        "sha256": "16f44bc6b9cb0eaed5e11ecbbe27d7c73120f5a58f258ce5023f0d65db87b454"
+      },
+      "reference_final_eof": true
+    },
+    {
+      "name": "stream_writer-random-17",
+      "payload": "random-17",
+      "sender_api": "stream_writer",
+      "stages": [
+        {
+          "file": "stream_writer-random-17-0.zst",
+          "bytes": 26,
+          "sha256": "c56b7f665c93c76e112ce63c4f227a70af14e7f01d812fc31e9f92af5c5fa4dd",
+          "submitted": 17,
+          "write_output": 0,
+          "flush_output": 26,
+          "reference_decoded": 17,
+          "reference_eof": false
+        },
+        {
+          "file": "stream_writer-random-17-1.zst",
+          "bytes": 4,
+          "sha256": "442df309341a6213d2c5bc5d4375c4b05571b17b750063bb3c09bb2bd5f81de3",
+          "submitted": 54,
+          "write_output": 0,
+          "flush_output": 4,
+          "reference_decoded": 54,
+          "reference_eof": false
+        },
+        {
+          "file": "stream_writer-random-17-2.zst",
+          "bytes": 269,
+          "sha256": "5be3ef133b75ddef64a6267f5c2f634d648c10a531d0dfcb51d34771d96f8c26",
+          "submitted": 4150,
+          "write_output": 0,
+          "flush_output": 269,
+          "reference_decoded": 4150,
+          "reference_eof": false
+        },
+        {
+          "file": "stream_writer-random-17-3.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 4150,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 4150,
+          "reference_eof": false
+        }
+      ],
+      "tail": {
+        "file": "stream_writer-random-17-finish.zst",
+        "bytes": 3,
+        "sha256": "fb50dc0717ff266cf9baf82b1ce7a1c2ef6d9247859680b11a19fb7077f5f222"
+      },
+      "expected": {
+        "file": "stream_writer-random-17.bin",
+        "bytes": 4150,
+        "sha256": "5b4e23c7aedc6847c5dee2bbee56dcb6dd2a567e8bc66e0dbf2fb8fc934b3b35"
+      },
+      "reference_final_eof": true
+    },
+    {
+      "name": "stream_writer-random-4096",
+      "payload": "random-4096",
+      "sender_api": "stream_writer",
+      "stages": [
+        {
+          "file": "stream_writer-random-4096-0.zst",
+          "bytes": 4105,
+          "sha256": "d69f40f7e05875a19d13a6d7874a5af9a333106689f2b03ba0383e9ede50c010",
+          "submitted": 4096,
+          "write_output": 0,
+          "flush_output": 4105,
+          "reference_decoded": 4096,
+          "reference_eof": false
+        },
+        {
+          "file": "stream_writer-random-4096-1.zst",
+          "bytes": 4,
+          "sha256": "442df309341a6213d2c5bc5d4375c4b05571b17b750063bb3c09bb2bd5f81de3",
+          "submitted": 4133,
+          "write_output": 0,
+          "flush_output": 4,
+          "reference_decoded": 4133,
+          "reference_eof": false
+        },
+        {
+          "file": "stream_writer-random-4096-2.zst",
+          "bytes": 269,
+          "sha256": "5be3ef133b75ddef64a6267f5c2f634d648c10a531d0dfcb51d34771d96f8c26",
+          "submitted": 8229,
+          "write_output": 0,
+          "flush_output": 269,
+          "reference_decoded": 8229,
+          "reference_eof": false
+        },
+        {
+          "file": "stream_writer-random-4096-3.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 8229,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 8229,
+          "reference_eof": false
+        }
+      ],
+      "tail": {
+        "file": "stream_writer-random-4096-finish.zst",
+        "bytes": 3,
+        "sha256": "fb50dc0717ff266cf9baf82b1ce7a1c2ef6d9247859680b11a19fb7077f5f222"
+      },
+      "expected": {
+        "file": "stream_writer-random-4096.bin",
+        "bytes": 8229,
+        "sha256": "e6a7c5303c899815e59f354c824a5905253abe4fad5b422f4c2c2394468dafa2"
+      },
+      "reference_final_eof": true
+    },
+    {
+      "name": "stream_writer-random-65535",
+      "payload": "random-65535",
+      "sender_api": "stream_writer",
+      "stages": [
+        {
+          "file": "stream_writer-random-65535-0.zst",
+          "bytes": 65544,
+          "sha256": "8e48fa76277702407829e1eb8a3dd0e5518bb25930d02db8bcfb3871f5b80deb",
+          "submitted": 65535,
+          "write_output": 0,
+          "flush_output": 65544,
+          "reference_decoded": 65535,
+          "reference_eof": false
+        },
+        {
+          "file": "stream_writer-random-65535-1.zst",
+          "bytes": 4,
+          "sha256": "442df309341a6213d2c5bc5d4375c4b05571b17b750063bb3c09bb2bd5f81de3",
+          "submitted": 65572,
+          "write_output": 0,
+          "flush_output": 4,
+          "reference_decoded": 65572,
+          "reference_eof": false
+        },
+        {
+          "file": "stream_writer-random-65535-2.zst",
+          "bytes": 269,
+          "sha256": "5be3ef133b75ddef64a6267f5c2f634d648c10a531d0dfcb51d34771d96f8c26",
+          "submitted": 69668,
+          "write_output": 0,
+          "flush_output": 269,
+          "reference_decoded": 69668,
+          "reference_eof": false
+        },
+        {
+          "file": "stream_writer-random-65535-3.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 69668,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 69668,
+          "reference_eof": false
+        }
+      ],
+      "tail": {
+        "file": "stream_writer-random-65535-finish.zst",
+        "bytes": 3,
+        "sha256": "fb50dc0717ff266cf9baf82b1ce7a1c2ef6d9247859680b11a19fb7077f5f222"
+      },
+      "expected": {
+        "file": "stream_writer-random-65535.bin",
+        "bytes": 69668,
+        "sha256": "a3d7d452bbda59b3f07bce486a3ab504c44704e9a0177f6606afd2ac19209ae1"
+      },
+      "reference_final_eof": true
+    },
+    {
+      "name": "stream_writer-random-65536",
+      "payload": "random-65536",
+      "sender_api": "stream_writer",
+      "stages": [
+        {
+          "file": "stream_writer-random-65536-0.zst",
+          "bytes": 65545,
+          "sha256": "bec47810ebb43cc1b055adf67273a5c4eda8b260aca96233c8e0b84eb1d02411",
+          "submitted": 65536,
+          "write_output": 0,
+          "flush_output": 65545,
+          "reference_decoded": 65536,
+          "reference_eof": false
+        },
+        {
+          "file": "stream_writer-random-65536-1.zst",
+          "bytes": 4,
+          "sha256": "442df309341a6213d2c5bc5d4375c4b05571b17b750063bb3c09bb2bd5f81de3",
+          "submitted": 65573,
+          "write_output": 0,
+          "flush_output": 4,
+          "reference_decoded": 65573,
+          "reference_eof": false
+        },
+        {
+          "file": "stream_writer-random-65536-2.zst",
+          "bytes": 269,
+          "sha256": "5be3ef133b75ddef64a6267f5c2f634d648c10a531d0dfcb51d34771d96f8c26",
+          "submitted": 69669,
+          "write_output": 0,
+          "flush_output": 269,
+          "reference_decoded": 69669,
+          "reference_eof": false
+        },
+        {
+          "file": "stream_writer-random-65536-3.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 69669,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 69669,
+          "reference_eof": false
+        }
+      ],
+      "tail": {
+        "file": "stream_writer-random-65536-finish.zst",
+        "bytes": 3,
+        "sha256": "fb50dc0717ff266cf9baf82b1ce7a1c2ef6d9247859680b11a19fb7077f5f222"
+      },
+      "expected": {
+        "file": "stream_writer-random-65536.bin",
+        "bytes": 69669,
+        "sha256": "31dc71f4edc5dda9d7f95b62504b60efcb91a2ffdad53d458ec3065c4fa7f1d9"
+      },
+      "reference_final_eof": true
+    },
+    {
+      "name": "stream_writer-random-65537",
+      "payload": "random-65537",
+      "sender_api": "stream_writer",
+      "stages": [
+        {
+          "file": "stream_writer-random-65537-0.zst",
+          "bytes": 65546,
+          "sha256": "07107b94ce9099191df9769653651e44f7bdfdcae7412ce1971b6045a28b2a8e",
+          "submitted": 65537,
+          "write_output": 0,
+          "flush_output": 65546,
+          "reference_decoded": 65537,
+          "reference_eof": false
+        },
+        {
+          "file": "stream_writer-random-65537-1.zst",
+          "bytes": 4,
+          "sha256": "442df309341a6213d2c5bc5d4375c4b05571b17b750063bb3c09bb2bd5f81de3",
+          "submitted": 65574,
+          "write_output": 0,
+          "flush_output": 4,
+          "reference_decoded": 65574,
+          "reference_eof": false
+        },
+        {
+          "file": "stream_writer-random-65537-2.zst",
+          "bytes": 269,
+          "sha256": "5be3ef133b75ddef64a6267f5c2f634d648c10a531d0dfcb51d34771d96f8c26",
+          "submitted": 69670,
+          "write_output": 0,
+          "flush_output": 269,
+          "reference_decoded": 69670,
+          "reference_eof": false
+        },
+        {
+          "file": "stream_writer-random-65537-3.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 69670,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 69670,
+          "reference_eof": false
+        }
+      ],
+      "tail": {
+        "file": "stream_writer-random-65537-finish.zst",
+        "bytes": 3,
+        "sha256": "fb50dc0717ff266cf9baf82b1ce7a1c2ef6d9247859680b11a19fb7077f5f222"
+      },
+      "expected": {
+        "file": "stream_writer-random-65537.bin",
+        "bytes": 69670,
+        "sha256": "8a00503ea09e3bc8fc3d96e13455a8508089e5c5ecc72fca4511eb672881962b"
+      },
+      "reference_final_eof": true
+    },
+    {
+      "name": "stream_writer-random-131071",
+      "payload": "random-131071",
+      "sender_api": "stream_writer",
+      "stages": [
+        {
+          "file": "stream_writer-random-131071-0.zst",
+          "bytes": 131080,
+          "sha256": "f73345066f97bc8c3868a3633189fdb46c0f926b49fb1c2838970e4321b5e021",
+          "submitted": 131071,
+          "write_output": 0,
+          "flush_output": 131080,
+          "reference_decoded": 131071,
+          "reference_eof": false
+        },
+        {
+          "file": "stream_writer-random-131071-1.zst",
+          "bytes": 4,
+          "sha256": "442df309341a6213d2c5bc5d4375c4b05571b17b750063bb3c09bb2bd5f81de3",
+          "submitted": 131108,
+          "write_output": 0,
+          "flush_output": 4,
+          "reference_decoded": 131108,
+          "reference_eof": false
+        },
+        {
+          "file": "stream_writer-random-131071-2.zst",
+          "bytes": 269,
+          "sha256": "5be3ef133b75ddef64a6267f5c2f634d648c10a531d0dfcb51d34771d96f8c26",
+          "submitted": 135204,
+          "write_output": 0,
+          "flush_output": 269,
+          "reference_decoded": 135204,
+          "reference_eof": false
+        },
+        {
+          "file": "stream_writer-random-131071-3.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 135204,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 135204,
+          "reference_eof": false
+        }
+      ],
+      "tail": {
+        "file": "stream_writer-random-131071-finish.zst",
+        "bytes": 3,
+        "sha256": "fb50dc0717ff266cf9baf82b1ce7a1c2ef6d9247859680b11a19fb7077f5f222"
+      },
+      "expected": {
+        "file": "stream_writer-random-131071.bin",
+        "bytes": 135204,
+        "sha256": "3db737993a8a375075266447a1c29d06c86b125766d5f2855bfbafa17b601196"
+      },
+      "reference_final_eof": true
+    },
+    {
+      "name": "stream_writer-random-131072",
+      "payload": "random-131072",
+      "sender_api": "stream_writer",
+      "stages": [
+        {
+          "file": "stream_writer-random-131072-0.zst",
+          "bytes": 131081,
+          "sha256": "0fa84aaab8e558b5bb8d2321f6f3d09d2278efeea0ef10e1cdd9af1c048e71d1",
+          "submitted": 131072,
+          "write_output": 113,
+          "flush_output": 130968,
+          "reference_decoded": 131072,
+          "reference_eof": false
+        },
+        {
+          "file": "stream_writer-random-131072-1.zst",
+          "bytes": 4,
+          "sha256": "442df309341a6213d2c5bc5d4375c4b05571b17b750063bb3c09bb2bd5f81de3",
+          "submitted": 131109,
+          "write_output": 0,
+          "flush_output": 4,
+          "reference_decoded": 131109,
+          "reference_eof": false
+        },
+        {
+          "file": "stream_writer-random-131072-2.zst",
+          "bytes": 269,
+          "sha256": "5be3ef133b75ddef64a6267f5c2f634d648c10a531d0dfcb51d34771d96f8c26",
+          "submitted": 135205,
+          "write_output": 0,
+          "flush_output": 269,
+          "reference_decoded": 135205,
+          "reference_eof": false
+        },
+        {
+          "file": "stream_writer-random-131072-3.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 135205,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 135205,
+          "reference_eof": false
+        }
+      ],
+      "tail": {
+        "file": "stream_writer-random-131072-finish.zst",
+        "bytes": 3,
+        "sha256": "fb50dc0717ff266cf9baf82b1ce7a1c2ef6d9247859680b11a19fb7077f5f222"
+      },
+      "expected": {
+        "file": "stream_writer-random-131072.bin",
+        "bytes": 135205,
+        "sha256": "8388975c11bad203e93ff5011d6efab4f04836fa4730f06bb6beb5d15decb757"
+      },
+      "reference_final_eof": true
+    },
+    {
+      "name": "stream_writer-random-131073",
+      "payload": "random-131073",
+      "sender_api": "stream_writer",
+      "stages": [
+        {
+          "file": "stream_writer-random-131073-0.zst",
+          "bytes": 131085,
+          "sha256": "c3c7b9d61c4a1412430d58f613f9e1557dc7d6c8257ecc50252803c2d7ca5462",
+          "submitted": 131073,
+          "write_output": 131081,
+          "flush_output": 4,
+          "reference_decoded": 131073,
+          "reference_eof": false
+        },
+        {
+          "file": "stream_writer-random-131073-1.zst",
+          "bytes": 4,
+          "sha256": "442df309341a6213d2c5bc5d4375c4b05571b17b750063bb3c09bb2bd5f81de3",
+          "submitted": 131110,
+          "write_output": 0,
+          "flush_output": 4,
+          "reference_decoded": 131110,
+          "reference_eof": false
+        },
+        {
+          "file": "stream_writer-random-131073-2.zst",
+          "bytes": 269,
+          "sha256": "5be3ef133b75ddef64a6267f5c2f634d648c10a531d0dfcb51d34771d96f8c26",
+          "submitted": 135206,
+          "write_output": 0,
+          "flush_output": 269,
+          "reference_decoded": 135206,
+          "reference_eof": false
+        },
+        {
+          "file": "stream_writer-random-131073-3.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 135206,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 135206,
+          "reference_eof": false
+        }
+      ],
+      "tail": {
+        "file": "stream_writer-random-131073-finish.zst",
+        "bytes": 3,
+        "sha256": "fb50dc0717ff266cf9baf82b1ce7a1c2ef6d9247859680b11a19fb7077f5f222"
+      },
+      "expected": {
+        "file": "stream_writer-random-131073.bin",
+        "bytes": 135206,
+        "sha256": "aa0efc0174e7d2cfdeed817acdfedc0dd7751246ce68cd29fd409ae62c71f85e"
+      },
+      "reference_final_eof": true
+    },
+    {
+      "name": "stream_writer-random-262145",
+      "payload": "random-262145",
+      "sender_api": "stream_writer",
+      "stages": [
+        {
+          "file": "stream_writer-random-262145-0.zst",
+          "bytes": 262160,
+          "sha256": "d9125f34b7d92bad7f0ada8f4ca26801318cae24c10408b86be9f9412011dba1",
+          "submitted": 262145,
+          "write_output": 262156,
+          "flush_output": 4,
+          "reference_decoded": 262145,
+          "reference_eof": false
+        },
+        {
+          "file": "stream_writer-random-262145-1.zst",
+          "bytes": 4,
+          "sha256": "442df309341a6213d2c5bc5d4375c4b05571b17b750063bb3c09bb2bd5f81de3",
+          "submitted": 262182,
+          "write_output": 0,
+          "flush_output": 4,
+          "reference_decoded": 262182,
+          "reference_eof": false
+        },
+        {
+          "file": "stream_writer-random-262145-2.zst",
+          "bytes": 269,
+          "sha256": "5be3ef133b75ddef64a6267f5c2f634d648c10a531d0dfcb51d34771d96f8c26",
+          "submitted": 266278,
+          "write_output": 0,
+          "flush_output": 269,
+          "reference_decoded": 266278,
+          "reference_eof": false
+        },
+        {
+          "file": "stream_writer-random-262145-3.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 266278,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 266278,
+          "reference_eof": false
+        }
+      ],
+      "tail": {
+        "file": "stream_writer-random-262145-finish.zst",
+        "bytes": 3,
+        "sha256": "fb50dc0717ff266cf9baf82b1ce7a1c2ef6d9247859680b11a19fb7077f5f222"
+      },
+      "expected": {
+        "file": "stream_writer-random-262145.bin",
+        "bytes": 266278,
+        "sha256": "dd7a5307eb748445275c2bf949546223e513a2053cacdf9a67319061bd40c3a6"
+      },
+      "reference_final_eof": true
+    },
+    {
+      "name": "stream_writer-random-1048593",
+      "payload": "random-1048593",
+      "sender_api": "stream_writer",
+      "stages": [
+        {
+          "file": "stream_writer-random-1048593-0.zst",
+          "bytes": 1048626,
+          "sha256": "3d4c629c26c7481d3d4e1e6702dea5ca40bd6cf1294deab9b0c09b7dfd0258fa",
+          "submitted": 1048593,
+          "write_output": 1048606,
+          "flush_output": 20,
+          "reference_decoded": 1048593,
+          "reference_eof": false
+        },
+        {
+          "file": "stream_writer-random-1048593-1.zst",
+          "bytes": 4,
+          "sha256": "442df309341a6213d2c5bc5d4375c4b05571b17b750063bb3c09bb2bd5f81de3",
+          "submitted": 1048630,
+          "write_output": 0,
+          "flush_output": 4,
+          "reference_decoded": 1048630,
+          "reference_eof": false
+        },
+        {
+          "file": "stream_writer-random-1048593-2.zst",
+          "bytes": 269,
+          "sha256": "5be3ef133b75ddef64a6267f5c2f634d648c10a531d0dfcb51d34771d96f8c26",
+          "submitted": 1052726,
+          "write_output": 0,
+          "flush_output": 269,
+          "reference_decoded": 1052726,
+          "reference_eof": false
+        },
+        {
+          "file": "stream_writer-random-1048593-3.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 1052726,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 1052726,
+          "reference_eof": false
+        }
+      ],
+      "tail": {
+        "file": "stream_writer-random-1048593-finish.zst",
+        "bytes": 3,
+        "sha256": "fb50dc0717ff266cf9baf82b1ce7a1c2ef6d9247859680b11a19fb7077f5f222"
+      },
+      "expected": {
+        "file": "stream_writer-random-1048593.bin",
+        "bytes": 1052726,
+        "sha256": "f0da71313caf075ffdfc9099acc4c3e4807212ec24ed44af72cd0562d80910e3"
+      },
+      "reference_final_eof": true
+    },
+    {
+      "name": "stream_writer-repeat-1",
+      "payload": "repeat-1",
+      "sender_api": "stream_writer",
+      "stages": [
+        {
+          "file": "stream_writer-repeat-1-0.zst",
+          "bytes": 10,
+          "sha256": "e450723a0ccefb3259d5865e61b8ec725afd7e90969049a5da48c27ea2787e31",
+          "submitted": 1,
+          "write_output": 0,
+          "flush_output": 10,
+          "reference_decoded": 1,
+          "reference_eof": false
+        },
+        {
+          "file": "stream_writer-repeat-1-1.zst",
+          "bytes": 4,
+          "sha256": "442df309341a6213d2c5bc5d4375c4b05571b17b750063bb3c09bb2bd5f81de3",
+          "submitted": 38,
+          "write_output": 0,
+          "flush_output": 4,
+          "reference_decoded": 38,
+          "reference_eof": false
+        },
+        {
+          "file": "stream_writer-repeat-1-2.zst",
+          "bytes": 269,
+          "sha256": "5be3ef133b75ddef64a6267f5c2f634d648c10a531d0dfcb51d34771d96f8c26",
+          "submitted": 4134,
+          "write_output": 0,
+          "flush_output": 269,
+          "reference_decoded": 4134,
+          "reference_eof": false
+        },
+        {
+          "file": "stream_writer-repeat-1-3.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 4134,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 4134,
+          "reference_eof": false
+        }
+      ],
+      "tail": {
+        "file": "stream_writer-repeat-1-finish.zst",
+        "bytes": 3,
+        "sha256": "fb50dc0717ff266cf9baf82b1ce7a1c2ef6d9247859680b11a19fb7077f5f222"
+      },
+      "expected": {
+        "file": "stream_writer-repeat-1.bin",
+        "bytes": 4134,
+        "sha256": "8a0a7415fda5fd90819680ed006bc7fda0f7d101074a02faacc539660b6b8ac2"
+      },
+      "reference_final_eof": true
+    },
+    {
+      "name": "stream_writer-repeat-17",
+      "payload": "repeat-17",
+      "sender_api": "stream_writer",
+      "stages": [
+        {
+          "file": "stream_writer-repeat-17-0.zst",
+          "bytes": 26,
+          "sha256": "52e45b8af0c2fdd235906589ce6e4c645fd9832c6599258daca13c7b9c56ad00",
+          "submitted": 17,
+          "write_output": 0,
+          "flush_output": 26,
+          "reference_decoded": 17,
+          "reference_eof": false
+        },
+        {
+          "file": "stream_writer-repeat-17-1.zst",
+          "bytes": 4,
+          "sha256": "442df309341a6213d2c5bc5d4375c4b05571b17b750063bb3c09bb2bd5f81de3",
+          "submitted": 54,
+          "write_output": 0,
+          "flush_output": 4,
+          "reference_decoded": 54,
+          "reference_eof": false
+        },
+        {
+          "file": "stream_writer-repeat-17-2.zst",
+          "bytes": 269,
+          "sha256": "5be3ef133b75ddef64a6267f5c2f634d648c10a531d0dfcb51d34771d96f8c26",
+          "submitted": 4150,
+          "write_output": 0,
+          "flush_output": 269,
+          "reference_decoded": 4150,
+          "reference_eof": false
+        },
+        {
+          "file": "stream_writer-repeat-17-3.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 4150,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 4150,
+          "reference_eof": false
+        }
+      ],
+      "tail": {
+        "file": "stream_writer-repeat-17-finish.zst",
+        "bytes": 3,
+        "sha256": "fb50dc0717ff266cf9baf82b1ce7a1c2ef6d9247859680b11a19fb7077f5f222"
+      },
+      "expected": {
+        "file": "stream_writer-repeat-17.bin",
+        "bytes": 4150,
+        "sha256": "be2bb3b3957d6b9fd7d44fae662a42ccad97925f1bbe61cf47d371a352870d9a"
+      },
+      "reference_final_eof": true
+    },
+    {
+      "name": "stream_writer-repeat-4096",
+      "payload": "repeat-4096",
+      "sender_api": "stream_writer",
+      "stages": [
+        {
+          "file": "stream_writer-repeat-4096-0.zst",
+          "bytes": 17,
+          "sha256": "845b03e160628972e1a6f03e1e3e73b3fa73bf82c9b2fdd793fae789af75180b",
+          "submitted": 4096,
+          "write_output": 0,
+          "flush_output": 17,
+          "reference_decoded": 4096,
+          "reference_eof": false
+        },
+        {
+          "file": "stream_writer-repeat-4096-1.zst",
+          "bytes": 4,
+          "sha256": "442df309341a6213d2c5bc5d4375c4b05571b17b750063bb3c09bb2bd5f81de3",
+          "submitted": 4133,
+          "write_output": 0,
+          "flush_output": 4,
+          "reference_decoded": 4133,
+          "reference_eof": false
+        },
+        {
+          "file": "stream_writer-repeat-4096-2.zst",
+          "bytes": 269,
+          "sha256": "5be3ef133b75ddef64a6267f5c2f634d648c10a531d0dfcb51d34771d96f8c26",
+          "submitted": 8229,
+          "write_output": 0,
+          "flush_output": 269,
+          "reference_decoded": 8229,
+          "reference_eof": false
+        },
+        {
+          "file": "stream_writer-repeat-4096-3.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 8229,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 8229,
+          "reference_eof": false
+        }
+      ],
+      "tail": {
+        "file": "stream_writer-repeat-4096-finish.zst",
+        "bytes": 3,
+        "sha256": "fb50dc0717ff266cf9baf82b1ce7a1c2ef6d9247859680b11a19fb7077f5f222"
+      },
+      "expected": {
+        "file": "stream_writer-repeat-4096.bin",
+        "bytes": 8229,
+        "sha256": "06ffcea20525b662f309dd9c897d4f2575b0d6fa29571967474f274d00231f93"
+      },
+      "reference_final_eof": true
+    },
+    {
+      "name": "stream_writer-repeat-65535",
+      "payload": "repeat-65535",
+      "sender_api": "stream_writer",
+      "stages": [
+        {
+          "file": "stream_writer-repeat-65535-0.zst",
+          "bytes": 18,
+          "sha256": "b7b893f399d71955c812c22c849352ba211474ae455dcd19b6a59bffb2d1f707",
+          "submitted": 65535,
+          "write_output": 0,
+          "flush_output": 18,
+          "reference_decoded": 65535,
+          "reference_eof": false
+        },
+        {
+          "file": "stream_writer-repeat-65535-1.zst",
+          "bytes": 4,
+          "sha256": "442df309341a6213d2c5bc5d4375c4b05571b17b750063bb3c09bb2bd5f81de3",
+          "submitted": 65572,
+          "write_output": 0,
+          "flush_output": 4,
+          "reference_decoded": 65572,
+          "reference_eof": false
+        },
+        {
+          "file": "stream_writer-repeat-65535-2.zst",
+          "bytes": 269,
+          "sha256": "5be3ef133b75ddef64a6267f5c2f634d648c10a531d0dfcb51d34771d96f8c26",
+          "submitted": 69668,
+          "write_output": 0,
+          "flush_output": 269,
+          "reference_decoded": 69668,
+          "reference_eof": false
+        },
+        {
+          "file": "stream_writer-repeat-65535-3.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 69668,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 69668,
+          "reference_eof": false
+        }
+      ],
+      "tail": {
+        "file": "stream_writer-repeat-65535-finish.zst",
+        "bytes": 3,
+        "sha256": "fb50dc0717ff266cf9baf82b1ce7a1c2ef6d9247859680b11a19fb7077f5f222"
+      },
+      "expected": {
+        "file": "stream_writer-repeat-65535.bin",
+        "bytes": 69668,
+        "sha256": "8cef50fc47ee7f97fe7ec1b623aee506c8ca172320ebbd4e0b25ad19efedab7e"
+      },
+      "reference_final_eof": true
+    },
+    {
+      "name": "stream_writer-repeat-65536",
+      "payload": "repeat-65536",
+      "sender_api": "stream_writer",
+      "stages": [
+        {
+          "file": "stream_writer-repeat-65536-0.zst",
+          "bytes": 18,
+          "sha256": "fdfe1141c505e1c4e1c3d8522a9c6150f1bf5761948d8bc96f72a003c5c57c3d",
+          "submitted": 65536,
+          "write_output": 0,
+          "flush_output": 18,
+          "reference_decoded": 65536,
+          "reference_eof": false
+        },
+        {
+          "file": "stream_writer-repeat-65536-1.zst",
+          "bytes": 4,
+          "sha256": "442df309341a6213d2c5bc5d4375c4b05571b17b750063bb3c09bb2bd5f81de3",
+          "submitted": 65573,
+          "write_output": 0,
+          "flush_output": 4,
+          "reference_decoded": 65573,
+          "reference_eof": false
+        },
+        {
+          "file": "stream_writer-repeat-65536-2.zst",
+          "bytes": 269,
+          "sha256": "5be3ef133b75ddef64a6267f5c2f634d648c10a531d0dfcb51d34771d96f8c26",
+          "submitted": 69669,
+          "write_output": 0,
+          "flush_output": 269,
+          "reference_decoded": 69669,
+          "reference_eof": false
+        },
+        {
+          "file": "stream_writer-repeat-65536-3.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 69669,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 69669,
+          "reference_eof": false
+        }
+      ],
+      "tail": {
+        "file": "stream_writer-repeat-65536-finish.zst",
+        "bytes": 3,
+        "sha256": "fb50dc0717ff266cf9baf82b1ce7a1c2ef6d9247859680b11a19fb7077f5f222"
+      },
+      "expected": {
+        "file": "stream_writer-repeat-65536.bin",
+        "bytes": 69669,
+        "sha256": "546cadd2d2ab64f839ca3db785a7ba270bb50a103bd081ba73f605788f371b88"
+      },
+      "reference_final_eof": true
+    },
+    {
+      "name": "stream_writer-repeat-65537",
+      "payload": "repeat-65537",
+      "sender_api": "stream_writer",
+      "stages": [
+        {
+          "file": "stream_writer-repeat-65537-0.zst",
+          "bytes": 18,
+          "sha256": "1dc18f1617d6a92875e8a795810204cc1a97aab546162d1aa6261620c63a1a6c",
+          "submitted": 65537,
+          "write_output": 0,
+          "flush_output": 18,
+          "reference_decoded": 65537,
+          "reference_eof": false
+        },
+        {
+          "file": "stream_writer-repeat-65537-1.zst",
+          "bytes": 4,
+          "sha256": "442df309341a6213d2c5bc5d4375c4b05571b17b750063bb3c09bb2bd5f81de3",
+          "submitted": 65574,
+          "write_output": 0,
+          "flush_output": 4,
+          "reference_decoded": 65574,
+          "reference_eof": false
+        },
+        {
+          "file": "stream_writer-repeat-65537-2.zst",
+          "bytes": 269,
+          "sha256": "5be3ef133b75ddef64a6267f5c2f634d648c10a531d0dfcb51d34771d96f8c26",
+          "submitted": 69670,
+          "write_output": 0,
+          "flush_output": 269,
+          "reference_decoded": 69670,
+          "reference_eof": false
+        },
+        {
+          "file": "stream_writer-repeat-65537-3.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 69670,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 69670,
+          "reference_eof": false
+        }
+      ],
+      "tail": {
+        "file": "stream_writer-repeat-65537-finish.zst",
+        "bytes": 3,
+        "sha256": "fb50dc0717ff266cf9baf82b1ce7a1c2ef6d9247859680b11a19fb7077f5f222"
+      },
+      "expected": {
+        "file": "stream_writer-repeat-65537.bin",
+        "bytes": 69670,
+        "sha256": "e3d72cece2f2982a25cb64a146db4fada7d8acfdf610dad760d1fba912f0c4be"
+      },
+      "reference_final_eof": true
+    },
+    {
+      "name": "stream_writer-repeat-131071",
+      "payload": "repeat-131071",
+      "sender_api": "stream_writer",
+      "stages": [
+        {
+          "file": "stream_writer-repeat-131071-0.zst",
+          "bytes": 18,
+          "sha256": "374d4d8a157474e574784c92bc36acf66a3380ec55564c3ddd861401f08e6a07",
+          "submitted": 131071,
+          "write_output": 0,
+          "flush_output": 18,
+          "reference_decoded": 131071,
+          "reference_eof": false
+        },
+        {
+          "file": "stream_writer-repeat-131071-1.zst",
+          "bytes": 4,
+          "sha256": "442df309341a6213d2c5bc5d4375c4b05571b17b750063bb3c09bb2bd5f81de3",
+          "submitted": 131108,
+          "write_output": 0,
+          "flush_output": 4,
+          "reference_decoded": 131108,
+          "reference_eof": false
+        },
+        {
+          "file": "stream_writer-repeat-131071-2.zst",
+          "bytes": 269,
+          "sha256": "5be3ef133b75ddef64a6267f5c2f634d648c10a531d0dfcb51d34771d96f8c26",
+          "submitted": 135204,
+          "write_output": 0,
+          "flush_output": 269,
+          "reference_decoded": 135204,
+          "reference_eof": false
+        },
+        {
+          "file": "stream_writer-repeat-131071-3.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 135204,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 135204,
+          "reference_eof": false
+        }
+      ],
+      "tail": {
+        "file": "stream_writer-repeat-131071-finish.zst",
+        "bytes": 3,
+        "sha256": "fb50dc0717ff266cf9baf82b1ce7a1c2ef6d9247859680b11a19fb7077f5f222"
+      },
+      "expected": {
+        "file": "stream_writer-repeat-131071.bin",
+        "bytes": 135204,
+        "sha256": "cb977d53c1381fc01d22bd59e20486090d7352097c05c49764672735e823f402"
+      },
+      "reference_final_eof": true
+    },
+    {
+      "name": "stream_writer-repeat-131072",
+      "payload": "repeat-131072",
+      "sender_api": "stream_writer",
+      "stages": [
+        {
+          "file": "stream_writer-repeat-131072-0.zst",
+          "bytes": 18,
+          "sha256": "8187e7ac7cf4d8466c1433fc78cc0f29b1bf1e6ca10d0ac7b630c3ad0fa38a9a",
+          "submitted": 131072,
+          "write_output": 18,
+          "flush_output": 0,
+          "reference_decoded": 131072,
+          "reference_eof": false
+        },
+        {
+          "file": "stream_writer-repeat-131072-1.zst",
+          "bytes": 4,
+          "sha256": "442df309341a6213d2c5bc5d4375c4b05571b17b750063bb3c09bb2bd5f81de3",
+          "submitted": 131109,
+          "write_output": 0,
+          "flush_output": 4,
+          "reference_decoded": 131109,
+          "reference_eof": false
+        },
+        {
+          "file": "stream_writer-repeat-131072-2.zst",
+          "bytes": 269,
+          "sha256": "5be3ef133b75ddef64a6267f5c2f634d648c10a531d0dfcb51d34771d96f8c26",
+          "submitted": 135205,
+          "write_output": 0,
+          "flush_output": 269,
+          "reference_decoded": 135205,
+          "reference_eof": false
+        },
+        {
+          "file": "stream_writer-repeat-131072-3.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 135205,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 135205,
+          "reference_eof": false
+        }
+      ],
+      "tail": {
+        "file": "stream_writer-repeat-131072-finish.zst",
+        "bytes": 3,
+        "sha256": "fb50dc0717ff266cf9baf82b1ce7a1c2ef6d9247859680b11a19fb7077f5f222"
+      },
+      "expected": {
+        "file": "stream_writer-repeat-131072.bin",
+        "bytes": 135205,
+        "sha256": "2d84382f8fc3f568578a637469f1af98bd77df785b2699f56045c8ec9ba7a6fb"
+      },
+      "reference_final_eof": true
+    },
+    {
+      "name": "stream_writer-repeat-131073",
+      "payload": "repeat-131073",
+      "sender_api": "stream_writer",
+      "stages": [
+        {
+          "file": "stream_writer-repeat-131073-0.zst",
+          "bytes": 22,
+          "sha256": "9d4b51164e679a914b4299020300bda7f305852b2438d34faa93b2a11d557a3c",
+          "submitted": 131073,
+          "write_output": 18,
+          "flush_output": 4,
+          "reference_decoded": 131073,
+          "reference_eof": false
+        },
+        {
+          "file": "stream_writer-repeat-131073-1.zst",
+          "bytes": 4,
+          "sha256": "442df309341a6213d2c5bc5d4375c4b05571b17b750063bb3c09bb2bd5f81de3",
+          "submitted": 131110,
+          "write_output": 0,
+          "flush_output": 4,
+          "reference_decoded": 131110,
+          "reference_eof": false
+        },
+        {
+          "file": "stream_writer-repeat-131073-2.zst",
+          "bytes": 269,
+          "sha256": "5be3ef133b75ddef64a6267f5c2f634d648c10a531d0dfcb51d34771d96f8c26",
+          "submitted": 135206,
+          "write_output": 0,
+          "flush_output": 269,
+          "reference_decoded": 135206,
+          "reference_eof": false
+        },
+        {
+          "file": "stream_writer-repeat-131073-3.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 135206,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 135206,
+          "reference_eof": false
+        }
+      ],
+      "tail": {
+        "file": "stream_writer-repeat-131073-finish.zst",
+        "bytes": 3,
+        "sha256": "fb50dc0717ff266cf9baf82b1ce7a1c2ef6d9247859680b11a19fb7077f5f222"
+      },
+      "expected": {
+        "file": "stream_writer-repeat-131073.bin",
+        "bytes": 135206,
+        "sha256": "f987f60242a8252fa5f5554fdb14a5a12ee10253696efcbfba905aa9e541a8de"
+      },
+      "reference_final_eof": true
+    },
+    {
+      "name": "stream_writer-repeat-262145",
+      "payload": "repeat-262145",
+      "sender_api": "stream_writer",
+      "stages": [
+        {
+          "file": "stream_writer-repeat-262145-0.zst",
+          "bytes": 26,
+          "sha256": "2edf0263e62dd766de972f16b39725dabc0540276e6f9f868527374457459fcc",
+          "submitted": 262145,
+          "write_output": 22,
+          "flush_output": 4,
+          "reference_decoded": 262145,
+          "reference_eof": false
+        },
+        {
+          "file": "stream_writer-repeat-262145-1.zst",
+          "bytes": 4,
+          "sha256": "442df309341a6213d2c5bc5d4375c4b05571b17b750063bb3c09bb2bd5f81de3",
+          "submitted": 262182,
+          "write_output": 0,
+          "flush_output": 4,
+          "reference_decoded": 262182,
+          "reference_eof": false
+        },
+        {
+          "file": "stream_writer-repeat-262145-2.zst",
+          "bytes": 269,
+          "sha256": "5be3ef133b75ddef64a6267f5c2f634d648c10a531d0dfcb51d34771d96f8c26",
+          "submitted": 266278,
+          "write_output": 0,
+          "flush_output": 269,
+          "reference_decoded": 266278,
+          "reference_eof": false
+        },
+        {
+          "file": "stream_writer-repeat-262145-3.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 266278,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 266278,
+          "reference_eof": false
+        }
+      ],
+      "tail": {
+        "file": "stream_writer-repeat-262145-finish.zst",
+        "bytes": 3,
+        "sha256": "fb50dc0717ff266cf9baf82b1ce7a1c2ef6d9247859680b11a19fb7077f5f222"
+      },
+      "expected": {
+        "file": "stream_writer-repeat-262145.bin",
+        "bytes": 266278,
+        "sha256": "a84de2488e6d1e327ebd38ee3599d81a1d191a6201a35c8a1094e58d2139ecfb"
+      },
+      "reference_final_eof": true
+    },
+    {
+      "name": "stream_writer-repeat-1048593",
+      "payload": "repeat-1048593",
+      "sender_api": "stream_writer",
+      "stages": [
+        {
+          "file": "stream_writer-repeat-1048593-0.zst",
+          "bytes": 50,
+          "sha256": "974701e311c7bb0688d53d2715ed02514e03688c1d9642bed7c1f2cf53b57e55",
+          "submitted": 1048593,
+          "write_output": 46,
+          "flush_output": 4,
+          "reference_decoded": 1048593,
+          "reference_eof": false
+        },
+        {
+          "file": "stream_writer-repeat-1048593-1.zst",
+          "bytes": 4,
+          "sha256": "442df309341a6213d2c5bc5d4375c4b05571b17b750063bb3c09bb2bd5f81de3",
+          "submitted": 1048630,
+          "write_output": 0,
+          "flush_output": 4,
+          "reference_decoded": 1048630,
+          "reference_eof": false
+        },
+        {
+          "file": "stream_writer-repeat-1048593-2.zst",
+          "bytes": 269,
+          "sha256": "5be3ef133b75ddef64a6267f5c2f634d648c10a531d0dfcb51d34771d96f8c26",
+          "submitted": 1052726,
+          "write_output": 0,
+          "flush_output": 269,
+          "reference_decoded": 1052726,
+          "reference_eof": false
+        },
+        {
+          "file": "stream_writer-repeat-1048593-3.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 1052726,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 1052726,
+          "reference_eof": false
+        }
+      ],
+      "tail": {
+        "file": "stream_writer-repeat-1048593-finish.zst",
+        "bytes": 3,
+        "sha256": "fb50dc0717ff266cf9baf82b1ce7a1c2ef6d9247859680b11a19fb7077f5f222"
+      },
+      "expected": {
+        "file": "stream_writer-repeat-1048593.bin",
+        "bytes": 1052726,
+        "sha256": "a43d095fb876d0bb0b7db39d5c194e50f9457786ba327e5b954cf3931c6b26ec"
+      },
+      "reference_final_eof": true
+    }
+  ]
+}

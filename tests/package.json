@@ -1,0 +1,8 @@
+{
+  "name": "compress-utils-receiver-tests",
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "fzstd": "0.1.1"
+  }
+}

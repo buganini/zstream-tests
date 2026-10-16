@@ -8,7 +8,11 @@ arbitrary pending input while keeping the compressed stream open.** In addition
 to the missing flush operation, the
 zstd wrapper can leave already-produced encoder or decoder output undrained.
 The added Python `zstandard` comparison meets that requirement with an explicit
-block flush through both tested compression APIs.
+block flush through both tested compression APIs, using Python `zstandard` for
+both the sender and receiver.
+With a Python `zstandard` sender and a different receiver, every completed round
+trip passes, but some mid-stream flush checkpoints fail: see the
+[compress-utils and fzstd receiver results](INTEROP.md).
 
 ## Version and environment
 
@@ -28,6 +32,8 @@ block flush through both tested compression APIs.
 Exact fixture hashes, commands, toolchain details, and exit codes are in
 [summary.json](summary.json). The dependency versions are locked in the upstream
 npm lockfile and this repository's [Cargo.lock](../../tests/rust/Cargo.lock).
+The mixed-receiver tests also use npm `fzstd` 0.1.1, pinned in the test
+[package lockfile](../../tests/package-lock.json).
 
 ## Test design
 
@@ -75,11 +81,14 @@ primary round trips, six finalization checks, and six truncation checks. The
 134 limitations comprise 132 midpoint probes and two JS Web Streams API probes.
 The two native zstd diagnostic controls also pass, outside those counts.
 
-The separate Python `zstandard` comparison adds **62 PASS observations**, bringing
-the combined runner summary to **146 PASS and 134 LIMITATION**. Its midway
-acceptance result is `true`; all three compress-utils binding results remain
-`false`. See `counts_by_binding` and `midstream_acceptance_by_binding` in the
-summary for the separate results.
+The separate Python `zstandard` comparison adds **62 PASS observations**. The
+[mixed-receiver tests](INTEROP.md) add **140 PASS and 44 LIMITATION observations**,
+bringing the combined runner summary to **286 PASS and 178 LIMITATION**. Only
+Python `zstandard` at both ends has a midway acceptance result of `true`; all
+compress-utils and fzstd configurations include failed checkpoints. See
+`counts_by_binding` and `midstream_acceptance_by_binding` in the summary for the
+separate results. All 184 mixed-receiver cases recover the complete input after
+finalization, including those classified as `LIMITATION`.
 
 These counts deliberately distinguish completed data integrity from the unmet
 flush requirement. In strict mode the runner exits **1**, as recorded in the
@@ -116,12 +125,19 @@ The comparison uses **native level 11**, equivalent to compress-utils user level
 and 11 midpoint sizes. It tests zstd only. These are separate package tests,
 not calls through compress-utils or Python's `compression.zstd` standard library.
 
+**Sender: Python `zstandard`. Receiver: Python `zstandard`.** The sender uses
+either `ZstdCompressor.compressobj()` or `ZstdCompressor.stream_writer()`; the
+receiver uses `ZstdDecompressor.decompressobj()` in both variants. Interoperability
+with compress-utils and fzstd receivers is tested separately in the
+[mixed-receiver report](INTEROP.md); the table below describes only Python
+`zstandard` at both ends.
+
 | Check | Result |
 | --- | --- |
 | One-shot round trips | 6/6 pass |
 | Incremental round trips using `compressobj()` | 6/6 pass |
-| Midway block flush using `compressobj()` | 22/22 pass |
-| Midway block flush using `stream_writer()` | 22/22 pass |
+| Midway-flush round trips: `compressobj()` → `decompressobj()` | 22/22 pass |
+| Midway-flush round trips: `stream_writer()` → `decompressobj()` | 22/22 pass |
 | Pre-flush buffering and subsequent flush at 128 KiB | 4/4 pass |
 | Default compressor flush is terminal | Pass |
 | Application detects truncation using decoder `eof` | Pass |
@@ -130,6 +146,8 @@ Both midpoint variants assert exact recovery **after every block flush, before
 the next input arrives**. They check `decoder.eof == False` at all four
 checkpoints, including the empty-input flush, then require `eof == True` only
 after finalization. One compressor and one decoder remain in use throughout.
+Thus each passing midway-flush case proves both immediate prefix recovery at
+every flush and an exact full round trip after further writes and finalization.
 
 The decoder uses `decompressobj(write_size=65536)` to exercise the same output
 chunk size as the compress-utils bindings. The writer variant additionally uses
@@ -246,6 +264,11 @@ block, produces 65,536 bytes on its first call, then produces the remaining
 **65,536 bytes with an empty-input decoder call**. The compressed block already
 contains the data; withholding it is not a requirement of the zstd format.
 
+The [mixed-receiver tests](INTEROP.md#compress-utils-receivers) reproduce this with
+a Python `zstandard` sender that explicitly block-flushes. All three
+compress-utils receivers still return only 65,536 of the 131,072 repeated bytes.
+Replacing the sender therefore does not resolve this decoder defect.
+
 **Fix direction for issues 2 and 3:** track and drain codec output even when no
 caller input remains, report the correct retry status, and ensure empty-input
 drain calls actually invoke the codec. Add regression cases with compressible
@@ -266,7 +289,8 @@ midway decoding, where an unfinished frame is normal.
 
 - [Python observations](python.jsonl), [JavaScript observations](js.jsonl),
   [Rust observations](rust.jsonl), [Python zstandard comparison](python_zstandard.jsonl),
-  and [native controls](native-control.jsonl).
+  [mixed-receiver results and raw evidence](INTEROP.md), and
+  [native controls](native-control.jsonl).
 - [Python probe](../../tests/python_probe.py), [JS probe](../../tests/js_probe.mjs),
   [Rust probe](../../tests/rust/src/main.rs), and
   [native control source](../../tests/native_zstd_control.c).
@@ -284,6 +308,6 @@ the strict flag the runner exits 0 while retaining the limitation observations.
 The raw results were captured with the strict flag enabled. No upstream files
 were modified, no upstream issues were submitted, and no fixes are included.
 
-Not covered: other levels or codecs, cross-binding interoperability, independent
-frame concatenation, real network backpressure, browser runtimes, performance,
-memory bounds, and broader malformed-input testing.
+Not covered: other levels or codecs, other sender/receiver combinations, LZ4
+interoperability, independent frame concatenation, real network backpressure,
+browser runtimes, performance, memory bounds, and broader malformed-input testing.

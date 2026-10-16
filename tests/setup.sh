@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Build unmodified upstream source; all generated files stay under .work/.
+# Build unmodified upstream source; generated dependencies/builds are ignored.
 set -euo pipefail
 repo_dir=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd)
 cd "$repo_dir"
@@ -24,6 +24,7 @@ if [[ ! -x .work/venv/bin/python ]]; then
     "${PYTHON:-python3}" -m venv .work/venv
 fi
 .work/venv/bin/python -m pip install pybind11==3.0.1 zstandard==0.25.0
+npm ci --prefix tests --ignore-scripts --cache "$repo_dir/.work/npm-cache"
 pybind_dir=$(.work/venv/bin/python -m pybind11 --cmakedir)
 cmake -S .work/upstream -B .work/build -G Ninja \
     -DCMAKE_BUILD_TYPE=Release -DENABLE_TESTS=OFF \

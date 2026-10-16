@@ -8,6 +8,7 @@ use std::rc::Rc;
 
 type Result<T> = std::result::Result<T, Box<dyn std::error::Error>>;
 const LEVEL: i32 = 5;
+mod interop;
 
 fn check(ok: bool, message: &str) -> Result<()> {
     if ok { Ok(()) } else { Err(io::Error::other(message).into()) }
@@ -168,6 +169,9 @@ fn emit(algo: Algorithm, test: &str, case: &str, result: Result<Value>) -> bool 
 fn main() -> Result<()> {
     let root_arg = std::env::args().nth(1).expect("fixture directory required");
     let root = Path::new(&root_arg);
+    if std::env::args().nth(2).as_deref() == Some("--interop") {
+        return interop::run(root);
+    }
     let manifest: Value = serde_json::from_slice(&std::fs::read(root.join("manifest.json"))?)?;
     let mut failed = false;
     for algo in [Algorithm::Zstd, Algorithm::Lz4] {

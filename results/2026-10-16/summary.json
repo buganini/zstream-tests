@@ -101,14 +101,18 @@
     "python_zstandard": 0,
     "js": 0,
     "rust": 0,
+    "interop_python": 0,
+    "interop_js": 0,
+    "interop_fzstd": 0,
+    "interop_rust": 0,
     "native_control": 0
   },
   "midstream_acceptance_passed": false,
   "require_midstream_flush": true,
   "runner_exit_code": 1,
   "counts": {
-    "PASS": 146,
-    "LIMITATION": 134
+    "PASS": 286,
+    "LIMITATION": 178
   },
   "counts_by_binding": {
     "python": {
@@ -125,13 +129,33 @@
     "rust": {
       "PASS": 28,
       "LIMITATION": 44
+    },
+    "interop_python": {
+      "PASS": 34,
+      "LIMITATION": 12
+    },
+    "interop_js": {
+      "PASS": 34,
+      "LIMITATION": 12
+    },
+    "interop_fzstd": {
+      "LIMITATION": 8,
+      "PASS": 38
+    },
+    "interop_rust": {
+      "PASS": 34,
+      "LIMITATION": 12
     }
   },
   "midstream_acceptance_by_binding": {
     "python": false,
     "python_zstandard": true,
     "js": false,
-    "rust": false
+    "rust": false,
+    "interop_python": false,
+    "interop_js": false,
+    "interop_fzstd": false,
+    "interop_rust": false
   },
   "python_zstandard": {
     "package_version": "0.25.0",
@@ -144,6 +168,7 @@
     "native_level": 11,
     "compress_utils_equivalent_level": 5
   },
+  "fzstd": "0.1.1",
   "commands": {
     "python": [
       "/home/buganini/repo/compress-utils/.work/venv/bin/python",
@@ -171,6 +196,37 @@
       "/home/buganini/repo/compress-utils/tests/rust/Cargo.toml",
       "--",
       "/home/buganini/repo/compress-utils/.work/fixtures"
+    ],
+    "interop_python": [
+      "/home/buganini/repo/compress-utils/.work/venv/bin/python",
+      "/home/buganini/repo/compress-utils/tests/interop_python.py",
+      "/home/buganini/repo/compress-utils/.work/interop"
+    ],
+    "interop_js": [
+      "node",
+      "/home/buganini/repo/compress-utils/tests/interop_js.mjs",
+      "/home/buganini/repo/compress-utils/.work/interop",
+      "/tmp/compress-utils-upstream",
+      "compress_utils_js"
+    ],
+    "interop_fzstd": [
+      "node",
+      "/home/buganini/repo/compress-utils/tests/interop_js.mjs",
+      "/home/buganini/repo/compress-utils/.work/interop",
+      "/tmp/compress-utils-upstream",
+      "fzstd"
+    ],
+    "interop_rust": [
+      "cargo",
+      "run",
+      "--locked",
+      "--quiet",
+      "--release",
+      "--manifest-path",
+      "/home/buganini/repo/compress-utils/tests/rust/Cargo.toml",
+      "--",
+      "/home/buganini/repo/compress-utils/.work/interop",
+      "--interop"
     ]
   }
 }
