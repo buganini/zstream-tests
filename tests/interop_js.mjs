@@ -52,7 +52,8 @@ async function probe(testCase) {
     else { decoder.push(new Uint8Array(), true); assert.equal(finalCallbacks, 1); }
     const decoded = Buffer.concat(output);
     assert.deepEqual(decoded, expected);
-    return {status: stages.every(s => s.complete) ? 'PASS' : 'LIMITATION', stages,
+    const passed = !testCase.midstream_flush || stages.every(s => s.complete);
+    return {status: passed ? 'PASS' : 'LIMITATION', stages,
             final_roundtrip: true, final_bytes: decoded.length};
   } finally { if (api) decoder.destroy(); }
 }
@@ -60,7 +61,8 @@ async function probe(testCase) {
 let failed = false;
 for (const testCase of manifest.cases) {
   const row = {binding: receiver === 'fzstd' ? 'interop_fzstd' : 'interop_js',
-               test: 'sender_flush', codec: 'zstd', sender: 'python_zstandard', receiver,
+               test: testCase.test, codec: 'zstd', sender: 'python_zstandard', receiver,
+               midstream_flush: testCase.midstream_flush,
                case: testCase.name, sender_api: testCase.sender_api, native_level: manifest.native_level};
   if (receiver === 'fzstd') row.receiver_version = fzstdVersion;
   try { Object.assign(row, await probe(testCase)); }

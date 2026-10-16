@@ -15,6 +15,13 @@
     97,
     4093
   ],
+  "no_flush_input_chunks": [
+    1,
+    7,
+    63,
+    1024,
+    65521
+  ],
   "cases": [
     {
       "name": "compressobj-empty",
@@ -62,6 +69,8 @@
           "reference_eof": false
         }
       ],
+      "test": "sender_flush",
+      "midstream_flush": true,
       "tail": {
         "file": "compressobj-empty-finish.zst",
         "bytes": 3,
@@ -120,6 +129,8 @@
           "reference_eof": false
         }
       ],
+      "test": "sender_flush",
+      "midstream_flush": true,
       "tail": {
         "file": "compressobj-random-1-finish.zst",
         "bytes": 3,
@@ -178,6 +189,8 @@
           "reference_eof": false
         }
       ],
+      "test": "sender_flush",
+      "midstream_flush": true,
       "tail": {
         "file": "compressobj-random-17-finish.zst",
         "bytes": 3,
@@ -236,6 +249,8 @@
           "reference_eof": false
         }
       ],
+      "test": "sender_flush",
+      "midstream_flush": true,
       "tail": {
         "file": "compressobj-random-4096-finish.zst",
         "bytes": 3,
@@ -294,6 +309,8 @@
           "reference_eof": false
         }
       ],
+      "test": "sender_flush",
+      "midstream_flush": true,
       "tail": {
         "file": "compressobj-random-65535-finish.zst",
         "bytes": 3,
@@ -352,6 +369,8 @@
           "reference_eof": false
         }
       ],
+      "test": "sender_flush",
+      "midstream_flush": true,
       "tail": {
         "file": "compressobj-random-65536-finish.zst",
         "bytes": 3,
@@ -410,6 +429,8 @@
           "reference_eof": false
         }
       ],
+      "test": "sender_flush",
+      "midstream_flush": true,
       "tail": {
         "file": "compressobj-random-65537-finish.zst",
         "bytes": 3,
@@ -468,6 +489,8 @@
           "reference_eof": false
         }
       ],
+      "test": "sender_flush",
+      "midstream_flush": true,
       "tail": {
         "file": "compressobj-random-131071-finish.zst",
         "bytes": 3,
@@ -526,6 +549,8 @@
           "reference_eof": false
         }
       ],
+      "test": "sender_flush",
+      "midstream_flush": true,
       "tail": {
         "file": "compressobj-random-131072-finish.zst",
         "bytes": 3,
@@ -584,6 +609,8 @@
           "reference_eof": false
         }
       ],
+      "test": "sender_flush",
+      "midstream_flush": true,
       "tail": {
         "file": "compressobj-random-131073-finish.zst",
         "bytes": 3,
@@ -642,6 +669,8 @@
           "reference_eof": false
         }
       ],
+      "test": "sender_flush",
+      "midstream_flush": true,
       "tail": {
         "file": "compressobj-random-262145-finish.zst",
         "bytes": 3,
@@ -700,6 +729,8 @@
           "reference_eof": false
         }
       ],
+      "test": "sender_flush",
+      "midstream_flush": true,
       "tail": {
         "file": "compressobj-random-1048593-finish.zst",
         "bytes": 3,
@@ -758,6 +789,8 @@
           "reference_eof": false
         }
       ],
+      "test": "sender_flush",
+      "midstream_flush": true,
       "tail": {
         "file": "compressobj-repeat-1-finish.zst",
         "bytes": 3,
@@ -816,6 +849,8 @@
           "reference_eof": false
         }
       ],
+      "test": "sender_flush",
+      "midstream_flush": true,
       "tail": {
         "file": "compressobj-repeat-17-finish.zst",
         "bytes": 3,
@@ -874,6 +909,8 @@
           "reference_eof": false
         }
       ],
+      "test": "sender_flush",
+      "midstream_flush": true,
       "tail": {
         "file": "compressobj-repeat-4096-finish.zst",
         "bytes": 3,
@@ -932,6 +969,8 @@
           "reference_eof": false
         }
       ],
+      "test": "sender_flush",
+      "midstream_flush": true,
       "tail": {
         "file": "compressobj-repeat-65535-finish.zst",
         "bytes": 3,
@@ -990,6 +1029,8 @@
           "reference_eof": false
         }
       ],
+      "test": "sender_flush",
+      "midstream_flush": true,
       "tail": {
         "file": "compressobj-repeat-65536-finish.zst",
         "bytes": 3,
@@ -1048,6 +1089,8 @@
           "reference_eof": false
         }
       ],
+      "test": "sender_flush",
+      "midstream_flush": true,
       "tail": {
         "file": "compressobj-repeat-65537-finish.zst",
         "bytes": 3,
@@ -1106,6 +1149,8 @@
           "reference_eof": false
         }
       ],
+      "test": "sender_flush",
+      "midstream_flush": true,
       "tail": {
         "file": "compressobj-repeat-131071-finish.zst",
         "bytes": 3,
@@ -1164,6 +1209,8 @@
           "reference_eof": false
         }
       ],
+      "test": "sender_flush",
+      "midstream_flush": true,
       "tail": {
         "file": "compressobj-repeat-131072-finish.zst",
         "bytes": 3,
@@ -1222,6 +1269,8 @@
           "reference_eof": false
         }
       ],
+      "test": "sender_flush",
+      "midstream_flush": true,
       "tail": {
         "file": "compressobj-repeat-131073-finish.zst",
         "bytes": 3,
@@ -1280,6 +1329,8 @@
           "reference_eof": false
         }
       ],
+      "test": "sender_flush",
+      "midstream_flush": true,
       "tail": {
         "file": "compressobj-repeat-262145-finish.zst",
         "bytes": 3,
@@ -1338,6 +1389,8 @@
           "reference_eof": false
         }
       ],
+      "test": "sender_flush",
+      "midstream_flush": true,
       "tail": {
         "file": "compressobj-repeat-1048593-finish.zst",
         "bytes": 3,
@@ -1396,6 +1449,8 @@
           "reference_eof": false
         }
       ],
+      "test": "sender_flush",
+      "midstream_flush": true,
       "tail": {
         "file": "stream_writer-empty-finish.zst",
         "bytes": 3,
@@ -1454,6 +1509,8 @@
           "reference_eof": false
         }
       ],
+      "test": "sender_flush",
+      "midstream_flush": true,
       "tail": {
         "file": "stream_writer-random-1-finish.zst",
         "bytes": 3,
@@ -1512,6 +1569,8 @@
           "reference_eof": false
         }
       ],
+      "test": "sender_flush",
+      "midstream_flush": true,
       "tail": {
         "file": "stream_writer-random-17-finish.zst",
         "bytes": 3,
@@ -1570,6 +1629,8 @@
           "reference_eof": false
         }
       ],
+      "test": "sender_flush",
+      "midstream_flush": true,
       "tail": {
         "file": "stream_writer-random-4096-finish.zst",
         "bytes": 3,
@@ -1628,6 +1689,8 @@
           "reference_eof": false
         }
       ],
+      "test": "sender_flush",
+      "midstream_flush": true,
       "tail": {
         "file": "stream_writer-random-65535-finish.zst",
         "bytes": 3,
@@ -1686,6 +1749,8 @@
           "reference_eof": false
         }
       ],
+      "test": "sender_flush",
+      "midstream_flush": true,
       "tail": {
         "file": "stream_writer-random-65536-finish.zst",
         "bytes": 3,
@@ -1744,6 +1809,8 @@
           "reference_eof": false
         }
       ],
+      "test": "sender_flush",
+      "midstream_flush": true,
       "tail": {
         "file": "stream_writer-random-65537-finish.zst",
         "bytes": 3,
@@ -1802,6 +1869,8 @@
           "reference_eof": false
         }
       ],
+      "test": "sender_flush",
+      "midstream_flush": true,
       "tail": {
         "file": "stream_writer-random-131071-finish.zst",
         "bytes": 3,
@@ -1860,6 +1929,8 @@
           "reference_eof": false
         }
       ],
+      "test": "sender_flush",
+      "midstream_flush": true,
       "tail": {
         "file": "stream_writer-random-131072-finish.zst",
         "bytes": 3,
@@ -1918,6 +1989,8 @@
           "reference_eof": false
         }
       ],
+      "test": "sender_flush",
+      "midstream_flush": true,
       "tail": {
         "file": "stream_writer-random-131073-finish.zst",
         "bytes": 3,
@@ -1976,6 +2049,8 @@
           "reference_eof": false
         }
       ],
+      "test": "sender_flush",
+      "midstream_flush": true,
       "tail": {
         "file": "stream_writer-random-262145-finish.zst",
         "bytes": 3,
@@ -2034,6 +2109,8 @@
           "reference_eof": false
         }
       ],
+      "test": "sender_flush",
+      "midstream_flush": true,
       "tail": {
         "file": "stream_writer-random-1048593-finish.zst",
         "bytes": 3,
@@ -2092,6 +2169,8 @@
           "reference_eof": false
         }
       ],
+      "test": "sender_flush",
+      "midstream_flush": true,
       "tail": {
         "file": "stream_writer-repeat-1-finish.zst",
         "bytes": 3,
@@ -2150,6 +2229,8 @@
           "reference_eof": false
         }
       ],
+      "test": "sender_flush",
+      "midstream_flush": true,
       "tail": {
         "file": "stream_writer-repeat-17-finish.zst",
         "bytes": 3,
@@ -2208,6 +2289,8 @@
           "reference_eof": false
         }
       ],
+      "test": "sender_flush",
+      "midstream_flush": true,
       "tail": {
         "file": "stream_writer-repeat-4096-finish.zst",
         "bytes": 3,
@@ -2266,6 +2349,8 @@
           "reference_eof": false
         }
       ],
+      "test": "sender_flush",
+      "midstream_flush": true,
       "tail": {
         "file": "stream_writer-repeat-65535-finish.zst",
         "bytes": 3,
@@ -2324,6 +2409,8 @@
           "reference_eof": false
         }
       ],
+      "test": "sender_flush",
+      "midstream_flush": true,
       "tail": {
         "file": "stream_writer-repeat-65536-finish.zst",
         "bytes": 3,
@@ -2382,6 +2469,8 @@
           "reference_eof": false
         }
       ],
+      "test": "sender_flush",
+      "midstream_flush": true,
       "tail": {
         "file": "stream_writer-repeat-65537-finish.zst",
         "bytes": 3,
@@ -2440,6 +2529,8 @@
           "reference_eof": false
         }
       ],
+      "test": "sender_flush",
+      "midstream_flush": true,
       "tail": {
         "file": "stream_writer-repeat-131071-finish.zst",
         "bytes": 3,
@@ -2498,6 +2589,8 @@
           "reference_eof": false
         }
       ],
+      "test": "sender_flush",
+      "midstream_flush": true,
       "tail": {
         "file": "stream_writer-repeat-131072-finish.zst",
         "bytes": 3,
@@ -2556,6 +2649,8 @@
           "reference_eof": false
         }
       ],
+      "test": "sender_flush",
+      "midstream_flush": true,
       "tail": {
         "file": "stream_writer-repeat-131073-finish.zst",
         "bytes": 3,
@@ -2614,6 +2709,8 @@
           "reference_eof": false
         }
       ],
+      "test": "sender_flush",
+      "midstream_flush": true,
       "tail": {
         "file": "stream_writer-repeat-262145-finish.zst",
         "bytes": 3,
@@ -2672,6 +2769,8 @@
           "reference_eof": false
         }
       ],
+      "test": "sender_flush",
+      "midstream_flush": true,
       "tail": {
         "file": "stream_writer-repeat-1048593-finish.zst",
         "bytes": 3,
@@ -2681,6 +2780,3778 @@
         "file": "stream_writer-repeat-1048593.bin",
         "bytes": 1052726,
         "sha256": "a43d095fb876d0bb0b7db39d5c194e50f9457786ba327e5b954cf3931c6b26ec"
+      },
+      "reference_final_eof": true
+    },
+    {
+      "name": "no-flush-oneshot-empty",
+      "payload": "empty",
+      "sender_api": "oneshot",
+      "test": "oneshot_roundtrip",
+      "midstream_flush": false,
+      "stages": [],
+      "tail": {
+        "file": "no-flush-oneshot-empty-finish.zst",
+        "bytes": 9,
+        "sha256": "6fb8543883dafcc2ed0934866b8b3f775231f5b0933add08bf502e9e84944cbd"
+      },
+      "expected": {
+        "file": "no-flush-oneshot-empty.bin",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "reference_final_eof": true
+    },
+    {
+      "name": "no-flush-oneshot-byte",
+      "payload": "byte",
+      "sender_api": "oneshot",
+      "test": "oneshot_roundtrip",
+      "midstream_flush": false,
+      "stages": [],
+      "tail": {
+        "file": "no-flush-oneshot-byte-finish.zst",
+        "bytes": 10,
+        "sha256": "adfe0eb9e966d2865e17750d8534aa8c97c30fae7a26a8c152c86b46184f6847"
+      },
+      "expected": {
+        "file": "no-flush-oneshot-byte.bin",
+        "bytes": 1,
+        "sha256": "559aead08264d5795d3909718cdd05abd49572e84fe55590eef31a88a08fdffd"
+      },
+      "reference_final_eof": true
+    },
+    {
+      "name": "no-flush-oneshot-text",
+      "payload": "text",
+      "sender_api": "oneshot",
+      "test": "oneshot_roundtrip",
+      "midstream_flush": false,
+      "stages": [],
+      "tail": {
+        "file": "no-flush-oneshot-text-finish.zst",
+        "bytes": 32,
+        "sha256": "d9dc65398ad08ba3192d57ca8d89db38fbf83416ab6048db9676768f94fd98a7"
+      },
+      "expected": {
+        "file": "no-flush-oneshot-text.bin",
+        "bytes": 4096,
+        "sha256": "8e8eaee967ed6de694e7e389a58be586d25b7a14962af3c69ab428b3d44a3c49"
+      },
+      "reference_final_eof": true
+    },
+    {
+      "name": "no-flush-oneshot-binary",
+      "payload": "binary",
+      "sender_api": "oneshot",
+      "test": "oneshot_roundtrip",
+      "midstream_flush": false,
+      "stages": [],
+      "tail": {
+        "file": "no-flush-oneshot-binary-finish.zst",
+        "bytes": 277,
+        "sha256": "910bbf51e06e296282590306c0e054d0c7419f4b1a31b5a028558c73719ccda1"
+      },
+      "expected": {
+        "file": "no-flush-oneshot-binary.bin",
+        "bytes": 65537,
+        "sha256": "2deb0bd2129a9d3aed91e3cff58b3993752be549642890a3e853ec1065f9b617"
+      },
+      "reference_final_eof": true
+    },
+    {
+      "name": "no-flush-oneshot-repeat",
+      "payload": "repeat",
+      "sender_api": "oneshot",
+      "test": "oneshot_roundtrip",
+      "midstream_flush": false,
+      "stages": [],
+      "tail": {
+        "file": "no-flush-oneshot-repeat-finish.zst",
+        "bytes": 53,
+        "sha256": "246268b88c618249763ab2740df3655b8cb5903463d207a6cd35ff964e87d87c"
+      },
+      "expected": {
+        "file": "no-flush-oneshot-repeat.bin",
+        "bytes": 1048593,
+        "sha256": "4db2809fe2bc5709ac72ffdb78447b7d41d027d044a1b91fa0ea8225779a9055"
+      },
+      "reference_final_eof": true
+    },
+    {
+      "name": "no-flush-oneshot-random",
+      "payload": "random",
+      "sender_api": "oneshot",
+      "test": "oneshot_roundtrip",
+      "midstream_flush": false,
+      "stages": [],
+      "tail": {
+        "file": "no-flush-oneshot-random-finish.zst",
+        "bytes": 1048629,
+        "sha256": "9aa9338ffb6c06f99e51275dec74ccf1798fc640dddba56789e79951d038285c"
+      },
+      "expected": {
+        "file": "no-flush-oneshot-random.bin",
+        "bytes": 1048593,
+        "sha256": "c6a2e06fcc443fd891a306bc540ea51eb3baa28e8a9db9ede8cb51ab4b17d367"
+      },
+      "reference_final_eof": true
+    },
+    {
+      "name": "no-flush-compressobj-empty",
+      "payload": "empty",
+      "sender_api": "compressobj",
+      "test": "stream_roundtrip",
+      "midstream_flush": false,
+      "stages": [],
+      "tail": {
+        "file": "no-flush-compressobj-empty-finish.zst",
+        "bytes": 9,
+        "sha256": "6fb8543883dafcc2ed0934866b8b3f775231f5b0933add08bf502e9e84944cbd"
+      },
+      "expected": {
+        "file": "no-flush-compressobj-empty.bin",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "reference_final_eof": true
+    },
+    {
+      "name": "no-flush-compressobj-byte",
+      "payload": "byte",
+      "sender_api": "compressobj",
+      "test": "stream_roundtrip",
+      "midstream_flush": false,
+      "stages": [
+        {
+          "file": "no-flush-compressobj-byte-0.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 1,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 0,
+          "reference_eof": false
+        }
+      ],
+      "tail": {
+        "file": "no-flush-compressobj-byte-finish.zst",
+        "bytes": 10,
+        "sha256": "6b7de3683c20d783f977c129657968c6f26cd88d93459c36a439e066911d594f"
+      },
+      "expected": {
+        "file": "no-flush-compressobj-byte.bin",
+        "bytes": 1,
+        "sha256": "559aead08264d5795d3909718cdd05abd49572e84fe55590eef31a88a08fdffd"
+      },
+      "reference_final_eof": true
+    },
+    {
+      "name": "no-flush-compressobj-text",
+      "payload": "text",
+      "sender_api": "compressobj",
+      "test": "stream_roundtrip",
+      "midstream_flush": false,
+      "stages": [
+        {
+          "file": "no-flush-compressobj-text-0.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 1,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 0,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-compressobj-text-1.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 8,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 0,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-compressobj-text-2.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 71,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 0,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-compressobj-text-3.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 1095,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 0,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-compressobj-text-4.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 4096,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 0,
+          "reference_eof": false
+        }
+      ],
+      "tail": {
+        "file": "no-flush-compressobj-text-finish.zst",
+        "bytes": 31,
+        "sha256": "7ff198feda0d237a6608fde16efd6a1883e03e6abc4712ea59a71a7baaabc5a0"
+      },
+      "expected": {
+        "file": "no-flush-compressobj-text.bin",
+        "bytes": 4096,
+        "sha256": "8e8eaee967ed6de694e7e389a58be586d25b7a14962af3c69ab428b3d44a3c49"
+      },
+      "reference_final_eof": true
+    },
+    {
+      "name": "no-flush-compressobj-binary",
+      "payload": "binary",
+      "sender_api": "compressobj",
+      "test": "stream_roundtrip",
+      "midstream_flush": false,
+      "stages": [
+        {
+          "file": "no-flush-compressobj-binary-0.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 1,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 0,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-compressobj-binary-1.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 8,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 0,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-compressobj-binary-2.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 71,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 0,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-compressobj-binary-3.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 1095,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 0,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-compressobj-binary-4.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 65537,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 0,
+          "reference_eof": false
+        }
+      ],
+      "tail": {
+        "file": "no-flush-compressobj-binary-finish.zst",
+        "bytes": 276,
+        "sha256": "cb60cd4112ca35fbed07db7e281ed58fa26cd46ea8ccf4b06216a7dfbe4c02f4"
+      },
+      "expected": {
+        "file": "no-flush-compressobj-binary.bin",
+        "bytes": 65537,
+        "sha256": "2deb0bd2129a9d3aed91e3cff58b3993752be549642890a3e853ec1065f9b617"
+      },
+      "reference_final_eof": true
+    },
+    {
+      "name": "no-flush-compressobj-repeat",
+      "payload": "repeat",
+      "sender_api": "compressobj",
+      "test": "stream_roundtrip",
+      "midstream_flush": false,
+      "stages": [
+        {
+          "file": "no-flush-compressobj-repeat-0.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 1,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 0,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-compressobj-repeat-1.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 8,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 0,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-compressobj-repeat-2.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 71,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 0,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-compressobj-repeat-3.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 1095,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 0,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-compressobj-repeat-4.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 66616,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 0,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-compressobj-repeat-5.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 66617,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 0,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-compressobj-repeat-6.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 66624,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 0,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-compressobj-repeat-7.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 66687,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 0,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-compressobj-repeat-8.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 67711,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 0,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-compressobj-repeat-9.zst",
+          "bytes": 18,
+          "sha256": "8187e7ac7cf4d8466c1433fc78cc0f29b1bf1e6ca10d0ac7b630c3ad0fa38a9a",
+          "submitted": 133232,
+          "write_output": 18,
+          "flush_output": 0,
+          "reference_decoded": 131072,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-compressobj-repeat-10.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 133233,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 131072,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-compressobj-repeat-11.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 133240,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 131072,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-compressobj-repeat-12.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 133303,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 131072,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-compressobj-repeat-13.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 134327,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 131072,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-compressobj-repeat-14.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 199848,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 131072,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-compressobj-repeat-15.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 199849,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 131072,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-compressobj-repeat-16.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 199856,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 131072,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-compressobj-repeat-17.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 199919,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 131072,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-compressobj-repeat-18.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 200943,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 131072,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-compressobj-repeat-19.zst",
+          "bytes": 4,
+          "sha256": "af4d68c33bc0338276b2aec0a3884574b88ac901dbf21cc4168b8f5818591ba9",
+          "submitted": 266464,
+          "write_output": 4,
+          "flush_output": 0,
+          "reference_decoded": 262144,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-compressobj-repeat-20.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 266465,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 262144,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-compressobj-repeat-21.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 266472,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 262144,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-compressobj-repeat-22.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 266535,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 262144,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-compressobj-repeat-23.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 267559,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 262144,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-compressobj-repeat-24.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 333080,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 262144,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-compressobj-repeat-25.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 333081,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 262144,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-compressobj-repeat-26.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 333088,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 262144,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-compressobj-repeat-27.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 333151,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 262144,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-compressobj-repeat-28.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 334175,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 262144,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-compressobj-repeat-29.zst",
+          "bytes": 4,
+          "sha256": "af4d68c33bc0338276b2aec0a3884574b88ac901dbf21cc4168b8f5818591ba9",
+          "submitted": 399696,
+          "write_output": 4,
+          "flush_output": 0,
+          "reference_decoded": 393216,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-compressobj-repeat-30.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 399697,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 393216,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-compressobj-repeat-31.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 399704,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 393216,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-compressobj-repeat-32.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 399767,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 393216,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-compressobj-repeat-33.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 400791,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 393216,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-compressobj-repeat-34.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 466312,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 393216,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-compressobj-repeat-35.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 466313,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 393216,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-compressobj-repeat-36.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 466320,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 393216,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-compressobj-repeat-37.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 466383,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 393216,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-compressobj-repeat-38.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 467407,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 393216,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-compressobj-repeat-39.zst",
+          "bytes": 4,
+          "sha256": "af4d68c33bc0338276b2aec0a3884574b88ac901dbf21cc4168b8f5818591ba9",
+          "submitted": 532928,
+          "write_output": 4,
+          "flush_output": 0,
+          "reference_decoded": 524288,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-compressobj-repeat-40.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 532929,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 524288,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-compressobj-repeat-41.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 532936,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 524288,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-compressobj-repeat-42.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 532999,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 524288,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-compressobj-repeat-43.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 534023,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 524288,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-compressobj-repeat-44.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 599544,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 524288,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-compressobj-repeat-45.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 599545,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 524288,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-compressobj-repeat-46.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 599552,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 524288,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-compressobj-repeat-47.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 599615,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 524288,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-compressobj-repeat-48.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 600639,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 524288,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-compressobj-repeat-49.zst",
+          "bytes": 4,
+          "sha256": "af4d68c33bc0338276b2aec0a3884574b88ac901dbf21cc4168b8f5818591ba9",
+          "submitted": 666160,
+          "write_output": 4,
+          "flush_output": 0,
+          "reference_decoded": 655360,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-compressobj-repeat-50.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 666161,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 655360,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-compressobj-repeat-51.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 666168,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 655360,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-compressobj-repeat-52.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 666231,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 655360,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-compressobj-repeat-53.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 667255,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 655360,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-compressobj-repeat-54.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 732776,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 655360,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-compressobj-repeat-55.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 732777,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 655360,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-compressobj-repeat-56.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 732784,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 655360,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-compressobj-repeat-57.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 732847,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 655360,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-compressobj-repeat-58.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 733871,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 655360,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-compressobj-repeat-59.zst",
+          "bytes": 4,
+          "sha256": "af4d68c33bc0338276b2aec0a3884574b88ac901dbf21cc4168b8f5818591ba9",
+          "submitted": 799392,
+          "write_output": 4,
+          "flush_output": 0,
+          "reference_decoded": 786432,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-compressobj-repeat-60.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 799393,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 786432,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-compressobj-repeat-61.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 799400,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 786432,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-compressobj-repeat-62.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 799463,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 786432,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-compressobj-repeat-63.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 800487,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 786432,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-compressobj-repeat-64.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 866008,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 786432,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-compressobj-repeat-65.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 866009,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 786432,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-compressobj-repeat-66.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 866016,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 786432,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-compressobj-repeat-67.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 866079,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 786432,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-compressobj-repeat-68.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 867103,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 786432,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-compressobj-repeat-69.zst",
+          "bytes": 4,
+          "sha256": "af4d68c33bc0338276b2aec0a3884574b88ac901dbf21cc4168b8f5818591ba9",
+          "submitted": 932624,
+          "write_output": 4,
+          "flush_output": 0,
+          "reference_decoded": 917504,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-compressobj-repeat-70.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 932625,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 917504,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-compressobj-repeat-71.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 932632,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 917504,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-compressobj-repeat-72.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 932695,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 917504,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-compressobj-repeat-73.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 933719,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 917504,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-compressobj-repeat-74.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 999240,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 917504,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-compressobj-repeat-75.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 999241,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 917504,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-compressobj-repeat-76.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 999248,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 917504,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-compressobj-repeat-77.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 999311,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 917504,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-compressobj-repeat-78.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 1000335,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 917504,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-compressobj-repeat-79.zst",
+          "bytes": 4,
+          "sha256": "af4d68c33bc0338276b2aec0a3884574b88ac901dbf21cc4168b8f5818591ba9",
+          "submitted": 1048593,
+          "write_output": 4,
+          "flush_output": 0,
+          "reference_decoded": 1048576,
+          "reference_eof": false
+        }
+      ],
+      "tail": {
+        "file": "no-flush-compressobj-repeat-finish.zst",
+        "bytes": 4,
+        "sha256": "0a7fa5cc79d9b581aaa143bd6a280120cc87c267167a3fd4b4ea0904131770ca"
+      },
+      "expected": {
+        "file": "no-flush-compressobj-repeat.bin",
+        "bytes": 1048593,
+        "sha256": "4db2809fe2bc5709ac72ffdb78447b7d41d027d044a1b91fa0ea8225779a9055"
+      },
+      "reference_final_eof": true
+    },
+    {
+      "name": "no-flush-compressobj-random",
+      "payload": "random",
+      "sender_api": "compressobj",
+      "test": "stream_roundtrip",
+      "midstream_flush": false,
+      "stages": [
+        {
+          "file": "no-flush-compressobj-random-0.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 1,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 0,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-compressobj-random-1.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 8,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 0,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-compressobj-random-2.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 71,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 0,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-compressobj-random-3.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 1095,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 0,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-compressobj-random-4.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 66616,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 0,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-compressobj-random-5.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 66617,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 0,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-compressobj-random-6.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 66624,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 0,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-compressobj-random-7.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 66687,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 0,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-compressobj-random-8.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 67711,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 0,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-compressobj-random-9.zst",
+          "bytes": 131081,
+          "sha256": "0fa84aaab8e558b5bb8d2321f6f3d09d2278efeea0ef10e1cdd9af1c048e71d1",
+          "submitted": 133232,
+          "write_output": 131081,
+          "flush_output": 0,
+          "reference_decoded": 131072,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-compressobj-random-10.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 133233,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 131072,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-compressobj-random-11.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 133240,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 131072,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-compressobj-random-12.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 133303,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 131072,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-compressobj-random-13.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 134327,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 131072,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-compressobj-random-14.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 199848,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 131072,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-compressobj-random-15.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 199849,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 131072,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-compressobj-random-16.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 199856,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 131072,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-compressobj-random-17.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 199919,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 131072,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-compressobj-random-18.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 200943,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 131072,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-compressobj-random-19.zst",
+          "bytes": 131075,
+          "sha256": "ce27aa6214df5404ab690e0be610ffd2af694ca3f118513820ceb3e0d75fece1",
+          "submitted": 266464,
+          "write_output": 131075,
+          "flush_output": 0,
+          "reference_decoded": 262144,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-compressobj-random-20.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 266465,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 262144,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-compressobj-random-21.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 266472,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 262144,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-compressobj-random-22.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 266535,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 262144,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-compressobj-random-23.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 267559,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 262144,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-compressobj-random-24.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 333080,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 262144,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-compressobj-random-25.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 333081,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 262144,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-compressobj-random-26.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 333088,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 262144,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-compressobj-random-27.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 333151,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 262144,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-compressobj-random-28.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 334175,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 262144,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-compressobj-random-29.zst",
+          "bytes": 131075,
+          "sha256": "1b9ebaf8a2551135642c624db51b04aff553d26a696af663b31adcdcc983809c",
+          "submitted": 399696,
+          "write_output": 131075,
+          "flush_output": 0,
+          "reference_decoded": 393216,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-compressobj-random-30.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 399697,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 393216,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-compressobj-random-31.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 399704,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 393216,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-compressobj-random-32.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 399767,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 393216,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-compressobj-random-33.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 400791,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 393216,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-compressobj-random-34.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 466312,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 393216,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-compressobj-random-35.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 466313,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 393216,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-compressobj-random-36.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 466320,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 393216,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-compressobj-random-37.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 466383,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 393216,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-compressobj-random-38.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 467407,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 393216,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-compressobj-random-39.zst",
+          "bytes": 131075,
+          "sha256": "6cc44484a2d9e501a6209fcbc4d00173a511bde191c85093d13035711baee59a",
+          "submitted": 532928,
+          "write_output": 131075,
+          "flush_output": 0,
+          "reference_decoded": 524288,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-compressobj-random-40.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 532929,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 524288,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-compressobj-random-41.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 532936,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 524288,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-compressobj-random-42.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 532999,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 524288,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-compressobj-random-43.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 534023,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 524288,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-compressobj-random-44.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 599544,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 524288,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-compressobj-random-45.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 599545,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 524288,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-compressobj-random-46.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 599552,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 524288,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-compressobj-random-47.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 599615,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 524288,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-compressobj-random-48.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 600639,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 524288,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-compressobj-random-49.zst",
+          "bytes": 131075,
+          "sha256": "3af86efd0ad4d3e4e7994fae61d920b056f0ba67b2c7348c85ee88fa57a3335e",
+          "submitted": 666160,
+          "write_output": 131075,
+          "flush_output": 0,
+          "reference_decoded": 655360,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-compressobj-random-50.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 666161,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 655360,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-compressobj-random-51.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 666168,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 655360,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-compressobj-random-52.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 666231,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 655360,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-compressobj-random-53.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 667255,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 655360,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-compressobj-random-54.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 732776,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 655360,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-compressobj-random-55.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 732777,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 655360,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-compressobj-random-56.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 732784,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 655360,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-compressobj-random-57.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 732847,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 655360,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-compressobj-random-58.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 733871,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 655360,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-compressobj-random-59.zst",
+          "bytes": 131075,
+          "sha256": "6022eb6e24da3377ede00ad838dc729932192ee7965c2ff74d3949bf4f07ece3",
+          "submitted": 799392,
+          "write_output": 131075,
+          "flush_output": 0,
+          "reference_decoded": 786432,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-compressobj-random-60.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 799393,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 786432,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-compressobj-random-61.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 799400,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 786432,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-compressobj-random-62.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 799463,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 786432,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-compressobj-random-63.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 800487,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 786432,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-compressobj-random-64.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 866008,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 786432,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-compressobj-random-65.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 866009,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 786432,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-compressobj-random-66.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 866016,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 786432,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-compressobj-random-67.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 866079,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 786432,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-compressobj-random-68.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 867103,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 786432,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-compressobj-random-69.zst",
+          "bytes": 131075,
+          "sha256": "ad161c23c1c2778861e462eef1799e5b2fd4f8c424cb012da43a4f3806dfbcf6",
+          "submitted": 932624,
+          "write_output": 131075,
+          "flush_output": 0,
+          "reference_decoded": 917504,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-compressobj-random-70.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 932625,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 917504,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-compressobj-random-71.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 932632,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 917504,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-compressobj-random-72.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 932695,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 917504,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-compressobj-random-73.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 933719,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 917504,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-compressobj-random-74.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 999240,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 917504,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-compressobj-random-75.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 999241,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 917504,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-compressobj-random-76.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 999248,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 917504,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-compressobj-random-77.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 999311,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 917504,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-compressobj-random-78.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 1000335,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 917504,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-compressobj-random-79.zst",
+          "bytes": 131075,
+          "sha256": "f5e23507523512cfd7ef536fb7455291a3438f3fa985730a68e1a1b61299318b",
+          "submitted": 1048593,
+          "write_output": 131075,
+          "flush_output": 0,
+          "reference_decoded": 1048576,
+          "reference_eof": false
+        }
+      ],
+      "tail": {
+        "file": "no-flush-compressobj-random-finish.zst",
+        "bytes": 20,
+        "sha256": "67fb5e4b17fd79c4ccf4dcea02811272b33d3b6a5e8e9081c3b5fd94cbcf3e97"
+      },
+      "expected": {
+        "file": "no-flush-compressobj-random.bin",
+        "bytes": 1048593,
+        "sha256": "c6a2e06fcc443fd891a306bc540ea51eb3baa28e8a9db9ede8cb51ab4b17d367"
+      },
+      "reference_final_eof": true
+    },
+    {
+      "name": "no-flush-stream_writer-empty",
+      "payload": "empty",
+      "sender_api": "stream_writer",
+      "test": "stream_roundtrip",
+      "midstream_flush": false,
+      "stages": [],
+      "tail": {
+        "file": "no-flush-stream_writer-empty-finish.zst",
+        "bytes": 9,
+        "sha256": "6fb8543883dafcc2ed0934866b8b3f775231f5b0933add08bf502e9e84944cbd"
+      },
+      "expected": {
+        "file": "no-flush-stream_writer-empty.bin",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "reference_final_eof": true
+    },
+    {
+      "name": "no-flush-stream_writer-byte",
+      "payload": "byte",
+      "sender_api": "stream_writer",
+      "test": "stream_roundtrip",
+      "midstream_flush": false,
+      "stages": [
+        {
+          "file": "no-flush-stream_writer-byte-0.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 1,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 0,
+          "reference_eof": false
+        }
+      ],
+      "tail": {
+        "file": "no-flush-stream_writer-byte-finish.zst",
+        "bytes": 10,
+        "sha256": "6b7de3683c20d783f977c129657968c6f26cd88d93459c36a439e066911d594f"
+      },
+      "expected": {
+        "file": "no-flush-stream_writer-byte.bin",
+        "bytes": 1,
+        "sha256": "559aead08264d5795d3909718cdd05abd49572e84fe55590eef31a88a08fdffd"
+      },
+      "reference_final_eof": true
+    },
+    {
+      "name": "no-flush-stream_writer-text",
+      "payload": "text",
+      "sender_api": "stream_writer",
+      "test": "stream_roundtrip",
+      "midstream_flush": false,
+      "stages": [
+        {
+          "file": "no-flush-stream_writer-text-0.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 1,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 0,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-stream_writer-text-1.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 8,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 0,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-stream_writer-text-2.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 71,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 0,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-stream_writer-text-3.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 1095,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 0,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-stream_writer-text-4.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 4096,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 0,
+          "reference_eof": false
+        }
+      ],
+      "tail": {
+        "file": "no-flush-stream_writer-text-finish.zst",
+        "bytes": 31,
+        "sha256": "7ff198feda0d237a6608fde16efd6a1883e03e6abc4712ea59a71a7baaabc5a0"
+      },
+      "expected": {
+        "file": "no-flush-stream_writer-text.bin",
+        "bytes": 4096,
+        "sha256": "8e8eaee967ed6de694e7e389a58be586d25b7a14962af3c69ab428b3d44a3c49"
+      },
+      "reference_final_eof": true
+    },
+    {
+      "name": "no-flush-stream_writer-binary",
+      "payload": "binary",
+      "sender_api": "stream_writer",
+      "test": "stream_roundtrip",
+      "midstream_flush": false,
+      "stages": [
+        {
+          "file": "no-flush-stream_writer-binary-0.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 1,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 0,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-stream_writer-binary-1.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 8,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 0,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-stream_writer-binary-2.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 71,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 0,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-stream_writer-binary-3.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 1095,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 0,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-stream_writer-binary-4.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 65537,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 0,
+          "reference_eof": false
+        }
+      ],
+      "tail": {
+        "file": "no-flush-stream_writer-binary-finish.zst",
+        "bytes": 276,
+        "sha256": "cb60cd4112ca35fbed07db7e281ed58fa26cd46ea8ccf4b06216a7dfbe4c02f4"
+      },
+      "expected": {
+        "file": "no-flush-stream_writer-binary.bin",
+        "bytes": 65537,
+        "sha256": "2deb0bd2129a9d3aed91e3cff58b3993752be549642890a3e853ec1065f9b617"
+      },
+      "reference_final_eof": true
+    },
+    {
+      "name": "no-flush-stream_writer-repeat",
+      "payload": "repeat",
+      "sender_api": "stream_writer",
+      "test": "stream_roundtrip",
+      "midstream_flush": false,
+      "stages": [
+        {
+          "file": "no-flush-stream_writer-repeat-0.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 1,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 0,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-stream_writer-repeat-1.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 8,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 0,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-stream_writer-repeat-2.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 71,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 0,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-stream_writer-repeat-3.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 1095,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 0,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-stream_writer-repeat-4.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 66616,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 0,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-stream_writer-repeat-5.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 66617,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 0,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-stream_writer-repeat-6.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 66624,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 0,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-stream_writer-repeat-7.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 66687,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 0,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-stream_writer-repeat-8.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 67711,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 0,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-stream_writer-repeat-9.zst",
+          "bytes": 18,
+          "sha256": "8187e7ac7cf4d8466c1433fc78cc0f29b1bf1e6ca10d0ac7b630c3ad0fa38a9a",
+          "submitted": 133232,
+          "write_output": 18,
+          "flush_output": 0,
+          "reference_decoded": 131072,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-stream_writer-repeat-10.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 133233,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 131072,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-stream_writer-repeat-11.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 133240,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 131072,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-stream_writer-repeat-12.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 133303,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 131072,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-stream_writer-repeat-13.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 134327,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 131072,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-stream_writer-repeat-14.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 199848,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 131072,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-stream_writer-repeat-15.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 199849,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 131072,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-stream_writer-repeat-16.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 199856,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 131072,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-stream_writer-repeat-17.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 199919,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 131072,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-stream_writer-repeat-18.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 200943,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 131072,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-stream_writer-repeat-19.zst",
+          "bytes": 4,
+          "sha256": "af4d68c33bc0338276b2aec0a3884574b88ac901dbf21cc4168b8f5818591ba9",
+          "submitted": 266464,
+          "write_output": 4,
+          "flush_output": 0,
+          "reference_decoded": 262144,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-stream_writer-repeat-20.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 266465,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 262144,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-stream_writer-repeat-21.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 266472,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 262144,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-stream_writer-repeat-22.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 266535,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 262144,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-stream_writer-repeat-23.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 267559,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 262144,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-stream_writer-repeat-24.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 333080,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 262144,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-stream_writer-repeat-25.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 333081,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 262144,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-stream_writer-repeat-26.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 333088,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 262144,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-stream_writer-repeat-27.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 333151,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 262144,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-stream_writer-repeat-28.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 334175,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 262144,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-stream_writer-repeat-29.zst",
+          "bytes": 4,
+          "sha256": "af4d68c33bc0338276b2aec0a3884574b88ac901dbf21cc4168b8f5818591ba9",
+          "submitted": 399696,
+          "write_output": 4,
+          "flush_output": 0,
+          "reference_decoded": 393216,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-stream_writer-repeat-30.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 399697,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 393216,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-stream_writer-repeat-31.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 399704,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 393216,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-stream_writer-repeat-32.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 399767,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 393216,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-stream_writer-repeat-33.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 400791,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 393216,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-stream_writer-repeat-34.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 466312,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 393216,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-stream_writer-repeat-35.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 466313,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 393216,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-stream_writer-repeat-36.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 466320,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 393216,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-stream_writer-repeat-37.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 466383,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 393216,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-stream_writer-repeat-38.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 467407,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 393216,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-stream_writer-repeat-39.zst",
+          "bytes": 4,
+          "sha256": "af4d68c33bc0338276b2aec0a3884574b88ac901dbf21cc4168b8f5818591ba9",
+          "submitted": 532928,
+          "write_output": 4,
+          "flush_output": 0,
+          "reference_decoded": 524288,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-stream_writer-repeat-40.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 532929,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 524288,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-stream_writer-repeat-41.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 532936,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 524288,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-stream_writer-repeat-42.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 532999,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 524288,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-stream_writer-repeat-43.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 534023,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 524288,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-stream_writer-repeat-44.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 599544,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 524288,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-stream_writer-repeat-45.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 599545,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 524288,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-stream_writer-repeat-46.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 599552,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 524288,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-stream_writer-repeat-47.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 599615,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 524288,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-stream_writer-repeat-48.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 600639,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 524288,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-stream_writer-repeat-49.zst",
+          "bytes": 4,
+          "sha256": "af4d68c33bc0338276b2aec0a3884574b88ac901dbf21cc4168b8f5818591ba9",
+          "submitted": 666160,
+          "write_output": 4,
+          "flush_output": 0,
+          "reference_decoded": 655360,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-stream_writer-repeat-50.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 666161,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 655360,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-stream_writer-repeat-51.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 666168,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 655360,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-stream_writer-repeat-52.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 666231,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 655360,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-stream_writer-repeat-53.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 667255,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 655360,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-stream_writer-repeat-54.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 732776,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 655360,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-stream_writer-repeat-55.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 732777,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 655360,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-stream_writer-repeat-56.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 732784,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 655360,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-stream_writer-repeat-57.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 732847,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 655360,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-stream_writer-repeat-58.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 733871,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 655360,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-stream_writer-repeat-59.zst",
+          "bytes": 4,
+          "sha256": "af4d68c33bc0338276b2aec0a3884574b88ac901dbf21cc4168b8f5818591ba9",
+          "submitted": 799392,
+          "write_output": 4,
+          "flush_output": 0,
+          "reference_decoded": 786432,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-stream_writer-repeat-60.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 799393,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 786432,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-stream_writer-repeat-61.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 799400,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 786432,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-stream_writer-repeat-62.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 799463,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 786432,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-stream_writer-repeat-63.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 800487,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 786432,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-stream_writer-repeat-64.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 866008,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 786432,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-stream_writer-repeat-65.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 866009,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 786432,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-stream_writer-repeat-66.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 866016,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 786432,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-stream_writer-repeat-67.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 866079,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 786432,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-stream_writer-repeat-68.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 867103,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 786432,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-stream_writer-repeat-69.zst",
+          "bytes": 4,
+          "sha256": "af4d68c33bc0338276b2aec0a3884574b88ac901dbf21cc4168b8f5818591ba9",
+          "submitted": 932624,
+          "write_output": 4,
+          "flush_output": 0,
+          "reference_decoded": 917504,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-stream_writer-repeat-70.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 932625,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 917504,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-stream_writer-repeat-71.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 932632,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 917504,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-stream_writer-repeat-72.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 932695,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 917504,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-stream_writer-repeat-73.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 933719,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 917504,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-stream_writer-repeat-74.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 999240,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 917504,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-stream_writer-repeat-75.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 999241,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 917504,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-stream_writer-repeat-76.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 999248,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 917504,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-stream_writer-repeat-77.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 999311,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 917504,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-stream_writer-repeat-78.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 1000335,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 917504,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-stream_writer-repeat-79.zst",
+          "bytes": 4,
+          "sha256": "af4d68c33bc0338276b2aec0a3884574b88ac901dbf21cc4168b8f5818591ba9",
+          "submitted": 1048593,
+          "write_output": 4,
+          "flush_output": 0,
+          "reference_decoded": 1048576,
+          "reference_eof": false
+        }
+      ],
+      "tail": {
+        "file": "no-flush-stream_writer-repeat-finish.zst",
+        "bytes": 4,
+        "sha256": "0a7fa5cc79d9b581aaa143bd6a280120cc87c267167a3fd4b4ea0904131770ca"
+      },
+      "expected": {
+        "file": "no-flush-stream_writer-repeat.bin",
+        "bytes": 1048593,
+        "sha256": "4db2809fe2bc5709ac72ffdb78447b7d41d027d044a1b91fa0ea8225779a9055"
+      },
+      "reference_final_eof": true
+    },
+    {
+      "name": "no-flush-stream_writer-random",
+      "payload": "random",
+      "sender_api": "stream_writer",
+      "test": "stream_roundtrip",
+      "midstream_flush": false,
+      "stages": [
+        {
+          "file": "no-flush-stream_writer-random-0.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 1,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 0,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-stream_writer-random-1.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 8,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 0,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-stream_writer-random-2.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 71,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 0,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-stream_writer-random-3.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 1095,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 0,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-stream_writer-random-4.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 66616,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 0,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-stream_writer-random-5.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 66617,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 0,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-stream_writer-random-6.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 66624,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 0,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-stream_writer-random-7.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 66687,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 0,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-stream_writer-random-8.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 67711,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 0,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-stream_writer-random-9.zst",
+          "bytes": 131081,
+          "sha256": "0fa84aaab8e558b5bb8d2321f6f3d09d2278efeea0ef10e1cdd9af1c048e71d1",
+          "submitted": 133232,
+          "write_output": 131081,
+          "flush_output": 0,
+          "reference_decoded": 131072,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-stream_writer-random-10.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 133233,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 131072,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-stream_writer-random-11.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 133240,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 131072,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-stream_writer-random-12.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 133303,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 131072,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-stream_writer-random-13.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 134327,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 131072,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-stream_writer-random-14.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 199848,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 131072,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-stream_writer-random-15.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 199849,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 131072,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-stream_writer-random-16.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 199856,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 131072,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-stream_writer-random-17.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 199919,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 131072,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-stream_writer-random-18.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 200943,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 131072,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-stream_writer-random-19.zst",
+          "bytes": 131075,
+          "sha256": "ce27aa6214df5404ab690e0be610ffd2af694ca3f118513820ceb3e0d75fece1",
+          "submitted": 266464,
+          "write_output": 131075,
+          "flush_output": 0,
+          "reference_decoded": 262144,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-stream_writer-random-20.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 266465,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 262144,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-stream_writer-random-21.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 266472,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 262144,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-stream_writer-random-22.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 266535,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 262144,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-stream_writer-random-23.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 267559,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 262144,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-stream_writer-random-24.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 333080,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 262144,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-stream_writer-random-25.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 333081,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 262144,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-stream_writer-random-26.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 333088,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 262144,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-stream_writer-random-27.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 333151,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 262144,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-stream_writer-random-28.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 334175,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 262144,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-stream_writer-random-29.zst",
+          "bytes": 131075,
+          "sha256": "1b9ebaf8a2551135642c624db51b04aff553d26a696af663b31adcdcc983809c",
+          "submitted": 399696,
+          "write_output": 131075,
+          "flush_output": 0,
+          "reference_decoded": 393216,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-stream_writer-random-30.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 399697,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 393216,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-stream_writer-random-31.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 399704,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 393216,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-stream_writer-random-32.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 399767,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 393216,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-stream_writer-random-33.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 400791,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 393216,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-stream_writer-random-34.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 466312,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 393216,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-stream_writer-random-35.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 466313,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 393216,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-stream_writer-random-36.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 466320,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 393216,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-stream_writer-random-37.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 466383,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 393216,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-stream_writer-random-38.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 467407,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 393216,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-stream_writer-random-39.zst",
+          "bytes": 131075,
+          "sha256": "6cc44484a2d9e501a6209fcbc4d00173a511bde191c85093d13035711baee59a",
+          "submitted": 532928,
+          "write_output": 131075,
+          "flush_output": 0,
+          "reference_decoded": 524288,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-stream_writer-random-40.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 532929,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 524288,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-stream_writer-random-41.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 532936,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 524288,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-stream_writer-random-42.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 532999,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 524288,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-stream_writer-random-43.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 534023,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 524288,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-stream_writer-random-44.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 599544,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 524288,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-stream_writer-random-45.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 599545,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 524288,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-stream_writer-random-46.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 599552,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 524288,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-stream_writer-random-47.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 599615,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 524288,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-stream_writer-random-48.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 600639,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 524288,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-stream_writer-random-49.zst",
+          "bytes": 131075,
+          "sha256": "3af86efd0ad4d3e4e7994fae61d920b056f0ba67b2c7348c85ee88fa57a3335e",
+          "submitted": 666160,
+          "write_output": 131075,
+          "flush_output": 0,
+          "reference_decoded": 655360,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-stream_writer-random-50.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 666161,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 655360,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-stream_writer-random-51.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 666168,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 655360,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-stream_writer-random-52.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 666231,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 655360,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-stream_writer-random-53.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 667255,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 655360,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-stream_writer-random-54.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 732776,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 655360,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-stream_writer-random-55.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 732777,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 655360,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-stream_writer-random-56.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 732784,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 655360,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-stream_writer-random-57.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 732847,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 655360,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-stream_writer-random-58.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 733871,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 655360,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-stream_writer-random-59.zst",
+          "bytes": 131075,
+          "sha256": "6022eb6e24da3377ede00ad838dc729932192ee7965c2ff74d3949bf4f07ece3",
+          "submitted": 799392,
+          "write_output": 131075,
+          "flush_output": 0,
+          "reference_decoded": 786432,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-stream_writer-random-60.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 799393,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 786432,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-stream_writer-random-61.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 799400,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 786432,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-stream_writer-random-62.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 799463,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 786432,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-stream_writer-random-63.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 800487,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 786432,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-stream_writer-random-64.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 866008,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 786432,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-stream_writer-random-65.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 866009,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 786432,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-stream_writer-random-66.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 866016,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 786432,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-stream_writer-random-67.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 866079,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 786432,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-stream_writer-random-68.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 867103,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 786432,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-stream_writer-random-69.zst",
+          "bytes": 131075,
+          "sha256": "ad161c23c1c2778861e462eef1799e5b2fd4f8c424cb012da43a4f3806dfbcf6",
+          "submitted": 932624,
+          "write_output": 131075,
+          "flush_output": 0,
+          "reference_decoded": 917504,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-stream_writer-random-70.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 932625,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 917504,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-stream_writer-random-71.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 932632,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 917504,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-stream_writer-random-72.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 932695,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 917504,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-stream_writer-random-73.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 933719,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 917504,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-stream_writer-random-74.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 999240,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 917504,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-stream_writer-random-75.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 999241,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 917504,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-stream_writer-random-76.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 999248,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 917504,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-stream_writer-random-77.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 999311,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 917504,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-stream_writer-random-78.zst",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "submitted": 1000335,
+          "write_output": 0,
+          "flush_output": 0,
+          "reference_decoded": 917504,
+          "reference_eof": false
+        },
+        {
+          "file": "no-flush-stream_writer-random-79.zst",
+          "bytes": 131075,
+          "sha256": "f5e23507523512cfd7ef536fb7455291a3438f3fa985730a68e1a1b61299318b",
+          "submitted": 1048593,
+          "write_output": 131075,
+          "flush_output": 0,
+          "reference_decoded": 1048576,
+          "reference_eof": false
+        }
+      ],
+      "tail": {
+        "file": "no-flush-stream_writer-random-finish.zst",
+        "bytes": 20,
+        "sha256": "67fb5e4b17fd79c4ccf4dcea02811272b33d3b6a5e8e9081c3b5fd94cbcf3e97"
+      },
+      "expected": {
+        "file": "no-flush-stream_writer-random.bin",
+        "bytes": 1048593,
+        "sha256": "c6a2e06fcc443fd891a306bc540ea51eb3baa28e8a9db9ede8cb51ab4b17d367"
       },
       "reference_final_eof": true
     }

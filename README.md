@@ -44,7 +44,7 @@ to be fully decoded before the next write, continued use of the same open frame,
 and an exact final round trip. Counts show passing cases out of tested cases;
 **NG** means the configuration does not satisfy that row's requirement.
 
-| Sender (package/binding · algorithm) | Receiver (package/binding) | Mid-stream flush | OK / NG |
+| Sender | Receiver (package/binding) | Mid-stream flush | OK / NG |
 | --- | --- | --- | --- |
 | compress-utils / Rust · zstd | compress-utils / Rust | No | OK (12/12) |
 | compress-utils / Rust · zstd | compress-utils / Rust | Yes (attempted) | NG (0/22) |
@@ -58,18 +58,29 @@ and an exact final round trip. Counts show passing cases out of tested cases;
 | compress-utils / JS/WASM · zstd | compress-utils / JS/WASM | Yes (attempted) | NG (0/22) |
 | compress-utils / JS/WASM · LZ4 | compress-utils / JS/WASM | No | OK (12/12) |
 | compress-utils / JS/WASM · LZ4 | compress-utils / JS/WASM | Yes (attempted) | NG (0/22) |
-| zstandard / Python · zstd | zstandard / Python | No | OK (12/12) |
-| zstandard / Python · zstd | zstandard / Python | Yes | OK (44/44) |
-| zstandard / Python · zstd | compress-utils / Rust | Yes | NG (34/46) |
-| zstandard / Python · zstd | compress-utils / Python | Yes | NG (34/46) |
-| zstandard / Python · zstd | compress-utils / JS/WASM | Yes | NG (34/46) |
-| zstandard / Python · zstd | fzstd / JavaScript | Yes | NG (38/46) |
+| zstandard / Python | zstandard / Python | No | OK (12/12) |
+| zstandard / Python | zstandard / Python | Yes | OK (44/44) |
+| zstandard / Python | compress-utils / Rust | No | OK (18/18) |
+| zstandard / Python | compress-utils / Rust | Yes | NG (34/46) |
+| zstandard / Python | compress-utils / Python | No | OK (18/18) |
+| zstandard / Python | compress-utils / Python | Yes | NG (34/46) |
+| zstandard / Python | compress-utils / JS/WASM | No | OK (18/18) |
+| zstandard / Python | compress-utils / JS/WASM | Yes | NG (34/46) |
+| zstandard / Python | fzstd / JavaScript | No | OK (18/18) |
+| zstandard / Python | fzstd / JavaScript | Yes | NG (38/46) |
 
-Each **No** row covers six one-shot and six incremental round trips. The Python
-`zstandard` **Yes** rows combine its `compressobj()` and `stream_writer()` block
-flush APIs: 22 cases each with its own receiver, or 23 cases each with mixed
-receivers (including an initially empty prefix). Untested configurations are not
-listed. The receiver always decodes the algorithm specified in the sender cell.
+The **No** rows with the same package at both ends cover six one-shot and six
+incremental round trips. The mixed-receiver **No** rows cover six payloads through
+each of three sender APIs: one-shot compression, `compressobj()`, and
+`stream_writer()` (18 cases per receiver). Neither incremental sender calls a
+mid-stream flush; both finalize only after all input has been written. Partial
+decoded prefixes before finalization are allowed in these tests.
+
+The Python `zstandard` **Yes** rows combine its `compressobj()` and
+`stream_writer()` block flush APIs: 22 cases each with its own receiver, or 23
+cases each with mixed receivers (including an initially empty prefix). Untested
+configurations are not listed. The receiver always decodes the algorithm
+specified in the sender cell.
 
 For compress-utils, **Yes (attempted)** records the required behavior being
 probed: Rust's `flush()` only flushes the sink; Python and JS expose no flush
@@ -81,9 +92,10 @@ Python `zstandard` 0.25.0 uses zstd 1.5.7 at native level 11, matching
 compress-utils level 5. With Python `zstandard` at both ends, all 44 explicit
 block-flush cases pass. See the [comparison details](results/2026-10-16/README.md#python-zstandard-comparison).
 
-With mixed receivers, all 184 cases recover the full input after finalization,
-but some flushed prefixes stay buffered. Compress-utils returns only 65,536 of
-131,072 repeated bytes at a checkpoint. fzstd 0.1.1 waits for at least 18 initial
+With mixed receivers, all 256 cases (72 without mid-stream flush and 184 with it)
+recover the full input after finalization, but some flushed prefixes stay
+buffered. Compress-utils returns only 65,536 of 131,072 repeated bytes at a
+checkpoint. fzstd 0.1.1 waits for at least 18 initial
 compressed bytes, so a flushed 4,096-byte repeated payload compressed to 17 bytes
 yields zero decoded bytes. Neither receiver meets the arbitrary mid-stream flush
 requirement. See the [mixed-receiver results](results/2026-10-16/INTEROP.md).

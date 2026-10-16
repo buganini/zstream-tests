@@ -82,13 +82,15 @@ primary round trips, six finalization checks, and six truncation checks. The
 The two native zstd diagnostic controls also pass, outside those counts.
 
 The separate Python `zstandard` comparison adds **62 PASS observations**. The
-[mixed-receiver tests](INTEROP.md) add **140 PASS and 44 LIMITATION observations**,
-bringing the combined runner summary to **286 PASS and 178 LIMITATION**. Only
+[mixed-receiver tests](INTEROP.md) add **212 PASS and 44 LIMITATION observations**,
+bringing the combined runner summary to **358 PASS and 178 LIMITATION**. Only
 Python `zstandard` at both ends has a midway acceptance result of `true`; all
 compress-utils and fzstd configurations include failed checkpoints. See
 `counts_by_binding` and `midstream_acceptance_by_binding` in the summary for the
-separate results. All 184 mixed-receiver cases recover the complete input after
-finalization, including those classified as `LIMITATION`.
+separate results. All 256 mixed-receiver cases recover the complete input after
+finalization: 72 without mid-stream flush and 184 with it, including those
+classified as `LIMITATION`. Each of the four mixed receivers passes all 18
+no-flush cases.
 
 These counts deliberately distinguish completed data integrity from the unmet
 flush requirement. In strict mode the runner exits **1**, as recorded in the

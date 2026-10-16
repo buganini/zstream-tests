@@ -2,7 +2,8 @@
 
 Test date: 2026-10-16 (Asia/Taipei).
 
-**All 184 mixed-receiver streams round-trip exactly after finalization. Neither
+**All 256 mixed-receiver streams round-trip exactly after finalization: 72 without
+mid-stream flush and 184 with it. Neither
 compress-utils nor fzstd passes every required mid-stream flush checkpoint.**
 The Python `zstandard` reference receiver recovers every flushed prefix from the
 same compressed bytes while the frame remains open.
@@ -10,11 +11,14 @@ same compressed bytes while the frame remains open.
 ## Sender, receivers, and method
 
 Sender: Python `zstandard==0.25.0`, `cext` backend, zstd 1.5.7, native level 11
-(equivalent to compress-utils level 5). Both sender APIs are exercised:
+(equivalent to compress-utils level 5). The sender APIs are:
 
-- `compressobj().flush(COMPRESSOBJ_FLUSH_BLOCK)`.
-- `stream_writer(write_size=113).flush(FLUSH_BLOCK)` with a sink that accepts each
-  write in full. The sender also uses `write_return_read=True, closefd=False`.
+- One-shot `ZstdCompressor.compress()` for the no-flush cases.
+- `compressobj()`, with `flush(COMPRESSOBJ_FLUSH_BLOCK)` only in the mid-stream
+  flush cases and `flush(COMPRESSOBJ_FLUSH_FINISH)` at finalization.
+- `stream_writer(write_size=113)`, with `flush(FLUSH_BLOCK)` only in the
+  mid-stream flush cases and `close()` at finalization. Its sink accepts each
+  write in full; the sender also uses `write_return_read=True, closefd=False`.
 
 Receivers: unmodified compress-utils source version 0.9.0 at
 [`11ea489`](https://github.com/dupontcyborg/compress-utils/commit/11ea489add2435d2eb8360aad0a104a63e714fb3)
@@ -22,10 +26,11 @@ through Rust, Python, and JS/WASM; and npm `fzstd==0.1.1` through its JavaScript
 `Decompress` streaming API in Node 22.22.1. See the [environment](README.md#version-and-environment)
 and [npm lockfile](../../tests/package-lock.json).
 
-Each sender API generates 23 cases: repeated and deterministic pseudorandom
-prefixes at the 11 sizes in the [main report](README.md#test-design), plus an
-initially empty prefix. Thus each receiver runs 46 cases. Each case uses one
-compressor and one receiver throughout four stages:
+For mid-stream flush, each streaming sender API generates 23 cases: repeated and
+deterministic pseudorandom prefixes at the 11 sizes in the
+[main report](README.md#test-design), plus an initially empty prefix. Thus each
+receiver runs 46 mid-stream flush cases. Each uses one compressor and one receiver
+throughout four stages:
 
 1. Write the initial prefix and block-flush.
 2. Write 37 `B` bytes and block-flush.
@@ -46,15 +51,42 @@ fzstd receives `push(chunk, false)` throughout the checkpoints, then
 [streaming API](https://github.com/101arrowz/fzstd#usage); the `final` argument
 marks transport completion and is not a mid-stream flush operation.
 
-The generator independently verifies every stage with Python `zstandard`:
-decoded bytes exactly equal all submitted input, `eof` stays false, and the
+For these 46 flush cases, the generator independently verifies every stage with
+Python `zstandard`: decoded bytes exactly equal all submitted input, `eof` stays false, and the
 finalized stream subsequently matches all input with `eof` true. Saved stage
 hashes, sizes, reference checks, and sender versions are in
 [interop-fixtures.json](interop-fixtures.json). This adds two initially empty
 cases to the 44-case Python-to-Python midway comparison in the main report.
 
+### Without mid-stream flush
+
+Each receiver also runs 18 no-flush cases: six payloads through each of the three
+sender APIs. The payloads are empty input, one byte, 4,096 bytes of text, 65,537
+bytes of binary data, and 1,048,593 bytes each of repeated and deterministic
+pseudorandom data, using the same fixtures as the main round-trip suite.
+
+The two incremental senders write chunks cycling through 1, 7, 63, 1,024, and
+65,521 bytes and finalize once after all writes. No block flush is called. Every
+write's compressed output is saved as a stage and delivered to the same receiver
+in the irregular transport chunks above, followed by finalization output. For
+one-shot compression, the complete frame is delivered in those same transport
+chunks and then the receiver is finalized. Thus the one-shot label describes the
+sender API; receivers use their streaming APIs in all mixed tests.
+
+Intermediate decoded data must be an exact prefix of submitted input, but may
+be incomplete. Passing requires byte-for-byte recovery of the full payload after
+finalization. The Python reference decoder independently checks every prefix and
+requires `eof` at completion. The manifest and receiver observations distinguish
+these cases using `midstream_flush: false` and `oneshot_roundtrip` or
+`stream_roundtrip`, so they do not contribute to mid-stream acceptance counts.
+
 ## Results
 
+All **18/18 no-flush cases pass for each receiver**: compress-utils Rust, Python,
+JS/WASM, and fzstd. This is six one-shot, six `compressobj()`, and six
+`stream_writer()` cases per receiver, or 72 passing observations in total.
+
+The following table covers only the 46 mid-stream flush cases per receiver.
 Each row uses Python `zstandard` as sender. A case passes only if **all four
 flush checkpoints and the final exact round trip** pass. Counts describe these
 fixtures, not estimated success rates for arbitrary traffic.
@@ -68,7 +100,8 @@ fixtures, not estimated success rates for arbitrary traffic.
 
 Both sender APIs produce the same pass/limitation pattern for each receiver.
 There are no corrupt decoded prefixes, final mismatches, or unexpected errors.
-The reference decoder passes every checkpoint in all 46 generated streams.
+The reference decoder passes every flush checkpoint in all 46 generated streams
+that use mid-stream flush, and all 18 no-flush streams round-trip exactly.
 
 ### compress-utils receivers
 
@@ -114,6 +147,15 @@ compressed total reaches 21 bytes. The other cases catch up only after the
 4,096-byte binary follow-up. Three empty pushes add no output. All other tested
 prefix cases, including 131,072 repeated bytes, pass every checkpoint.
 
+A separate rerun reproduced the same 38 PASS and 8 LIMITATION observations. A
+focused check sent the entire 17-byte initial stage for `repeat-4096` in one
+`push(..., false)`: it still produced zero decoded bytes, as did three empty
+non-final pushes. Delivering just the first byte of the next stage raised the
+compressed total to 18 and immediately released the original 4,096 bytes. The
+rest of that stage released the 37 new bytes, and the final round trip remained
+exact. Both Python sender APIs gave this result, confirming that the stall also
+occurs when the initial stage arrives in a single transport chunk.
+
 Source inspection explains these observations: before creating its frame state,
 `Decompress.push()` buffers non-final input until at least **18 compressed bytes**
 have accumulated. See `ncs < 18` in the published
@@ -149,16 +191,17 @@ bash tests/setup.sh
 
 Expected strict exit: **1**, because some checkpoints are unmet. The complete
 runner includes the original binding probes and Python-to-Python comparison as
-well as all mixed receivers. [summary.json](summary.json) records 286 PASS and
+well as all mixed receivers. [summary.json](summary.json) records 358 PASS and
 178 LIMITATION observations, with the two native controls counted separately.
 
-After fixture generation, run just the Python sender → fzstd receiver cases:
+After fixture generation, run just the Python sender → fzstd receiver cases
+(18 without mid-stream flush and 46 with it):
 
 ```sh
 node tests/interop_js.mjs .work/interop .work/upstream fzstd
 ```
 
-For the other receivers:
+For the other receivers, also running both modes:
 
 ```sh
 PYTHONPATH=.work/upstream/bindings/python .work/venv/bin/python tests/interop_python.py .work/interop

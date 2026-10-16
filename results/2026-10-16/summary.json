@@ -111,7 +111,7 @@
   "require_midstream_flush": true,
   "runner_exit_code": 1,
   "counts": {
-    "PASS": 286,
+    "PASS": 358,
     "LIMITATION": 178
   },
   "counts_by_binding": {
@@ -131,19 +131,19 @@
       "LIMITATION": 44
     },
     "interop_python": {
-      "PASS": 34,
+      "PASS": 52,
       "LIMITATION": 12
     },
     "interop_js": {
-      "PASS": 34,
+      "PASS": 52,
       "LIMITATION": 12
     },
     "interop_fzstd": {
       "LIMITATION": 8,
-      "PASS": 38
+      "PASS": 56
     },
     "interop_rust": {
-      "PASS": 34,
+      "PASS": 52,
       "LIMITATION": 12
     }
   },

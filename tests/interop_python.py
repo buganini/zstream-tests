@@ -24,7 +24,8 @@ def probe(root, case):
     decoded += receive(decoder, (root / case["tail"]["file"]).read_bytes())
     decoded += decoder.finish()
     assert decoded == expected
-    return {"status": "PASS" if all(s["complete"] for s in stages) else "LIMITATION",
+    passed = not case["midstream_flush"] or all(s["complete"] for s in stages)
+    return {"status": "PASS" if passed else "LIMITATION",
             "stages": stages, "final_roundtrip": True, "final_bytes": len(decoded)}
 
 
@@ -33,9 +34,10 @@ def main():
     manifest = json.loads((root / "manifest.json").read_text())
     failed = False
     for case in manifest["cases"]:
-        row = {"binding": "interop_python", "test": "sender_flush", "codec": "zstd",
+        row = {"binding": "interop_python", "test": case["test"], "codec": "zstd",
                "sender": "python_zstandard", "receiver": "compress_utils_python",
                "case": case["name"], "sender_api": case["sender_api"],
+               "midstream_flush": case["midstream_flush"],
                "native_level": manifest["native_level"], "receiver_version": cu.version()}
         try:
             row.update(probe(root, case))

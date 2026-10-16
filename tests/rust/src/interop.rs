@@ -31,7 +31,8 @@ fn probe(root: &Path, case: &Value) -> Result<Value> {
     }
     receive(&mut decoder, &mut decoded, true)?;
     check(decoded == expected, "final round trip mismatch")?;
-    let passed = stages.iter().all(|s| s["complete"] == true);
+    let passed = !case["midstream_flush"].as_bool().unwrap()
+        || stages.iter().all(|s| s["complete"] == true);
     Ok(json!({"status": if passed { "PASS" } else { "LIMITATION" }, "stages": stages,
               "final_roundtrip": true, "final_bytes": decoded.len()}))
 }
@@ -40,9 +41,10 @@ pub fn run(root: &Path) -> Result<()> {
     let manifest: Value = serde_json::from_slice(&std::fs::read(root.join("manifest.json"))?)?;
     let mut failed = false;
     for case in manifest["cases"].as_array().unwrap() {
-        let mut row = json!({"binding": "interop_rust", "test": "sender_flush", "codec": "zstd",
+        let mut row = json!({"binding": "interop_rust", "test": case["test"], "codec": "zstd",
                              "sender": "python_zstandard", "receiver": "compress_utils_rust",
                              "case": case["name"], "sender_api": case["sender_api"],
+                             "midstream_flush": case["midstream_flush"],
                              "native_level": manifest["native_level"]});
         match probe(root, case) {
             Ok(value) => row.as_object_mut().unwrap().extend(value.as_object().unwrap().clone()),
