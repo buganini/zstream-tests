@@ -39,7 +39,7 @@ async function probe(testCase) {
       const wire = fs.readFileSync(path.join(root, stage.file));
       feed(wire);
       const beforeEmpty = output.reduce((sum, part) => sum + part.length, 0);
-      for (let i = 0; i < 3; i++) push(new Uint8Array());
+      for (let i = 0; i < (manifest.empty_decode_calls ?? 3); i++) push(new Uint8Array());
       const decoded = Buffer.concat(output);
       assert.deepEqual(decoded, expected.subarray(0, decoded.length));
       assert.ok(decoded.length <= stage.submitted);

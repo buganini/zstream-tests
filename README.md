@@ -143,10 +143,22 @@ to its internal read buffer. No profile combines data across flush checkpoints.
 | zstandard / Python | fzstd / JavaScript | Yes | 1 | 82.61% (38/46) |
 | zstandard / Python | fzstd / JavaScript | Yes | 4096 | 82.61% (38/46) |
 | zstandard / Python | fzstd / JavaScript | Yes | whole | 82.61% (38/46) |
-| zstandard / Python (294-byte preamble) | fzstd / JavaScript | Yes | 1, 3, 7, 97, 4093 | 100% (1/1) |
-| zstandard / Python (294-byte preamble) | fzstd / JavaScript | Yes | 1 | 100% (1/1) |
-| zstandard / Python (294-byte preamble) | fzstd / JavaScript | Yes | 4096 | 100% (1/1) |
-| zstandard / Python (294-byte preamble) | fzstd / JavaScript | Yes | whole | 100% (1/1) |
+| zstandard / Python (294-byte preamble) | compress-utils / Rust | Yes | 1, 3, 7, 97, 4093 | 50% (1/2) |
+| zstandard / Python (294-byte preamble) | compress-utils / Rust | Yes | 1 | 50% (1/2) |
+| zstandard / Python (294-byte preamble) | compress-utils / Rust | Yes | 4096 | 50% (1/2) |
+| zstandard / Python (294-byte preamble) | compress-utils / Rust | Yes | whole | 50% (1/2) |
+| zstandard / Python (294-byte preamble) | compress-utils / Python | Yes | 1, 3, 7, 97, 4093 | 50% (1/2) |
+| zstandard / Python (294-byte preamble) | compress-utils / Python | Yes | 1 | 50% (1/2) |
+| zstandard / Python (294-byte preamble) | compress-utils / Python | Yes | 4096 | 50% (1/2) |
+| zstandard / Python (294-byte preamble) | compress-utils / Python | Yes | whole | 50% (1/2) |
+| zstandard / Python (294-byte preamble) | compress-utils / JS/WASM | Yes | 1, 3, 7, 97, 4093 | 50% (1/2) |
+| zstandard / Python (294-byte preamble) | compress-utils / JS/WASM | Yes | 1 | 50% (1/2) |
+| zstandard / Python (294-byte preamble) | compress-utils / JS/WASM | Yes | 4096 | 50% (1/2) |
+| zstandard / Python (294-byte preamble) | compress-utils / JS/WASM | Yes | whole | 50% (1/2) |
+| zstandard / Python (294-byte preamble) | fzstd / JavaScript | Yes | 1, 3, 7, 97, 4093 | 100% (2/2) |
+| zstandard / Python (294-byte preamble) | fzstd / JavaScript | Yes | 1 | 100% (2/2) |
+| zstandard / Python (294-byte preamble) | fzstd / JavaScript | Yes | 4096 | 100% (2/2) |
+| zstandard / Python (294-byte preamble) | fzstd / JavaScript | Yes | whole | 100% (2/2) |
 
 The **No** rows with the same package at both ends cover six one-shot and six
 incremental round trips. The mixed-receiver **No** rows cover six payloads through
@@ -161,15 +173,18 @@ cases each with mixed receivers (including an initially empty prefix). Untested
 configurations are not listed. The receiver always decodes the algorithm
 specified in the sender cell.
 
-Each **294-byte preamble** row is one connection case with 101 checkpoints:
-an initial MessagePack message, then 100 subsequent messages. Here, **294 bytes
-is the compressed preamble size** measured for this fixture, including the frame
-header; it decodes to 422 bytes of application data. It is sent and block-flushed first, using the
-same compressor/decoder as the subsequent messages. Every message must decode
-before any bytes of the next are delivered. Later packets down to 14 bytes
-decode immediately. The preamble is ordinary data, not padding or an extra
-flush. `whole` delivers one complete batch per message; the other rows split
-each batch before fzstd. See the
+Each **294-byte preamble** row covers two connection cases: the preamble followed
+by 100 MessagePack messages, and the preamble followed by 65,537 repeated bytes
+and a 37-byte follow-up. Here, **294 bytes is the compressed preamble size**,
+including the frame header; it decodes to 422 bytes of application data. Each
+payload is block-flushed through the same compressor and must decode before the
+next payload arrives. All receivers pass the 101-checkpoint message sequence,
+including packets down to 14 compressed bytes. Compress-utils Rust/Python/JS
+each withhold one byte at the 65,537-byte boundary; fzstd passes both cases.
+The preamble is ordinary data, not padding or an extra flush. `whole` delivers
+one complete batch at a time; the other rows split each batch before decoding.
+These rows keep Python `zstandard` as sender and test the receiver's behavior.
+See the
 [preamble test and controls](results/2026-10-16/INTEROP.md#294-byte-preamble-stream).
 
 For compress-utils, **Yes (attempted)** records the required behavior being
@@ -257,22 +272,28 @@ Once the runner has generated `.work/fixtures`, run just the comparison with:
 .work/venv/bin/python tests/python_zstandard_probe.py .work/fixtures
 ```
 
-Run just the 294-byte preamble case and its two startup controls with:
-
-```sh
-.work/venv/bin/python tests/preamble_stream_probe.py .work/fixtures
-```
-
-This is also part of the full runner and needs no external checkout. It emits one
-`preamble_stream` observation and two `startup_control` observations. The preamble
-table rows count only `preamble_stream`; the raw 17-byte startup control intentionally
-records the fzstd limitation even after three additional empty block flushes.
-
 This comparison exits 0 only when all 62 checks pass. Use
 `compressobj.flush(zstandard.COMPRESSOBJ_FLUSH_BLOCK)` or
 `stream_writer.flush(zstandard.FLUSH_BLOCK)` for midway flushing. The default
 `compressobj.flush()` finishes the frame. At transport closure, verify the
 incremental decoder's `eof` flag; its `flush()` method does not validate completion.
+
+Run the two 294-byte preamble cases and two startup controls for a receiver with:
+
+```sh
+.work/venv/bin/python tests/preamble_stream_probe.py .work/fixtures
+.work/venv/bin/python tests/preamble_stream_probe.py .work/fixtures --receiver compress_utils_rust
+.work/venv/bin/python tests/preamble_stream_probe.py .work/fixtures --receiver compress_utils_python
+.work/venv/bin/python tests/preamble_stream_probe.py .work/fixtures --receiver compress_utils_js
+```
+
+The default receiver is `fzstd`. All four receivers are part of the full runner;
+no external application checkout is needed. Each emits two `preamble_stream`
+observations and two `startup_control` observations. The preamble table rows
+count only `preamble_stream`. The raw 17-byte startup control records the fzstd
+limitation even after three additional empty block flushes; compress-utils passes
+that control. Individual probes return 0 when integrity checks and final round
+trips pass, recording incomplete checkpoints as `LIMITATION`.
 
 ## Core acceptance test
 
@@ -305,9 +326,9 @@ does not satisfy this acceptance test.
 - Truncation detection and the terminal behavior of `finish()` are tested.
 - Python `zstandard` sender interoperability with compress-utils receivers in
   Rust/Python/JS and the JS fzstd receiver is tested, including mid-stream flush.
-- A 294-byte compressed preamble followed by 100 messages is checked under all
-  four transport profiles. Separate controls distinguish startup from extra
-  empty flushes.
+- A 294-byte compressed preamble followed by 100 messages or a 65,537-byte
+  payload is checked with compress-utils Rust/Python/JS and fzstd under all four
+  transport profiles. Separate controls distinguish startup from extra empty flushes.
 - Still to test: invalid options, broader malformed-data cases, other
   sender/receiver combinations, LZ4 interoperability, external tools, and real
   network transports.

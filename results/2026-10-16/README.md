@@ -91,12 +91,15 @@ The two native zstd diagnostic controls also pass, outside those counts.
 
 The separate Python `zstandard` comparison adds **62 PASS observations**. The
 [ordinary mixed-receiver tests](INTEROP.md) add **212 PASS and 44 LIMITATION
-observations**. The [preamble case and startup controls](INTEROP.md#294-byte-preamble-stream)
-add **2 PASS and 1 LIMITATION**, bringing the combined runner summary to
-**360 PASS and 179 LIMITATION**. Python `zstandard` at both ends and the 294-byte
-preamble sequence have midway acceptance results of `true`; the ordinary
-compress-utils and fzstd suites include failed checkpoints. The raw-startup
-controls are separate diagnostics, not preamble message acceptance cases. See
+observations**. The [preamble cases and startup controls](INTEROP.md#294-byte-preamble-stream)
+add **12 PASS and 4 LIMITATION** across four receivers, bringing the combined
+runner summary to **370 PASS and 182 LIMITATION**. Python `zstandard` at both
+ends and fzstd with the 294-byte preamble have midway acceptance results of
+`true`. Compress-utils passes the small-message preamble case, but withholds
+one byte after a subsequent 65,537-byte payload in every binding and delivery
+profile. The ordinary compress-utils and fzstd suites also include failed
+checkpoints. The raw-startup controls are separate diagnostics, not preamble
+message acceptance cases. See
 `counts_by_binding` and `midstream_acceptance_by_binding` in the summary for the
 separate results. All 256 mixed-receiver cases recover the complete input after
 finalization: 72 without mid-stream flush and 184 with it, including those

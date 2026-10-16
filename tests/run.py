@@ -95,6 +95,12 @@ def main():
         "interop_rust": ["cargo", "run", "--locked", "--quiet", "--release", "--manifest-path",
                          str(ROOT / "tests/rust/Cargo.toml"), "--", str(interop_dir), "--interop"],
         "preamble_fzstd": [sys.executable, str(ROOT / "tests/preamble_stream_probe.py"), str(fixture_dir)],
+        "preamble_python": [sys.executable, str(ROOT / "tests/preamble_stream_probe.py"), str(fixture_dir),
+                            "--receiver", "compress_utils_python"],
+        "preamble_js": [sys.executable, str(ROOT / "tests/preamble_stream_probe.py"), str(fixture_dir),
+                        "--receiver", "compress_utils_js"],
+        "preamble_rust": [sys.executable, str(ROOT / "tests/preamble_stream_probe.py"), str(fixture_dir),
+                          "--receiver", "compress_utils_rust"],
     }
     rows, exits = [], {}
     for binding, command in commands.items():
@@ -117,8 +123,8 @@ def main():
             expected_rows = 2 * len(manifest["roundtrip"]) + 4 * len(manifest["midpoint_sizes"]) + 6
         elif binding.startswith("interop_"):
             expected_rows = len(interop_manifest["cases"])
-        elif binding == "preamble_fzstd":
-            expected_rows = 3  # Preamble stream plus two startup controls.
+        elif binding.startswith("preamble_"):
+            expected_rows = 4  # Message sequence, 64 KiB boundary, two startup controls.
         if len(binding_rows) != expected_rows:
             exits[binding] = code or 1
         rows.extend(binding_rows)

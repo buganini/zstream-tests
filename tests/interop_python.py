@@ -7,7 +7,7 @@ import compress_utils as cu
 from python_zstandard_probe import receive
 
 
-def probe(root, case, transport_chunks):
+def probe(root, case, transport_chunks, empty_decode_calls=3):
     decoder = cu.DecompressStream("zstd")
     expected = (root / case["expected"]["file"]).read_bytes()
     decoded = b""
@@ -15,7 +15,7 @@ def probe(root, case, transport_chunks):
     for stage in case["stages"]:
         wire = (root / stage["file"]).read_bytes()
         decoded += receive(decoder, wire, transport_chunks)
-        empty = b"".join(decoder.decompress(b"") for _ in range(3))
+        empty = b"".join(decoder.decompress(b"") for _ in range(empty_decode_calls))
         decoded += empty
         assert decoded == expected[:len(decoded)] and len(decoded) <= stage["submitted"]
         stages.append({"submitted": stage["submitted"], "decoded": len(decoded),
@@ -41,7 +41,7 @@ def main():
                "transport_chunks": manifest["transport_chunks"],
                "native_level": manifest["native_level"], "receiver_version": cu.version()}
         try:
-            row.update(probe(root, case, manifest["transport_chunks"]))
+            row.update(probe(root, case, manifest["transport_chunks"], manifest.get("empty_decode_calls", 3)))
         except Exception as error:
             row.update(status="FAIL", error=f"{type(error).__name__}: {error}")
         print(json.dumps(row), flush=True)

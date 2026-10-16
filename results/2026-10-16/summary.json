@@ -113,6 +113,9 @@
     "interop_fzstd": 0,
     "interop_rust": 0,
     "preamble_fzstd": 0,
+    "preamble_python": 0,
+    "preamble_js": 0,
+    "preamble_rust": 0,
     "native_control": 0
   },
   "transport_chunks": [
@@ -126,8 +129,8 @@
   "require_midstream_flush": true,
   "runner_exit_code": 1,
   "counts": {
-    "PASS": 360,
-    "LIMITATION": 179
+    "PASS": 370,
+    "LIMITATION": 182
   },
   "counts_by_binding": {
     "python": {
@@ -162,7 +165,19 @@
       "LIMITATION": 12
     },
     "preamble_fzstd": {
-      "PASS": 2,
+      "PASS": 3,
+      "LIMITATION": 1
+    },
+    "preamble_python": {
+      "PASS": 3,
+      "LIMITATION": 1
+    },
+    "preamble_js": {
+      "PASS": 3,
+      "LIMITATION": 1
+    },
+    "preamble_rust": {
+      "PASS": 3,
       "LIMITATION": 1
     }
   },
@@ -175,7 +190,10 @@
     "interop_js": false,
     "interop_fzstd": false,
     "interop_rust": false,
-    "preamble_fzstd": true
+    "preamble_fzstd": true,
+    "preamble_python": false,
+    "preamble_js": false,
+    "preamble_rust": false
   },
   "python_zstandard": {
     "package_version": "0.25.0",
@@ -252,6 +270,27 @@
       "/home/buganini/repo/compress-utils/.work/venv/bin/python",
       "/home/buganini/repo/compress-utils/tests/preamble_stream_probe.py",
       "/home/buganini/repo/compress-utils/.work/fixtures"
+    ],
+    "preamble_python": [
+      "/home/buganini/repo/compress-utils/.work/venv/bin/python",
+      "/home/buganini/repo/compress-utils/tests/preamble_stream_probe.py",
+      "/home/buganini/repo/compress-utils/.work/fixtures",
+      "--receiver",
+      "compress_utils_python"
+    ],
+    "preamble_js": [
+      "/home/buganini/repo/compress-utils/.work/venv/bin/python",
+      "/home/buganini/repo/compress-utils/tests/preamble_stream_probe.py",
+      "/home/buganini/repo/compress-utils/.work/fixtures",
+      "--receiver",
+      "compress_utils_js"
+    ],
+    "preamble_rust": [
+      "/home/buganini/repo/compress-utils/.work/venv/bin/python",
+      "/home/buganini/repo/compress-utils/tests/preamble_stream_probe.py",
+      "/home/buganini/repo/compress-utils/.work/fixtures",
+      "--receiver",
+      "compress_utils_rust"
     ]
   }
 }
