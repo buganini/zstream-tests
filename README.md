@@ -64,7 +64,7 @@ shorter. The irregular pattern repeats; `whole` delivers each write/flush batch
 without harness fragmentation. Rust still limits reads to its internal 64 KiB
 compressed-input buffer. No profile combines data across flush checkpoints.
 
-| Sender | Receiver (package/binding) | Mid-stream flush | Transport chunk (bytes) | Pass percentage (pass/all) |
+| Encoder | Decoder | Mid-stream flush | Transport chunk (bytes) | Pass percentage (pass/all) |
 | --- | --- | --- | --- | --- |
 | compress-utils / Rust · zstd | compress-utils / Rust | No | 1, 3, 7, 97, 4093 | 100% (12/12) |
 | compress-utils / Rust · zstd | compress-utils / Rust | No | 1 | 100% (12/12) |
