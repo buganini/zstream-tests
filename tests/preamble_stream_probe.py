@@ -1,4 +1,4 @@
-"""Reproduce PUI's ready-first, one-MessagePack-envelope-per-block-flush stream."""
+"""Send a 294-byte compressed preamble, then block-flush each subsequent message."""
 import base64
 import hashlib
 import json
@@ -67,8 +67,8 @@ def make_case(name, parts, *, test, extra_flushes=0):
                        "flush_output": len(flush_output), "extra_flush_calls": calls,
                        "extra_flush_output": len(extra), "reference_decoded": len(decoded),
                        "reference_eof": reference.eof})
-    # PUI drops the context on close. Finalize only AFTER every measured checkpoint
-    # here, as an additional test integrity check, never to release a message.
+    # Finalize only AFTER every measured checkpoint as an additional test
+    # integrity check, never to release a message.
     tail = compressor.flush(zstd.COMPRESSOBJ_FLUSH_FINISH)
     decoded += reference.decompress(tail)
     assert decoded == expected and reference.eof and not reference.unused_data
@@ -79,24 +79,24 @@ def make_case(name, parts, *, test, extra_flushes=0):
 def cases():
     packed = [msgpack.packb(message, use_bin_type=True, strict_types=True) for message in messages()]
     return [
-        make_case("ready-then-100-results", packed, test="pui_stream"),
+        make_case("294-byte-preamble-then-100-messages", packed, test="preamble_stream"),
         make_case("raw-17-first-plus-three-empty-flushes", [b"A" * 17, b"B" * 37],
                   test="startup_control", extra_flushes=3),
-        make_case("ready-then-raw-17", [packed[0], b"A" * 17, b"B" * 37],
+        make_case("preamble-then-raw-17", [packed[0], b"A" * 17, b"B" * 37],
                   test="startup_control"),
     ]
 
 
 def main():
     manifest = json.loads((Path(sys.argv[1]) / "manifest.json").read_text())
-    suite = {"binding": "pui_fzstd", "codec": "zstd", "sender": "python_zstandard",
+    suite = {"binding": "preamble_fzstd", "codec": "zstd", "sender": "python_zstandard",
              "receiver": "fzstd", "sender_api": "compressobj", "midstream_flush": True,
              "native_level": 3, "window_log": 22, "write_content_size": False,
              "write_checksum": False, "transport_chunks": manifest["transport_chunks"],
              "package_version": zstd.__version__, "zstd_version": list(zstd.ZSTD_VERSION),
              "backend": zstd.backend, "msgpack_version": msgpack.__version__,
              "pui_source_revision": PUI_REVISION, "cases": cases()}
-    result = subprocess.run(["node", str(Path(__file__).with_name("pui_fzstd_receiver.mjs"))],
+    result = subprocess.run(["node", str(Path(__file__).with_name("preamble_fzstd_receiver.mjs"))],
                             input=json.dumps(suite), text=True, capture_output=True, timeout=60)
     print(result.stdout, end="")
     print(result.stderr, end="", file=sys.stderr)

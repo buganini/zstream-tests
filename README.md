@@ -36,8 +36,8 @@ establish that the wrapper exposes the required behavior.
 
 Tested on 2026-10-16 against upstream commit
 [`11ea489`](https://github.com/dupontcyborg/compress-utils/commit/11ea489add2435d2eb8360aad0a104a63e714fb3)
-(source version 0.9.0), using compression level 5. The separate PUI reproduction
-uses PUI's native zstd level 3 and 4 MiB window.
+(source version 0.9.0), using compression level 5. The separate 294-byte preamble
+case uses native zstd level 3 and a 4 MiB window.
 
 Each row is one sender/receiver configuration. **No** checks a completed round
 trip without requesting a mid-stream flush. **Yes** requires every flushed prefix
@@ -143,10 +143,10 @@ to its internal read buffer. No profile combines data across flush checkpoints.
 | zstandard / Python | fzstd / JavaScript | Yes | 1 | 82.61% (38/46) |
 | zstandard / Python | fzstd / JavaScript | Yes | 4096 | 82.61% (38/46) |
 | zstandard / Python | fzstd / JavaScript | Yes | whole | 82.61% (38/46) |
-| zstandard / Python (PUI ready-first) | fzstd / JavaScript | Yes | 1, 3, 7, 97, 4093 | 100% (1/1) |
-| zstandard / Python (PUI ready-first) | fzstd / JavaScript | Yes | 1 | 100% (1/1) |
-| zstandard / Python (PUI ready-first) | fzstd / JavaScript | Yes | 4096 | 100% (1/1) |
-| zstandard / Python (PUI ready-first) | fzstd / JavaScript | Yes | whole | 100% (1/1) |
+| zstandard / Python (294-byte preamble) | fzstd / JavaScript | Yes | 1, 3, 7, 97, 4093 | 100% (1/1) |
+| zstandard / Python (294-byte preamble) | fzstd / JavaScript | Yes | 1 | 100% (1/1) |
+| zstandard / Python (294-byte preamble) | fzstd / JavaScript | Yes | 4096 | 100% (1/1) |
+| zstandard / Python (294-byte preamble) | fzstd / JavaScript | Yes | whole | 100% (1/1) |
 
 The **No** rows with the same package at both ends cover six one-shot and six
 incremental round trips. The mixed-receiver **No** rows cover six payloads through
@@ -161,15 +161,16 @@ cases each with mixed receivers (including an initially empty prefix). Untested
 configurations are not listed. The receiver always decodes the algorithm
 specified in the sender cell.
 
-Each **PUI ready-first** row is one connection case with 101 message checkpoints:
-a complete MessagePack `ready` envelope, then 100 `result` envelopes. Every
-message must decode before any bytes of the next are delivered. PUI uses one
-block flush per envelope and retains the same compressor/decoder. Its initial
-`ready` packet is 294 compressed bytes in this fixture; later packets down to
-14 bytes decode immediately. There is no extra empty flush or padding after a
-message. `whole` matches PUI's delivery of one complete batch per WebSocket
-message; the other rows additionally test fragmentation before fzstd. See the
-[PUI reproduction and controls](results/2026-10-16/INTEROP.md#pui-ready-first-stream).
+Each **294-byte preamble** row is one connection case with 101 checkpoints:
+an initial MessagePack message, then 100 subsequent messages. Here, **294 bytes
+is the compressed preamble size** measured for this fixture, including the frame
+header; it decodes to 422 bytes of application data. It is sent and block-flushed first, using the
+same compressor/decoder as the subsequent messages. Every message must decode
+before any bytes of the next are delivered. Later packets down to 14 bytes
+decode immediately. The preamble is ordinary data, not padding or an extra
+flush. `whole` delivers one complete batch per message; the other rows split
+each batch before fzstd. See the
+[preamble test and controls](results/2026-10-16/INTEROP.md#294-byte-preamble-stream).
 
 For compress-utils, **Yes (attempted)** records the required behavior being
 probed: Rust's `flush()` only flushes the sink; Python and JS expose no flush
@@ -229,8 +230,8 @@ Application writes in ordinary streaming tests still cycle through 1, 7, 63,
 1,024, and 65,521 bytes. Flush tests retain their 11 initial payload sizes from
 1 to 1,048,593 bytes, followed by 37 bytes, 4,096 bytes, and an empty flush.
 Changing transport chunk size therefore tests fragmentation independently of
-message size, content, and flush boundaries. The separate PUI probe explicitly
-adds the larger initial `ready` envelope and preserves PUI's compression settings.
+message size, content, and flush boundaries. The separate preamble probe adds
+the initial 294 compressed bytes using its level-3 compression settings.
 
 Setup downloads the pinned upstream source and build dependencies, builds its
 unmodified bindings, and compiles the probes. It installs pybind11 3.0.1,
@@ -256,15 +257,15 @@ Once the runner has generated `.work/fixtures`, run just the comparison with:
 .work/venv/bin/python tests/python_zstandard_probe.py .work/fixtures
 ```
 
-Run just the PUI reproduction and its two startup controls with:
+Run just the 294-byte preamble case and its two startup controls with:
 
 ```sh
-.work/venv/bin/python tests/pui_stream_probe.py .work/fixtures
+.work/venv/bin/python tests/preamble_stream_probe.py .work/fixtures
 ```
 
-This is also part of the full runner and needs no PUI checkout. It emits one
-`pui_stream` observation and two `startup_control` observations. The PUI table
-rows count only `pui_stream`; the raw 17-byte startup control intentionally
+This is also part of the full runner and needs no external checkout. It emits one
+`preamble_stream` observation and two `startup_control` observations. The preamble
+table rows count only `preamble_stream`; the raw 17-byte startup control intentionally
 records the fzstd limitation even after three additional empty block flushes.
 
 This comparison exits 0 only when all 62 checks pass. Use
@@ -304,9 +305,9 @@ does not satisfy this acceptance test.
 - Truncation detection and the terminal behavior of `finish()` are tested.
 - Python `zstandard` sender interoperability with compress-utils receivers in
   Rust/Python/JS and the JS fzstd receiver is tested, including mid-stream flush.
-- PUI's ready-first MessagePack sequence is reproduced with its compression
-  settings, followed by 100 result messages and checked under all four transport
-  profiles. Separate controls distinguish startup from extra empty flushes.
+- A 294-byte compressed preamble followed by 100 messages is checked under all
+  four transport profiles. Separate controls distinguish startup from extra
+  empty flushes.
 - Still to test: invalid options, broader malformed-data cases, other
   sender/receiver combinations, LZ4 interoperability, external tools, and real
   network transports.

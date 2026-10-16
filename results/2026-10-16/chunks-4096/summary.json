@@ -108,7 +108,7 @@
     "interop_js": 0,
     "interop_fzstd": 0,
     "interop_rust": 0,
-    "pui_fzstd": 0,
+    "preamble_fzstd": 0,
     "native_control": 0
   },
   "transport_chunks": [
@@ -153,7 +153,7 @@
       "PASS": 52,
       "LIMITATION": 12
     },
-    "pui_fzstd": {
+    "preamble_fzstd": {
       "PASS": 2,
       "LIMITATION": 1
     }
@@ -167,7 +167,7 @@
     "interop_js": false,
     "interop_fzstd": false,
     "interop_rust": false,
-    "pui_fzstd": true
+    "preamble_fzstd": true
   },
   "python_zstandard": {
     "package_version": "0.25.0",
@@ -240,9 +240,9 @@
       "/home/buganini/repo/compress-utils/.work/interop",
       "--interop"
     ],
-    "pui_fzstd": [
+    "preamble_fzstd": [
       "/home/buganini/repo/compress-utils/.work/venv/bin/python",
-      "/home/buganini/repo/compress-utils/tests/pui_stream_probe.py",
+      "/home/buganini/repo/compress-utils/tests/preamble_stream_probe.py",
       "/home/buganini/repo/compress-utils/.work/fixtures"
     ]
   }
